@@ -1,0 +1,258 @@
+// Top-bar styling
+.top-bar-title {
+  display: block;
+  padding: 0.7rem 1rem;
+  line-height: 1;	
+}
+
+.top-bar a {
+  color: rgba(255, 255, 255, 0.54);
+
+  &:hover,
+  &.current {
+    color: $white;
+  }
+}
+
+.top-bar-title {
+  color: $primary-color-2;
+
+  & > strong {
+    margin-left: $global-margin;
+  }
+
+  & .accent {
+    color: $accent-color;
+  }
+}
+
+// Extra .menus here for specicifity
+.logged-in.dropdown.menu.menu.menu.menu > li > a {
+  color: $white;
+
+  &:after {
+    border-color: $white transparent transparent;
+  }
+}
+
+.top-bar .dropdown.menu > li > ul {
+  border: none;
+  border-radius: $global-radius;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+
+  & > li > a {
+    color: $anchor-color;
+
+    &:hover {
+      color: $anchor-color-hover-dark;
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+  }
+}
+
+// Breadcrumbs
+.breadcrumb-wrapper {
+  background-color: $light-gray;
+
+  margin-bottom: 2 * $global-margin;
+}
+
+// Jumbotron
+.jumbotron {
+  border: none;
+}
+
+// Footer
+.footer {
+  background-color: $top-bar-bg;
+  color: $white;
+
+  padding-top: $global-padding;
+
+  & .uwcs-socials {
+    margin-bottom: $global-margin;
+
+    & .social-list > li {
+      float: left;
+
+      margin-right: $global-margin;
+    }
+  }
+
+  & .sitemap {
+    margin-bottom: $global-margin;
+
+    & .sitemap-title {
+      font-size: rem-calc(14px);
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.54);
+
+      margin: 0;
+    }
+
+    & .sitemap-list > li {
+      margin-right: $global-margin;
+
+      float: left;
+    }
+  }
+
+  & a {
+    color: rgba(255, 255, 255, 0.87);
+
+    &:hover {
+      color: $white;
+    }
+  }
+
+  & .credits {
+    color: rgba(255, 255, 255, 0.54);
+  }
+}
+
+// Grid helpers
+.collapse-left {
+  padding-left: 0;
+}
+
+.collapse-right {
+  padding-right: 0;
+}
+
+// Article sidebar
+.sidebar {
+  & > .row > div {
+    margin-bottom: $global-margin;
+  }
+
+  & .menu.vertical > li {
+    & > ul > li > a {
+      padding-left: 2 * $global-padding;
+    }
+
+    & > a {
+      padding: $global-padding;
+
+      &:hover {
+        color: $anchor-color-hover-dark;
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+    }
+  }
+}
+
+// Events
+.event-carousel {
+  background-color: $primary-color;
+
+  margin-bottom: 2 * $global-margin;
+
+  & h4 {
+    color: $white;
+    padding-top: $global-margin;
+  }
+
+  & .event-item {
+    padding-top: $global-padding;
+    padding-bottom: $global-padding;
+    color: rgba(255, 255, 255, 0.87);
+  }
+
+  & a:hover {
+    color: $white;
+    background-color: $primary-color-2; 
+  }
+}
+
+// News items
+.news-item {
+  margin-bottom: 2 * $global-margin;
+}
+
+// Events
+.events {
+  padding-top: $global-padding;
+
+  & .week-list > li:not(:first-child) {
+    margin-top: 2 * $global-margin;
+  }
+
+  & .week-list > li:first-child {
+    margin-top: $global-margin;
+  }
+
+  & .event-list > li {
+    padding: 2*$global-padding 0;
+
+    & h6.subheader {
+      color: rgba(0, 0, 0, 0.65);
+    }
+
+    & ul > li:last-child {
+      margin-top: $global-margin;
+    }
+
+    &:nth-of-type(even) {
+      background-color: $table-striped-background;
+    }
+  }
+}
+
+.signup {
+  background-color: $primary-color;
+
+  padding-top: $global-padding;
+  padding-bottom: $global-padding;
+
+  color: $white;
+
+  margin-bottom: $global-margin;
+
+  & input[type="text"] {
+    border-color: lighten($primary-color, 15%);
+    box-shadow: inset 0 1px 2px transparentize($primary-color, 0.8);
+
+    &:focus {
+      box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.16);
+      border-color: darken($primary-color, 15%);
+    }
+  }
+
+  & a.button {
+    outline-color: $white;
+
+    background-color: transparentize($white, 0.13);
+    color: $primary-color;
+
+    &:hover,
+    &:focus {
+      background-color: $white;
+    }
+  }
+}
+
+table.comment-table {
+  & tbody {
+    border: none;
+  }
+
+  & td.user {
+    font-weight: bold;
+
+    vertical-align: top;
+    padding-top: 42px;
+  }
+
+  & td > p {
+    & > span.date {
+      font-size: 12px;
+      color: rgba(0, 0, 0, 0.54);
+    }
+
+    margin-bottom: $global-margin/2;
+  }
+}
+
+.details .row-title {
+  font-weight: bold;
+}

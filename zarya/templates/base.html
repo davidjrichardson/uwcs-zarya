@@ -1,4 +1,4 @@
-{% load static wagtailuserbar %}
+{% load static wagtailuserbar compress %}
 
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
@@ -13,7 +13,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   {# Global stylesheets #}
-  <link rel="stylesheet" type="text/css" href="{% static 'css/zarya.css' %}">
+  {% compress css %}
+    <link href="{% static 'scss/app.scss' %}" rel="stylesheet" type="text/x-scss" />
+  {% endcompress %}
 
   {% block extra_css %}
   {# Override this in templates to add extra stylesheets #}
@@ -26,7 +28,8 @@
   {% block content %}{% endblock %}
 
   {# Global javascript #}
-  <script type="text/javascript" src="{% static 'js/zarya.js' %}"></script>
+  <script type="text/javascript" src='{% static 'js/jquery.min.js' %}'></script>
+  <script type="text/javascript" src='{% static 'js/foundation.min.js' %}'></script>
 
   {% block extra_js %}
   {# Override this in templates to add extra javascript #}

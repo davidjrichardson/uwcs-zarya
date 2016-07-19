@@ -11,3 +11,6 @@ try:
     from .local import *
 except ImportError:
     pass
+
+COMPRESS_ENABLED = True
+COMPRESS_OFFLINE = True
