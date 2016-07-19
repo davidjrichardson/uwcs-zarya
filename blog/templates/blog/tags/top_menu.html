@@ -1,0 +1,49 @@
+{% load base_tags wagtailcore_tags %}
+{% get_site_root as site_root %}
+
+<section class="top-bar">
+  <div class="row">
+    <div class="top-bar-title">
+      <span data-responsive-toggle="responsive-menu" data-hide-for="medium">
+        <button class="menu-icon" type="button" data-toggle></button>
+      </span>
+      <strong>UW<span class="accent">CS</span></strong>
+    </div>
+    <div id="responsive-menu">
+      <div class="top-bar-left">
+        <ul class="menu">
+          <li>
+            <a href="{% pageurl site_root %}" class="{% if is_home %}current{% endif %}">Home</a>
+          </li>
+          {% for menuitem in menuitems %}
+          <li>
+            <a href="{% pageurl menuitem %}" class="{% if menuitem.active %} active{% endif %}">{{ menuitem.title }}</a>
+          </li>
+          {% endfor %}
+          {# <li><a class="current" href="#">Home</a></li> #}
+        </ul>
+      </div>
+      <div class="top-bar-right">
+        {# TODO: Implement user log in #}
+        {% if False %}
+          <ul class="dropdown menu logged-in" data-dropdown-menu>
+            <li>
+              <a href="#">This shouldn't be here</a>
+              <ul class="menu vertical">
+                <li><a href="#">Profile</a></li>
+                <li><a href="#">Admin</a></li>
+                <li><a href="#">Log out</a></li>
+              </ul>
+            </li>
+          </ul>
+        {% else %}
+          <ul class="menu">
+            <li>
+              <a href="#">Log in</a>
+            </li>
+          </ul>
+        {% endif %} 
+      </div>
+    </div>
+  </div>
+</section>

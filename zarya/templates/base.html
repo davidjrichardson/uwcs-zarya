@@ -1,4 +1,4 @@
-{% load static wagtailuserbar compress %}
+{% load static wagtailuserbar compress base_tags %}
 
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
@@ -16,6 +16,8 @@
   {% compress css %}
     <link href="{% static 'scss/app.scss' %}" rel="stylesheet" type="text/x-scss" />
   {% endcompress %}
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i|Montserrat|Space+Mono" rel="stylesheet">
 
   {% block extra_css %}
   {# Override this in templates to add extra stylesheets #}
@@ -25,14 +27,31 @@
 <body class="{% block body_class %}{% endblock %}">
   {% wagtailuserbar %}
 
-  {% block content %}{% endblock %}
+  <div class="flex-wrapper">
+    {% get_site_root as site_root %}
+    <div class="flex-content">
+      {% top_menu parent=site_root calling_page=self %}
+
+      {% block content %}{% endblock %}
+    </div>
+
+    <div class="flex-footer footer">
+      {# TODO: Footer #}
+      {% footer parent=site_root %}
+    </div>
+  </div>
 
   {# Global javascript #}
   <script type="text/javascript" src='{% static 'js/jquery.min.js' %}'></script>
   <script type="text/javascript" src='{% static 'js/foundation.min.js' %}'></script>
 
-  {% block extra_js %}
-  {# Override this in templates to add extra javascript #}
-  {% endblock %}
+  {% compress js %}
+    <script type="text/javascript">
+      $(document).foundation();
+    </script>
+    {% block extra_js %}
+    {# Override this in templates to add extra javascript #}
+    {% endblock %}
+  {% endcompress %}
 </body>
 </html>
