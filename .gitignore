@@ -94,3 +94,5 @@ zarya/settings/production.py
 .sass-cache/
 static/CACHE/
 zarya/components/
+media/
+documents/
