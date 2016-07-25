@@ -149,7 +149,12 @@
 
   & h4 {
     color: $white;
-    padding-top: $global-margin;
+    padding-top: $global-padding;
+
+    &.empty-display {
+      padding-bottom: $global-padding;
+      margin-bottom: 0;
+    }
   }
 
   & .event-item {

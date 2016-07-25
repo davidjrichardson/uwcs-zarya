@@ -26,4 +26,23 @@
   </div>
   {% endif %}
 </section>
+
+<section class="event-carousel">
+  {% if page.upcoming_events %}
+  <div class="row">
+    <div class="small-12 columns">
+      <h4>Upcoming events</h4>
+    </div>
+  </div>
+  <div class="flex-row">
+    {# TODO: Events go here #}
+  </div>
+  {% else %}
+  <div class="row">
+    <div class="small-12 columns">
+      <h4 class="empty-display">There are no upcoming events</h4>
+    </div>
+  </div>
+  {% endif %}
+</section>
 {% endblock %}
