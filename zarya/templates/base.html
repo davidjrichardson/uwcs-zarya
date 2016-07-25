@@ -24,7 +24,7 @@
   {% endblock %}
 </head>
 
-<body class="{% block body_class %}{% endblock %}">
+<body>
   {% wagtailuserbar %}
 
   <div class="flex-wrapper">
@@ -36,7 +36,6 @@
     </div>
 
     <div class="flex-footer footer">
-      {# TODO: Footer #}
       {% footer parent=site_root %}
     </div>
   </div>
