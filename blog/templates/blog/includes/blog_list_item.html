@@ -1,0 +1,11 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+
+<article class="row news-item">
+  <div class="small-12 columns">
+    <div id="article-title">
+      <a href="{% pageurl blog %}"><h3>{{ blog.title }}</h3></a>
+      <h6 class="subheader">Posted on {{ blog.date }}</h6>
+    </div>
+    {% include "blog/includes/streamfield.html" with content=blog.body %}
+  </div>
+</article>

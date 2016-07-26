@@ -17,10 +17,9 @@
           </li>
           {% for menuitem in menuitems %}
           <li>
-            <a href="{% pageurl menuitem %}" class="{% if menuitem.active %} active{% endif %}">{{ menuitem.title }}</a>
+            <a href="{% pageurl menuitem %}" class="{% if menuitem.active %}current{% endif %}">{{ menuitem.title }}</a>
           </li>
           {% endfor %}
-          {# <li><a class="current" href="#">Home</a></li> #}
         </ul>
       </div>
       <div class="top-bar-right">

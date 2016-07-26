@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% load wagtailcore_tags %}
+
+{% block content %}
+  {% for blog in blogs %}
+    {% include "blog/includes/blog_list_item.html" %}
+  {% empty %}
+    {# TODO: Add no blogs found message #}
+  {% endfor %}
+{% endblock content %}
