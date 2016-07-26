@@ -11,7 +11,7 @@ register = template.Library()
     'blog/tags/blog_listing_homepage.html',
     takes_context=True
 )
-def blog_listing_homepage(context, count=5):
+def blog_listing_homepage(context, count=10):
     blogs = BlogPage.objects.live().order_by('-date')
     blog_index = BlogIndexPage.objects.live().in_menu().first()
 
@@ -24,6 +24,20 @@ def blog_listing_homepage(context, count=5):
         'blogs': blogs[:count],
         'blog_index': blog_index,
         'archives': archives,
+        # required by the pageurl tag that we want to use within this template
+        'request': context['request'],
+    }
+
+
+# Event feed for home page
+@register.inclusion_tag(
+    'blog/tags/event_listing_homepage.html',
+    takes_context=True
+)
+def event_listing_homepage(context, count=4):
+    # TODO: Get upcoming events
+    return {
+        'events': [],
         # required by the pageurl tag that we want to use within this template
         'request': context['request'],
     }

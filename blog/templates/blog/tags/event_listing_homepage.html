@@ -1,13 +1,15 @@
 {% load wagtailcore_tags %}
 
 <section class="event-carousel">
+
   <div class="row">
     <div class="small-12 columns">
-      <h4>Upcoming events</h4>
+      <h4 class="{% if not events %}empty-display{% endif %}">{% if events %}Upcoming events{% else %}No upcoming events{% endif %}</h4>
     </div>
   </div>
   <div class="flex-row">
-    {# TODO: Events go here #}
+    {% for event in events %}
+      {# TODO: Events go here #}
+    {% endfor %}
   </div>
-  {# TODO: No upcoming events message #}
 </section>
