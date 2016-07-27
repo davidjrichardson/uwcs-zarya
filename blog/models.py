@@ -19,6 +19,8 @@ from modelcluster.tags import ClusterTaggableManager
 
 from taggit.models import TaggedItemBase
 
+from datetime import datetime
+
 
 class PullQuoteBlock(StructBlock):
     quote = TextBlock("quote title")
@@ -103,6 +105,12 @@ class BlogIndexPage(Page):
         tag = request.GET.get('tag')
         if tag:
             blogs = blogs.filter(tags__name=tag)
+
+        # Filter by date
+        filter_date = request.GET.get('date')
+        if filter_date:
+            filter_date = datetime.strptime(filter_date, '%Y-%m')
+            blogs = blogs.filter(date__month=filter_date.month, date__year=filter_date.year)
 
         # Pagination
         page = request.GET.get('page')
