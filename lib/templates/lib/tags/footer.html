@@ -5,18 +5,22 @@
   <div class="small-12 medium-3 columns uwcs-socials">
     <h5>{{ site_root.title }}</h5>
     <ul class="no-bullet social-list">
-      <li>
-        <a href="https://www.facebook.com/groups/371926822981037/">
-          <span class="show-for-sr">Facebook</span>
-          <i class="fa fa-2x fa-facebook-square" aria-hidden="true"></i>
-        </a>
-      </li>
-      <li>
-        <a href="https://www.twitch.tv/uwcs">
-          <span class="show-for-sr">Twitch</span>
-          <i class="fa fa-2x fa-twitch" aria-hidden="true"></i>
-        </a>
-      </li>
+      {% if facebook_url %}
+        <li>
+          <a href="{{ facebook_url }}">
+            <span class="show-for-sr">Facebook</span>
+            <i class="fa fa-2x fa-facebook-square" aria-hidden="true"></i>
+          </a>
+        </li>
+      {% endif %}
+      {% if twitch_url %}
+        <li>
+          <a href="{{ twitch_url }}">
+            <span class="show-for-sr">Twitch</span>
+            <i class="fa fa-2x fa-twitch" aria-hidden="true"></i>
+          </a>
+        </li>
+      {% endif %}
     </ul>
   </div>
   <div class="small-12 medium-9 columns sitemap">

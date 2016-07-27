@@ -22,7 +22,20 @@ from taggit.models import TaggedItemBase
 from datetime import datetime
 
 
-# Primary sponsor snippet
+@register_snippet
+class Footer(models.Model):
+    facebook_url = models.URLField(null=True, blank=True)
+    twitch_url = models.URLField(null=True, blank=True)
+
+    panels = [
+        FieldPanel('facebook_url'),
+        FieldPanel('twitch_url'),
+    ]
+
+    def __str__(self):
+        return 'Footer URLs'
+
+
 @register_snippet
 class Sponsor(models.Model):
     sponsor_image = models.ForeignKey(

@@ -1,7 +1,7 @@
 from django import template
 from django.conf import settings
 
-from blog.models import Sponsor
+from blog.models import Sponsor, Footer
 
 register = template.Library()
 
@@ -53,6 +53,8 @@ def top_menu(context, parent, calling_page=None):
 def footer(context, parent):
     return {
         'menuitems': parent.get_children().live().in_menu(),
+        'facebook_url': Footer.objects.first().facebook_url,
+        'twitch_url': Footer.objects.first().twitch_url,
         # required by the pageurl tag that we want to use within this template
         'request': context['request'],
     }
