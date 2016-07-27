@@ -2,24 +2,48 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db import models
 from django import forms
 
-from wagtail.wagtailcore.blocks import TextBlock, StructBlock, StreamBlock, FieldBlock, CharBlock, RichTextBlock, \
-    RawHTMLBlock
-from wagtail.wagtailcore.fields import RichTextField, StreamField
 from wagtail.wagtailadmin.edit_handlers import FieldPanel, FieldRowPanel, MultiFieldPanel, \
     InlinePanel, PageChooserPanel, StreamFieldPanel
 from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
 from wagtail.wagtailimages.blocks import ImageChooserBlock
 from wagtail.wagtaildocs.blocks import DocumentChooserBlock
+from wagtail.wagtailsnippets.models import register_snippet
 
 from wagtail.wagtailcore.models import Page
+from wagtail.wagtailcore.blocks import TextBlock, StructBlock, StreamBlock, FieldBlock, CharBlock, RichTextBlock, \
+    RawHTMLBlock
+from wagtail.wagtailcore.fields import RichTextField, StreamField
 
 from modelcluster.fields import ParentalKey
-
 from modelcluster.tags import ClusterTaggableManager
 
 from taggit.models import TaggedItemBase
 
 from datetime import datetime
+
+
+# Primary sponsor snippet
+@register_snippet
+class Sponsor(models.Model):
+    sponsor_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        help_text='This image will be displayed in all sponsor display locations accross the website'
+    )
+    url = models.URLField(null=True, blank=True)
+    text = models.CharField(max_length=255)
+
+    panels = [
+        FieldPanel('text'),
+        FieldPanel('url'),
+        ImageChooserPanel('sponsor_image'),
+    ]
+
+    def __str__(self):
+        return self.text
 
 
 class PullQuoteBlock(StructBlock):
@@ -70,18 +94,9 @@ class BlogStreamBlock(StreamBlock):
 
 class HomePage(Page):
     description = models.TextField(max_length=400, default='')
-    sponsor_image = models.ForeignKey(
-        'wagtailimages.Image',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-        help_text='This image will be displayed in all sponsor display locations accross the website'
-    )
 
     content_panels = Page.content_panels + [
         FieldPanel('description', classname="full"),
-        ImageChooserPanel('sponsor_image'),
     ]
 
 

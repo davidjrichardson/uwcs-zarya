@@ -1,7 +1,17 @@
 from django import template
 from django.conf import settings
 
+from blog.models import Sponsor
+
 register = template.Library()
+
+
+@register.inclusion_tag('lib/tags/sponsor_homepage.html', takes_context=True)
+def sponsor_homepage(context):
+    return {
+        'sponsor': Sponsor.objects.first(),
+        'request': context['request'],
+    }
 
 
 @register.assignment_tag(takes_context=True)

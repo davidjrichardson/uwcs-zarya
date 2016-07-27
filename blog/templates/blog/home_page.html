@@ -13,18 +13,8 @@
         <p>{{ page.description }}</p>
       </dir>
     </div>
-    {% if page.sponsor_image %}
-      <div class="row">
-        <div class="small-12 text-center flex-columns">
-          <h4>Sponsored by:</h4>
-        </div>
-      </div>
-      <div class="row">
-        <div class="small-12 medium-6 large-4 medium-offset-3 large-offset-4 columns">
-          {% image page.sponsor_image width-400 %}
-        </div>
-      </div>
-    {% endif %}
+    
+    {% sponsor_homepage %}
   </section>
 
   {% event_listing_homepage %}

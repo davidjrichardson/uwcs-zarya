@@ -1,0 +1,14 @@
+{% load wagtailimages_tags %}
+
+{% if sponsor %}
+  <div class="row">
+    <div class="small-12 text-center flex-columns">
+      <h4>Sponsored by:</h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="small-12 medium-6 large-4 medium-offset-3 large-offset-4 columns">
+      <a href="{{ sponsor.url }}">{% image sponsor.sponsor_image width-400 %}</a>
+    </div>
+  </div>
+{% endif %}
