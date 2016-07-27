@@ -35,15 +35,20 @@ class Sponsor(models.Model):
     )
     url = models.URLField(null=True, blank=True)
     text = models.CharField(max_length=255)
+    primary_sponsor = models.BooleanField(default=False)
 
     panels = [
         FieldPanel('text'),
+        FieldPanel('primary_sponsor'),
         FieldPanel('url'),
         ImageChooserPanel('sponsor_image'),
     ]
 
     def __str__(self):
-        return self.text
+        if self.primary_sponsor:
+            return self.text + ' (primary sponsor)'
+        else:
+            return self.text
 
 
 class PullQuoteBlock(StructBlock):

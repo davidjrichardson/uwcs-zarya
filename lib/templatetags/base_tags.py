@@ -9,7 +9,15 @@ register = template.Library()
 @register.inclusion_tag('lib/tags/sponsor_homepage.html', takes_context=True)
 def sponsor_homepage(context):
     return {
-        'sponsor': Sponsor.objects.first(),
+        'sponsor': Sponsor.objects.filter(primary_sponsor=True).first(),
+        'request': context['request'],
+    }
+
+
+@register.inclusion_tag('lib/tags/sponsor_sidebar.html', takes_context=True)
+def sponsor_sidebar(context):
+    return {
+        'sponsor': Sponsor.objects.filter(primary_sponsor=True).first(),
         'request': context['request'],
     }
 
