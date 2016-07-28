@@ -174,10 +174,13 @@
   margin-bottom: 2 * $global-margin;
 }
 
+.events,
+.news {
+  padding-top: $global-padding;
+}
+
 // Events
 .events {
-  padding-top: $global-padding;
-
   & .week-list > li:not(:first-child) {
     margin-top: 2 * $global-margin;
   }

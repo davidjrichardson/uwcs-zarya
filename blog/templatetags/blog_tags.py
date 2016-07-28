@@ -6,6 +6,27 @@ from blog.models import BlogPage, BlogIndexPage
 
 register = template.Library()
 
+
+@register.inclusion_tag(
+    'blog/tags/blog_sidebar.html',
+    takes_context = True
+)
+def blog_sidebar(context, show_sponsor=False):
+    blog_index = BlogIndexPage.objects.live().in_menu().first()
+
+    # TODO: Order in descending date order for months
+    archives = dict()
+    for blog in BlogPage.objects.live().order_by('-date'):
+        archives.setdefault(blog.date.year, {}).setdefault(blog.date.month, []).append(blog)
+
+    return {
+        'blog_index': blog_index,
+        'archives': archives,
+        # required by the pageurl tag that we want to use within this template
+        'request': context['request'],
+    }
+
+
 # Blog feed for home page
 @register.inclusion_tag(
     'blog/tags/blog_listing_homepage.html',

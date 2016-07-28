@@ -1,0 +1,41 @@
+{% load base_tags blog_tags taggit_templatetags2_tags wagtailcore_tags %}
+
+{% get_taglist as tags for 'blog.BlogPage' %}
+
+<div class="small-12 medium-4 medium-push-8 large-3 large-push-9 columns sidebar">
+  {% if show_sponsor %}
+    {% sponsor_sidebar %}
+  {% endif %}
+
+  <div class="row">
+    <div class="small-6 medium-12 columns">
+      {% if tags %}
+        <h5>News categories</h5>
+        <ul class="vertical menu">
+          {% for tag in tags %}
+            <li>
+              <a href="{% pageurl blog_index %}?tag={{ tag }}">{{ tag }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    </div>
+    <div class="small-6 medium-12 columns">
+      {% if archives %}
+        <h5>Archives</h5>
+        <ul class="vertical menu" data-accordion-menu>
+          {% for year, months in archives.items %}
+            <li>
+              <a href="#">{{ year }}</a>
+              <ul class="vertical menu">
+                {% for month, posts in months.items %}
+                  <li><a href="{% pageurl blog_index %}?date={{ year }}-{{ month|stringformat:'02d' }}">{{ month|to_month_str }} ({{ posts|length }})</a></li>
+                {% endfor %}
+              </ul>
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    </div>
+  </div>
+</div>

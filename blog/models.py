@@ -128,7 +128,16 @@ class BlogIndexPage(Page):
         blogs = blogs.order_by('-date')
 
         return blogs
-    
+
+    @property
+    def archives(self):
+        archives = dict()
+        for blog in self.blogs:
+            archives.setdefault(blog.date.year, {}).setdefault(blog.date.month, []).append(blog)
+
+        print(archives)
+
+        return archives
 
     def get_context(self, request):
         # Get blogs
@@ -158,6 +167,7 @@ class BlogIndexPage(Page):
         # Update template context
         context = super(BlogIndexPage, self).get_context(request)
         context['blogs'] = blogs
+        context['archives'] = self.archives
         return context
 
 
