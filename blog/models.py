@@ -135,8 +135,6 @@ class BlogIndexPage(Page):
         for blog in self.blogs:
             archives.setdefault(blog.date.year, {}).setdefault(blog.date.month, []).append(blog)
 
-        print(archives)
-
         return archives
 
     def get_context(self, request):
@@ -156,7 +154,7 @@ class BlogIndexPage(Page):
 
         # Pagination
         page = request.GET.get('page')
-        paginator = Paginator(blogs, 10)  # Show 10 blogs per page
+        paginator = Paginator(blogs, 2)  # Show 10 blogs per page
         try:
             blogs = paginator.page(page)
         except PageNotAnInteger:
