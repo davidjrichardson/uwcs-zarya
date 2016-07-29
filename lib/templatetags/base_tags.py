@@ -3,6 +3,8 @@ from django.conf import settings
 
 from blog.models import Sponsor, Footer
 
+from wagtail.wagtailcore.models import Page
+
 register = template.Library()
 
 
@@ -56,5 +58,20 @@ def footer(context, parent):
         'facebook_url': Footer.objects.first().facebook_url,
         'twitch_url': Footer.objects.first().twitch_url,
         # required by the pageurl tag that we want to use within this template
+        'request': context['request'],
+    }
+
+
+@register.inclusion_tag('lib/tags/breadcrumbs.html', takes_context=True)
+def breadcrumbs(context):
+    self = context.get('self')
+    if self is None or self.depth <= 2:
+        # When on the home page, displaying breadcrumbs is irrelevant.
+        ancestors = ()
+    else:
+        ancestors = Page.objects.ancestor_of(
+            self, inclusive=True).filter(depth__gt=2)
+    return {
+        'ancestors': ancestors,
         'request': context['request'],
     }

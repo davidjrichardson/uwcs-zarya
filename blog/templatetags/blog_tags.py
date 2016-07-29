@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime
 from django import template
 from django.conf import settings
 
@@ -22,6 +22,7 @@ def blog_sidebar(context, show_sponsor=False):
     return {
         'blog_index': blog_index,
         'archives': archives,
+        'show_sponsor': show_sponsor,
         # required by the pageurl tag that we want to use within this template
         'request': context['request'],
     }
@@ -59,6 +60,25 @@ def event_listing_homepage(context, count=4):
     # TODO: Get upcoming events
     return {
         'events': [],
+        # required by the pageurl tag that we want to use within this template
+        'request': context['request'],
+    }
+
+
+@register.inclusion_tag(
+    'blog/tags/search_filters.html',
+    takes_context=True
+)
+def search_filters(context):
+    archive_date = context['request'].GET.get('date')
+
+    if archive_date:
+        archive_date = datetime.strftime(
+            datetime.strptime(context['request'].GET.get('date'), '%Y-%m'), '%B %Y')
+
+    return {
+        'archive_date': archive_date,
+        'tag': context['request'].GET.get('tag'),
         # required by the pageurl tag that we want to use within this template
         'request': context['request'],
     }

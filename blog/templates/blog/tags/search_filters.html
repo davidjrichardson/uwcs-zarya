@@ -1,0 +1,11 @@
+{% load wagtailcore_tags %}
+
+{% if tag or archive_date %}
+  <h6 class="subheader">
+    {% if tag %}
+      Category: {{ tag }}
+    {% else %}
+      Archive date: {{ archive_date }}
+    {% endif %}
+  </h6>
+{% endif %}
