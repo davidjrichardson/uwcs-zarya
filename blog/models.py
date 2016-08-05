@@ -1,25 +1,20 @@
+from datetime import datetime
+
+from django import forms
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db import models
-from django import forms
-
-from wagtail.wagtailadmin.edit_handlers import FieldPanel, FieldRowPanel, MultiFieldPanel, \
-    InlinePanel, PageChooserPanel, StreamFieldPanel
-from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
-from wagtail.wagtailimages.blocks import ImageChooserBlock
-from wagtail.wagtaildocs.blocks import DocumentChooserBlock
-from wagtail.wagtailsnippets.models import register_snippet
-
-from wagtail.wagtailcore.models import Page
+from modelcluster.fields import ParentalKey
+from modelcluster.contrib.taggit import ClusterTaggableManager
+from taggit.models import TaggedItemBase
+from wagtail.wagtailadmin.edit_handlers import FieldPanel, StreamFieldPanel
 from wagtail.wagtailcore.blocks import TextBlock, StructBlock, StreamBlock, FieldBlock, CharBlock, RichTextBlock, \
     RawHTMLBlock
-from wagtail.wagtailcore.fields import RichTextField, StreamField
-
-from modelcluster.fields import ParentalKey
-from modelcluster.tags import ClusterTaggableManager
-
-from taggit.models import TaggedItemBase
-
-from datetime import datetime
+from wagtail.wagtailcore.fields import StreamField
+from wagtail.wagtailcore.models import Page
+from wagtail.wagtaildocs.blocks import DocumentChooserBlock
+from wagtail.wagtailimages.blocks import ImageChooserBlock
+from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
+from wagtail.wagtailsnippets.models import register_snippet
 
 
 @register_snippet
