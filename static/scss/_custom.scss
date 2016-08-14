@@ -1,21 +1,51 @@
 // Top-bar styling
-.top-bar-title {
-  display: block;
-  padding: 0.7rem 1rem;
-  line-height: 1;	
-}
+.top-bar {
+  padding-left: 0;
+  padding-right: 0;
 
-.top-bar a {
-  color: rgba(255, 255, 255, 0.54);
+  & a {
+    color: rgba(255, 255, 255, 0.54);
 
-  &:hover,
-  &.current {
-    color: $white;
+    &:hover,
+    &.current {
+      color: $white;
+    }
+  }
+
+  & .dropdown.menu > li > ul {
+    border: none;
+    border-radius: $global-radius;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+
+    & > li > a {
+      color: $anchor-color;
+
+      &:hover {
+        color: $anchor-color-hover-dark;
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+    }
   }
 }
 
 .top-bar-title {
+  display: block;
+  padding: 0.7rem 1rem 0.7rem 0;
+  line-height: 1; 
   color: $primary-color-2;
+
+  &.top-bar-title > span {
+    margin-right: $global-margin;
+    margin-left: $global-margin/2;
+
+    @media screen and (min-width: 40em) {
+      margin-left: 0;
+    }
+  }
+
+  &.top-bar-title > strong {
+    margin: 0;
+  }
 
   & > strong {
     margin-left: $global-margin;
@@ -32,21 +62,6 @@
 
   &:after {
     border-color: $white transparent transparent;
-  }
-}
-
-.top-bar .dropdown.menu > li > ul {
-  border: none;
-  border-radius: $global-radius;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-
-  & > li > a {
-    color: $anchor-color;
-
-    &:hover {
-      color: $anchor-color-hover-dark;
-      background-color: rgba(0, 0, 0, 0.05);
-    }
   }
 }
 
@@ -172,6 +187,12 @@
 // News items
 .news-item {
   margin-bottom: 2 * $global-margin;
+
+  & .read-more::after {
+    display: inline-block;
+    margin-left: $global-margin/2;
+    content: '\00bb';
+  }
 }
 
 .events,
@@ -273,18 +294,10 @@ table.comment-table {
   }
 
   & li.pagination-previous {
-    &::before,
-    & > a::before {
-      content: none;
-    }
     float: left;
   }
 
   & li.pagination-next {
-    &::after,
-    & > a::after {
-      content: none;
-    }
     float: right;
   }
 }
@@ -294,6 +307,12 @@ table.comment-table {
     padding: rem-calc(6 10);
     border-radius: $global-radius;
     font-size: $pagination-font-size;
+
+    &::after {
+      display: inline-block;
+      margin-left: $global-margin/2;
+      content: '\00bb';
+    }
 
     &:hover {
       color: $primary-color;
