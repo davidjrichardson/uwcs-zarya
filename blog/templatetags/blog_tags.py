@@ -33,7 +33,7 @@ def blog_sidebar(context, show_sponsor=False):
     'blog/tags/blog_listing_homepage.html',
     takes_context=True
 )
-def blog_listing_homepage(context, count=10):
+def blog_listing_homepage(context, count=5):
     blogs = BlogPage.objects.live().order_by('-date')
     blog_index = BlogIndexPage.objects.live().in_menu().first()
 

@@ -266,23 +266,38 @@ table.comment-table {
 }
 
 // Pagination
-
 .pagination {
-  & a,
-  & button,
-  & .current {
-    padding: rem-calc(6 10);
-  }
-
   & li.current {
+    background-color: transparent;
     display: inline-block;
   }
 
   & li.pagination-previous {
+    &::before,
+    & > a::before {
+      content: none;
+    }
     float: left;
   }
 
   & li.pagination-next {
+    &::after,
+    & > a::after {
+      content: none;
+    }
     float: right;
+  }
+}
+
+.older-news {
+  & a {
+    padding: rem-calc(6 10);
+    border-radius: $global-radius;
+    font-size: $pagination-font-size;
+
+    &:hover {
+      color: $primary-color;
+      background-color: $pagination-item-background-hover;
+    }
   }
 }

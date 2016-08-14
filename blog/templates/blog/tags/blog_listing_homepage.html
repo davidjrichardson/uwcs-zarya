@@ -11,7 +11,13 @@
     {% empty %}
       {# TODO: Empty blog feed message #}
     {% endfor %}
-    {% if blog %}
+
+    {% if blogs %}
+      <div class="row" role="navigation" aria-label="Older news">
+        <div class="small-12 columns">
+          <p class="text-right older-news"><a href="{% pageurl blog_index %}">Older news <span class="fa fa-arrow-right"></span></a></p>
+        </div>
+      </div>
       {# TODO: Link to the rest of the news articles here #}
     {% endif %}
   </div>
