@@ -10,7 +10,7 @@
               {% if forloop.last %}
                 <li class="current-page"><span class="show-for-sr">Current: </span>{{ ancestor }}</li>
               {% else %}
-                <li><a href="{% pageurl ancestor %}"></a>{{ ancestor }}</li>
+                <li><a href="{% pageurl ancestor %}">{{ ancestor }}</a></li>
               {% endif %}
             {% endfor %}
           </ul>
