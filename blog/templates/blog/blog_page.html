@@ -7,11 +7,16 @@
 
   <section class="row">
     <article class="small-12 medium-8 large-9 columns news-item">
+      <div id="article-title">
+        <h2>{{ self.title }}</h2>
+        <h6 class="subheader">Posted on {{ self.date }}</h6>
+      </div>
 
+      {% include 'blog/includes/streamfield.html' with content=body %}
     </article>
 
     {% blog_sidebar show_events=True %}
   </section>
 
-{#  TODO: Implement streamfield#}
+{#  TODO: Implement streamfield #}
 {% endblock content %}

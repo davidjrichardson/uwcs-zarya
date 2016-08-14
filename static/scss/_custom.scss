@@ -4,7 +4,7 @@
   padding-right: 0;
 
   & a {
-    color: rgba(255, 255, 255, 0.54);
+    color: $dark-gray;
 
     &:hover,
     &.current {
@@ -200,6 +200,53 @@
   padding-top: $global-padding;
 }
 
+.stream-field {
+  & h2 a,
+  & h3 a,
+  & h4 a {
+    color: $medium-gray;
+    display: none;
+
+    &:hover {
+      color: $dark-gray;
+    }
+  }
+
+  & h2:hover a,
+  & h3:hover a,
+  & h4:hover a {
+    display: inline-block;
+  }
+
+  & img {
+    margin-bottom: $global-margin;
+  }
+
+  & .document-wrapper {
+    margin-bottom: $global-margin;
+
+    & a {
+      display: block;
+      text-align: right;
+      padding: 0.7rem 1rem;
+      background-color: transparent;
+
+      &::before {
+        font-family: 'FontAwesome';
+        display: inline-block;
+        content: '\f019';
+        margin-right: $global-margin/2;
+      }
+
+      &:hover,
+      &:focus {
+        background-color: rgba(0, 0, 0, 0.05);
+        color: $anchor-color-hover-dark;
+      }
+    }
+  }
+}
+
 // Events
 .events {
   & .week-list > li:not(:first-child) {
@@ -275,7 +322,7 @@ table.comment-table {
   & td > p {
     & > span.date {
       font-size: 12px;
-      color: rgba(0, 0, 0, 0.54);
+      color: $dark-gray;
     }
 
     margin-bottom: $global-margin/2;
@@ -322,23 +369,37 @@ table.comment-table {
 }
 
 // Code highlighting
-.code-highlighttable {
-  font-size: rem-calc(14);
-  font-family: $font-family-monospace;
+.code-block {
+  margin-bottom: $global-margin;
 
-  border: 1px solid $light-gray;
+  overflow-x: scroll;
+  @media screen and (min-width: 1080px) {
+    overflow-x: visible;
+  }
 
-  & > tbody {
-    border: none;
+  & > p {
+    color: $dark-gray;
+  }
 
-    & .linenos {
-      color: transparentize($black, 0.46);
-      background-color: $light-gray
-    }
+  & .code-highlighttable {
+    margin-bottom: rem-calc(4);
+    font-size: rem-calc(14);
+    font-family: $font-family-monospace;
 
-    & pre::selection,
-    & pre >  span::selection {
-      background-color: scale-color($primary-color, $lightness: 75%);
+    border: 1px solid $light-gray;
+
+    & > tbody {
+      border: none;
+
+      & .linenos {
+        color: transparentize($black, 0.46);
+        background-color: $light-gray
+      }
+
+      & pre::selection,
+      & pre >  span::selection {
+        background-color: scale-color($primary-color, $lightness: 75%);
+      }
     }
   }
 }

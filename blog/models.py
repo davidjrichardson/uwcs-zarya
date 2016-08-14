@@ -1,15 +1,23 @@
 from datetime import datetime
 
 from django import forms
+from django.utils.safestring import mark_safe
 from django.core.paginator import PageNotAnInteger, Paginator, EmptyPage
 from django.db import models
 from modelcluster.fields import ParentalKey
 from modelcluster.contrib.taggit import ClusterTaggableManager
+
+from pygments import highlight
+from pygments.styles import manni
+from pygments.formatters import get_formatter_by_name
+from pygments.lexers import get_lexer_by_name
+
 from taggit.models import TaggedItemBase
+
 from wagtail.wagtailadmin.edit_handlers import FieldPanel, StreamFieldPanel
 from wagtail.wagtailcore.blocks import TextBlock, StructBlock, StreamBlock, FieldBlock, CharBlock, RichTextBlock, \
-    RawHTMLBlock
-from wagtail.wagtailcore.fields import StreamField
+    ChoiceBlock
+from wagtail.wagtailcore.fields import StreamField, RichTextField
 from wagtail.wagtailcore.models import Page
 from wagtail.wagtaildocs.blocks import DocumentChooserBlock
 from wagtail.wagtailimages.blocks import ImageChooserBlock
@@ -59,14 +67,7 @@ class Sponsor(models.Model):
             return self.text
 
 
-class PullQuoteBlock(StructBlock):
-    quote = TextBlock("quote title")
-    attribution = CharBlock()
-
-    class Meta:
-        icon = "openquote"
-
-
+# TODO: Remove these - for some reason makemigrations has a fit when these are removed.
 class ImageFormatChoiceBlock(FieldBlock):
     field = forms.ChoiceField(choices=(
         ('left', 'Wrap left'), ('right', 'Wrap right'), ('mid', 'Mid width'), ('full', 'Full width'),
@@ -79,30 +80,76 @@ class HTMLAlignmentChoiceBlock(FieldBlock):
     ))
 
 
-class ImageBlock(StructBlock):
-    image = ImageChooserBlock()
-    caption = RichTextBlock()
-    alignment = ImageFormatChoiceBlock()
-
-
-class AlignedHTMLBlock(StructBlock):
-    html = RawHTMLBlock()
-    alignment = HTMLAlignmentChoiceBlock()
+class PullQuoteBlock(StructBlock):
+    quote = TextBlock("quote title")
+    attribution = CharBlock()
 
     class Meta:
-        icon = "code"
+        icon = "openquote"
+
+
+class CodeBlock(StructBlock):
+    """
+    Code Highlighting Block
+    """
+    LANGUAGE_CHOICES = (
+        ('bash', 'Bash/Shell'),
+        ('c','C'),
+        ('cmake', 'CMake'),
+        ('cpp', 'C++'),
+        ('csharp', 'C#'),
+        ('css', 'CSS'),
+        ('go', 'Go'),
+        ('haskell', 'Haskell'),
+        ('haxe', 'Haxe'),
+        ('html', 'HTML'),
+        ('java', 'Java'),
+        ('js', 'JavaScript'),
+        ('json', 'JSON'),
+        ('kotlin', 'Kotlin'),
+        ('lua', 'Lua'),
+        ('make', 'Makefile'),
+        ('perl', 'Perl'),
+        ('perl6', 'Perl 6'),
+        ('php', 'PHP'),
+        ('python', 'Python'),
+        ('python3', 'Python 3'),
+        ('ruby', 'Ruby'),
+        ('sql', 'SQL'),
+        ('swift', 'Swift'),
+        ('xml', 'XML'),
+    )
+
+    language = ChoiceBlock(choices=LANGUAGE_CHOICES)
+    code = TextBlock()
+
+    class Meta:
+        icon = 'code'
+
+    def render(self, value):
+        src = value['code'].strip('\n')
+        lang = value['language']
+
+        lexer = get_lexer_by_name(lang)
+        formatter = get_formatter_by_name(
+            'html',
+            linenos='table',
+            cssclass='code-highlight',
+            style='default',
+            noclasses=False,
+        )
+        return mark_safe(highlight(src, lexer, formatter))
 
 
 class BlogStreamBlock(StreamBlock):
     h2 = CharBlock(icon="title", classname="title")
     h3 = CharBlock(icon="title", classname="title")
     h4 = CharBlock(icon="title", classname="title")
-    intro = RichTextBlock(icon="pilcrow")
     paragraph = RichTextBlock(icon="pilcrow")
-    aligned_image = ImageBlock(label="Aligned image", icon="image")
+    image = ImageChooserBlock()
     pullquote = PullQuoteBlock()
-    aligned_html = AlignedHTMLBlock(icon="code", label='Raw HTML')
     document = DocumentChooserBlock(icon="doc-full-inverse")
+    code = CodeBlock()
 
 
 class HomePage(Page):
@@ -172,6 +219,7 @@ class BlogPageTag(TaggedItemBase):
 
 class BlogPage(Page):
     body = StreamField(BlogStreamBlock())
+    intro = RichTextField(help_text="This is displayed on the home and blog listing pages")
     tags = ClusterTaggableManager(through=BlogPageTag, blank=True)
     date = models.DateField("Post date")
     feed_image = models.ForeignKey(
@@ -187,9 +235,15 @@ class BlogPage(Page):
         # Find closest ancestor which is a blog index
         return self.get_ancestors().type(BlogIndexPage).last()
 
+    def get_context(self, request):
+        context = super(BlogPage, self).get_context(request)
+        context['body'] = self.body
+        return context
+
 BlogPage.content_panels = [
     FieldPanel('title', classname="full title"),
     FieldPanel('date'),
+    FieldPanel('intro'),
     StreamFieldPanel('body'),
 ]
 

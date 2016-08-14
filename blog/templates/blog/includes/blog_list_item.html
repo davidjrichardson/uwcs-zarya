@@ -6,7 +6,6 @@
       <a href="{% pageurl blog %}"><h3>{{ blog.title }}</h3></a>
       <h6 class="subheader">Posted on {{ blog.date }}</h6>
     </div>
-    {# TODO: Add more options to the StreamField #}
-    {% include "blog/includes/streamfield.html" with content=blog.body %}
+    <p>{{ blog.intro }} <a class="read-more" href="{% pageurl blog %}">Read more</a></p>
   </div>
 </article>

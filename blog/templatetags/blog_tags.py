@@ -2,7 +2,7 @@ from datetime import date, datetime
 from django import template
 from django.conf import settings
 
-from blog.models import BlogPage, BlogIndexPage
+from blog.models import BlogPage, BlogIndexPage, CodeBlock
 
 register = template.Library()
 
@@ -92,6 +92,11 @@ def search_filters(context):
         # required by the pageurl tag that we want to use within this template
         'request': context['request'],
     }
+
+
+@register.filter
+def get_code_language(language):
+    return dict(CodeBlock.LANGUAGE_CHOICES)[language]
 
 
 @register.filter
