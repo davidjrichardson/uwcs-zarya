@@ -264,3 +264,25 @@ table.comment-table {
 .details .row-title {
   font-weight: bold;
 }
+
+// Pagination
+
+.pagination {
+  & a,
+  & button,
+  & .current {
+    padding: rem-calc(6 10);
+  }
+
+  & li.current {
+    display: inline-block;
+  }
+
+  & li.pagination-previous {
+    float: left;
+  }
+
+  & li.pagination-next {
+    float: right;
+  }
+}

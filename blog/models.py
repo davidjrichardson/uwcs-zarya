@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from django import forms
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.paginator import PageNotAnInteger, Paginator, EmptyPage
 from django.db import models
 from modelcluster.fields import ParentalKey
 from modelcluster.contrib.taggit import ClusterTaggableManager
@@ -148,18 +148,20 @@ class BlogIndexPage(Page):
             blogs = blogs.filter(date__month=filter_date.month, date__year=filter_date.year)
 
         # Pagination
-        page = request.GET.get('page')
-        paginator = Paginator(blogs, 2)  # Show 10 blogs per page
+        paginator = Paginator(blogs, 10)  # Show 10 blogs per page
         try:
-            blogs = paginator.page(page)
+            blogs = paginator.page(request.GET.get('page'))
         except PageNotAnInteger:
             blogs = paginator.page(1)
         except EmptyPage:
             blogs = paginator.page(paginator.num_pages)
 
+        print(paginator.num_pages)
+
         # Update template context
         context = super(BlogIndexPage, self).get_context(request)
         context['blogs'] = blogs
+        context['paginator'] = paginator
         context['archives'] = self.archives
         return context
 

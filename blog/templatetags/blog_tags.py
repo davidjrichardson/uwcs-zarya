@@ -33,7 +33,7 @@ def blog_sidebar(context, show_sponsor=False):
     'blog/tags/blog_listing_homepage.html',
     takes_context=True
 )
-def blog_listing_homepage(context, count=2):
+def blog_listing_homepage(context, count=10):
     blogs = BlogPage.objects.live().order_by('-date')
     blog_index = BlogIndexPage.objects.live().in_menu().first()
 
@@ -79,18 +79,6 @@ def search_filters(context):
     return {
         'archive_date': archive_date,
         'tag': context['request'].GET.get('tag'),
-        # required by the pageurl tag that we want to use within this template
-        'request': context['request'],
-    }
-
-
-@register.inclusion_tag(
-    'blog/tags/pagination.html',
-    takes_context=True
-)
-def pagination(context, blogs):
-    return {
-        'blogs': blogs,
         # required by the pageurl tag that we want to use within this template
         'request': context['request'],
     }
