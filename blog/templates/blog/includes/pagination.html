@@ -5,9 +5,9 @@
     <ul class="pagination text-center" role="navigation" aria-label="Pagination">
       <li class="pagination-previous {% if not blogs.has_previous %}disabled{% endif %}">
         {% if blogs.has_previous %}
-          <a href="?page={{ blogs.previous_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&amp;{{ key }}={{ value }}{% endifnotequal %}{% endfor %}" aria-label="Previous page"><i class="fa fa-arrow-left"></i> Previous</a>
+          <a href="?page={{ blogs.previous_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&amp;{{ key }}={{ value }}{% endifnotequal %}{% endfor %}" aria-label="Previous page">Previous</a>
         {% else %}
-          <span><i class="fa fa-arrow-left"></i> Previous</span>
+          <span>Previous</span>
         {% endif %}
       </li>
 
@@ -15,9 +15,9 @@
 
       <li class="pagination-next {% if not blogs.has_next %}disabled{% endif %}">
         {% if blogs.has_next %}
-          <a href="?page={{ blogs.next_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&amp;{{ key }}={{ value }}{% endifnotequal %}{% endfor %}" aria-label="Next page">Next <i class="fa fa-arrow-right"></i></a>
+          <a href="?page={{ blogs.next_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&amp;{{ key }}={{ value }}{% endifnotequal %}{% endfor %}" aria-label="Next page">Next</a>
         {% else %}
-          <span>Next <i class="fa fa-arrow-right"></i></span>
+          <span>Next</span>
         {% endif %}
       </li>
     </ul>
