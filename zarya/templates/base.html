@@ -11,13 +11,14 @@
   <title>{% block title %}{% if self.seo_title %}{{ self.seo_title }}{% else %}{{ self.title }}{% endif %}{% endblock %}{% block title_suffix %}{% endblock %}</title>
   <meta name="description" content="" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#263238" />
 
   {# Global stylesheets #}
   {% compress css %}
     <link href="{% static 'scss/app.scss' %}" rel="stylesheet" type="text/x-scss" />
   {% endcompress %}
   <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
-  <link href="https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i|Montserrat|Space+Mono" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i|Montserrat|Ubuntu+Mono" rel="stylesheet">
 
   {% block extra_css %}
   {# Override this in templates to add extra stylesheets #}
