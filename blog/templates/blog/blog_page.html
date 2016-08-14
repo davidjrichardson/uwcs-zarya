@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% load wagtailcore_tags base_tags blog_tags %}
+
+{% block content %}
+  {% breadcrumbs %}
+
+  <section class="row">
+    <article class="small-12 medium-8 large-9 columns news-item">
+
+    </article>
+
+    {% blog_sidebar show_events=True %}
+  </section>
+
+{#  TODO: Implement streamfield#}
+{% endblock content %}

@@ -2,40 +2,46 @@
 
 {% get_taglist as tags for 'blog.BlogPage' %}
 
-<div class="small-12 medium-4 medium-push-8 large-3 large-push-9 columns sidebar">
+<aside class="small-12 medium-4 large-3 {% if archives %}medium-push-8 large-push-9{% endif %} columns sidebar">
   {% if show_sponsor %}
     {% sponsor_sidebar %}
   {% endif %}
 
   <div class="row">
-    <div class="small-6 medium-12 columns">
-      {% if tags %}
-        <h5>News categories</h5>
-        <ul class="vertical menu">
-          {% for tag in tags %}
-            <li>
-              <a href="{% pageurl blog_index %}?tag={{ tag }}">{{ tag }}</a>
-            </li>
-          {% endfor %}
-        </ul>
-      {% endif %}
-    </div>
-    <div class="small-6 medium-12 columns">
-      {% if archives %}
-        <h5>Archives</h5>
-        <ul class="vertical menu" data-accordion-menu>
-          {% for year, months in archives.items %}
-            <li>
-              <a href="#">{{ year }}</a>
-              <ul class="vertical menu">
-                {% for month, posts in months.items %}
-                  <li><a href="{% pageurl blog_index %}?date={{ year }}-{{ month|stringformat:'02d' }}">{{ month|to_month_str }} ({{ posts|length }})</a></li>
-                {% endfor %}
-              </ul>
-            </li>
-          {% endfor %}
-        </ul>
-      {% endif %}
-    </div>
+    {% if tags %}
+      <div class="{% if archives %}small-6 medium-12{% else %}small-12{% endif %} columns">
+          <h5>News categories</h5>
+          <ul class="vertical menu">
+            {% for tag in tags %}
+              <li>
+                <a href="{% pageurl blog_index %}?tag={{ tag }}">{{ tag }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+      </div>
+    {% endif %}
+    {% if archives %}
+      <div class="small-6 medium-12 columns">
+          <h5>Archives</h5>
+          <ul class="vertical menu" data-accordion-menu>
+            {% for year, months in archives.items %}
+              <li>
+                <a href="#">{{ year }}</a>
+                <ul class="vertical menu">
+                  {% for month, posts in months.items %}
+                    <li><a href="{% pageurl blog_index %}?date={{ year }}-{{ month|stringformat:'02d' }}">{{ month|to_month_str }} ({{ posts|length }})</a></li>
+                  {% endfor %}
+                </ul>
+              </li>
+            {% endfor %}
+          </ul>
+      </div>
+    {% endif %}
+    {% if events %}
+      <div class="small-12 columns">
+        <h5>Upcoming events</h5>
+        {# TODO: Implement upcoming events #}
+      </div>
+    {% endif %}
   </div>
-</div>
+</aside>

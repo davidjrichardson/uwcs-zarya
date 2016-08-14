@@ -11,17 +11,27 @@ register = template.Library()
     'blog/tags/blog_sidebar.html',
     takes_context = True
 )
-def blog_sidebar(context, show_sponsor=False):
+def blog_sidebar(context, show_sponsor=False, show_archives=False, show_events=False):
     blog_index = BlogIndexPage.objects.live().in_menu().first()
 
-    # TODO: Order in descending date order for months
-    archives = dict()
-    for blog in BlogPage.objects.live().order_by('-date'):
-        archives.setdefault(blog.date.year, {}).setdefault(blog.date.month, []).append(blog)
+    if show_archives:
+        # TODO: Order in descending date order for months
+        archives = dict()
+        for blog in BlogPage.objects.live().order_by('-date'):
+            archives.setdefault(blog.date.year, {}).setdefault(blog.date.month, []).append(blog)
+    else:
+        archives = None
+
+    if show_events:
+        # TODO: Implement upcoming events
+        events = ["Foo"]
+    else:
+        events = None
 
     return {
         'blog_index': blog_index,
         'archives': archives,
+        'events': events,
         'show_sponsor': show_sponsor,
         # required by the pageurl tag that we want to use within this template
         'request': context['request'],
