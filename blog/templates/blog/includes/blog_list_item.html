@@ -6,6 +6,6 @@
       <a href="{% pageurl blog %}"><h3>{{ blog.title }}</h3></a>
       <h6 class="subheader">Posted on {{ blog.date }}</h6>
     </div>
-    <p>{{ blog.intro }} <a class="read-more" href="{% pageurl blog %}">Read more</a></p>
+    <p>{{ blog.intro | richtext }} <a class="read-more" href="{% pageurl blog %}">Read more</a></p>
   </div>
 </article>
