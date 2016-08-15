@@ -163,21 +163,10 @@ class HomePage(Page):
 class BlogIndexPage(Page):
     @property
     def blogs(self):
-        # Get list of live blog pages that are descendants of this page
-        blogs = BlogPage.objects.live().descendant_of(self)
-
-        # Order by most recent date first
-        blogs = blogs.order_by('-date')
+        # Get list of live blog pages that are descendants of this page ordered by most recent
+        blogs = BlogPage.objects.live().descendant_of(self).order_by('-date')
 
         return blogs
-
-    @property
-    def archives(self):
-        archives = dict()
-        for blog in self.blogs:
-            archives.setdefault(blog.date.year, {}).setdefault(blog.date.month, []).append(blog)
-
-        return archives
 
     def get_context(self, request):
         # Get blogs
@@ -209,7 +198,6 @@ class BlogIndexPage(Page):
         context = super(BlogIndexPage, self).get_context(request)
         context['blogs'] = blogs
         context['paginator'] = paginator
-        context['archives'] = self.archives
         return context
 
 
