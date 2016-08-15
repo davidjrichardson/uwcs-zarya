@@ -15,7 +15,6 @@ def blog_sidebar(context, show_sponsor=False, show_archives=False, show_events=F
     blog_index = BlogIndexPage.objects.live().in_menu().first()
 
     if show_archives:
-        # TODO: Order in descending date order for months
         archives = dict()
         for blog in BlogPage.objects.live().order_by('-date'):
             archives.setdefault(blog.date.year, {}).setdefault(blog.date.month, []).append(blog)
@@ -47,7 +46,6 @@ def blog_listing_homepage(context, count=5):
     blogs = BlogPage.objects.live().order_by('-date')
     blog_index = BlogIndexPage.objects.live().in_menu().first()
 
-    # TODO: Order in descending date order for months
     archives = dict()
     for blog in blogs:
         archives.setdefault(blog.date.year, {}).setdefault(blog.date.month, []).append(blog)
