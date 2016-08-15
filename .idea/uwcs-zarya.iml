@@ -16,6 +16,7 @@
       <sourceFolder url="file://$MODULE_DIR$/blog" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/lib" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/zarya" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/members" isTestSource="false" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.5.2 virtualenv at ~/Projects/compsoc/env" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
@@ -27,6 +28,7 @@
         <option value="$MODULE_DIR$/lib/templates" />
         <option value="$MODULE_DIR$/blog/templates" />
         <option value="$MODULE_DIR$/zarya/templates" />
+        <option value="$MODULE_DIR$/members/templates" />
       </list>
     </option>
   </component>
