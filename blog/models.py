@@ -4,11 +4,11 @@ from django import forms
 from django.utils.safestring import mark_safe
 from django.core.paginator import PageNotAnInteger, Paginator, EmptyPage
 from django.db import models
+
 from modelcluster.fields import ParentalKey
 from modelcluster.contrib.taggit import ClusterTaggableManager
 
 from pygments import highlight
-from pygments.styles import manni
 from pygments.formatters import get_formatter_by_name
 from pygments.lexers import get_lexer_by_name
 
@@ -210,13 +210,6 @@ class BlogPage(Page):
     intro = RichTextField(help_text="This is displayed on the home and blog listing pages")
     tags = ClusterTaggableManager(through=BlogPageTag, blank=True)
     date = models.DateField("Post date")
-    feed_image = models.ForeignKey(
-        'wagtailimages.Image',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+'
-    )
 
     @property
     def blog_index(self):
@@ -236,6 +229,5 @@ BlogPage.content_panels = [
 ]
 
 BlogPage.promote_panels = Page.promote_panels + [
-    ImageChooserPanel('feed_image'),
     FieldPanel('tags'),
 ]
