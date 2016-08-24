@@ -231,3 +231,33 @@ BlogPage.content_panels = [
 BlogPage.promote_panels = Page.promote_panels + [
     FieldPanel('tags'),
 ]
+
+
+# TODO: Events
+class EventsIndexPage(Page):
+    pass
+
+
+class AboutPage(Page):
+    body = StreamField(BlogStreamBlock())
+    full_title = models.CharField(max_length=255)
+
+    def get_context(self, request):
+        context = super(AboutPage, self).get_context(request)
+        context['body'] = self.body
+        return context
+
+AboutPage.content_panels = [
+    FieldPanel('title', classname="full title"),
+    FieldPanel('full_title'),
+    StreamFieldPanel('body'),
+]
+
+
+# TODO: Contact/Exec pages
+class ContactIndexPage(Page):
+    pass
+
+
+class ExecPage(Page):
+    pass

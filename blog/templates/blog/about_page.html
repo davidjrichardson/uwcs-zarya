@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% load wagtailcore_tags base_tags blog_tags %}
+
+{% block title_prefix %}UWCS | {% endblock %}
+
+{% block content %}
+  <section class="row margin-top-1x">
+    <div class="small-12 columns news-item">
+      <h2>{{ self.full_title }}</h2>
+
+      {% include 'blog/includes/streamfield.html' with content=body %}
+    </div>
+  </section>
+{% endblock content %}
