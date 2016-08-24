@@ -2,6 +2,8 @@
 
 {% load wagtailcore_tags base_tags blog_tags %}
 
+{# TODO: Title for page #}
+
 {% block content %}
   {% breadcrumbs %}
 
@@ -15,6 +17,6 @@
       {% include 'blog/includes/streamfield.html' with content=body %}
     </article>
 
-    {% blog_sidebar show_events=True %}
+    {% blog_sidebar show_events=True show_sponsor=True %}
   </section>
 {% endblock content %}

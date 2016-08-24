@@ -39,12 +39,13 @@ def top_menu(context, parent, calling_page=None):
         # We don't directly check if calling_page is None since the template
         # engine can pass an empty string to calling_page
         # if the variable passed as calling_page does not exist.
-        menuitem.active = (calling_page.url.startswith(menuitem.url)
+        menuitem.active = (calling_page.startswith(menuitem.url)
                            if calling_page else False)
+        print(menuitem.active)
     return {
         'calling_page': calling_page,
         'menuitems': menuitems,
-        'is_home': calling_page.url == u'/',
+        'is_home': calling_page == u'/',
         # required by the pageurl tag that we want to use within this template
         'request': context['request'],
     }

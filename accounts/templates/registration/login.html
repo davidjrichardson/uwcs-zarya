@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{# TODO: Title for page #}
+
+{% block content %}
+  <section class="row">
+    <div class="small-12 medium-8 large-6 medium-push-2 large-push-3 columns margin-top-1x">
+      <h2>Log in</h2>
+      <form method="post">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+          <div class="callout alert">
+            <p>{{ form.non_field_errors.as_text }}</p>
+          </div>
+        {% endif %}
+
+        <label {% if form.username.errors %}class="error"{% endif %}>{{ form.username.label }}
+          {{ form.username }}
+          {% if form.username.errors %}
+            <span class="error">{{ form.username.errors.as_text }}</span>
+          {% endif %}
+        </label>
+        <label {% if form.password.errors %}class="error"{% endif %}>{{ form.password.label }}
+          {{ form.password }}
+          {% if form.password.errors %}
+            <span class="error">{{ form.password.errors.as_text }}</span>
+          {% endif %}
+        </label>
+
+        <input type="submit" class="button" value="Log in">
+      </form>
+    </div>
+  </section>
+{% endblock %}

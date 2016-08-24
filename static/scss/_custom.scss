@@ -404,6 +404,39 @@ table.comment-table {
   }
 }
 
+// Form errors
+label.error {
+  color: $input-error-color;
+  font-weight: $input-error-font-weight;
+
+  & > input {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    margin: 0;
+  }
+
+  & > input,
+  & > input:focus {
+    border-color: $input-error-color;
+  }
+
+  & > span.error {
+    display: block;
+    padding: 0.2rem 0.4rem;
+    font-size: $input-error-font-size;
+    background-color: $input-error-color;
+    color: $white;
+    margin: 0 0 $global-margin;
+    border-bottom-left-radius: $global-radius;
+    border-bottom-right-radius: $global-radius;
+  }
+}
+
+// Margin utils
+.margin-top-1x {
+  margin-top: $global-margin;
+}
+
 // Stylesheet
 .code-highlight {
   & .hll { background-color: #49483e }

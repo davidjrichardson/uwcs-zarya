@@ -25,21 +25,21 @@
       </div>
       <div class="top-bar-right">
         {# TODO: Implement user log in #}
-        {% if False %}
+        {% if request.user.is_authenticated %}
           <ul class="dropdown menu logged-in" data-dropdown-menu>
             <li>
-              <a href="#">This shouldn't be here</a>
+              <a href="#">{{ request.user.get_username }}</a>
               <ul class="menu vertical">
-                <li><a href="#">Profile</a></li>
-                <li><a href="#">Admin</a></li>
-                <li><a href="#">Log out</a></li>
+                <li><a href="{% url 'profile_view' %}">Profile</a></li>
+{#                <li><a href="#">Admin</a></li>#}
+                <li><a href="{% url 'logout_view' %}">Log out</a></li>
               </ul>
             </li>
           </ul>
         {% else %}
           <ul class="menu">
             <li>
-              <a href="#">Log in</a>
+              <a href="{% url 'login_view' %}">Log in</a>
             </li>
           </ul>
         {% endif %} 

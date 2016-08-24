@@ -31,7 +31,7 @@
   <div class="flex-wrapper">
     {% get_site_root as site_root %}
     <div class="flex-content">
-      {% top_menu parent=site_root calling_page=self %}
+      {% top_menu parent=site_root calling_page=request.path %}
 
       {% block content %}{% endblock %}
     </div>
