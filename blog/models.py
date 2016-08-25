@@ -192,8 +192,6 @@ class BlogIndexPage(Page):
         except EmptyPage:
             blogs = paginator.page(paginator.num_pages)
 
-        print(paginator.num_pages)
-
         # Update template context
         context = super(BlogIndexPage, self).get_context(request)
         context['blogs'] = blogs
@@ -254,7 +252,7 @@ AboutPage.content_panels = [
 ]
 
 
-# TODO: Contact/Exec pages
+# TODO: Also remove these - Django's migrator is an idiot >.<
 class ContactIndexPage(Page):
     pass
 

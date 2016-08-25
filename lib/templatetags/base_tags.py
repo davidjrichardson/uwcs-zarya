@@ -41,7 +41,6 @@ def top_menu(context, parent, calling_page=None):
         # if the variable passed as calling_page does not exist.
         menuitem.active = (calling_page.startswith(menuitem.url)
                            if calling_page else False)
-        print(menuitem.active)
     return {
         'calling_page': calling_page,
         'menuitems': menuitems,
