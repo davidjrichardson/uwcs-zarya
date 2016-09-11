@@ -8,7 +8,7 @@
   {% endif %}
 
   <div class="row">
-    {% if tags %}
+    {% if tags and show_tags %}
       <div class="{% if archives %}small-6 medium-12{% else %}small-12{% endif %} columns">
           <h5>News categories</h5>
           <ul class="vertical menu">
@@ -37,7 +37,7 @@
           </ul>
       </div>
     {% endif %}
-    {% if events %}
+    {% if events and show_events %}
       <div class="small-12 columns">
         <h5>Upcoming events</h5>
         {# TODO: Implement upcoming events #}
