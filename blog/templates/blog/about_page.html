@@ -1,14 +1,12 @@
 {% extends "base.html" %}
 
-{% load wagtailcore_tags base_tags %}
+{% load wagtailcore_tags blog_tags base_tags %}
 
 {% block title_prefix %}UWCS | {% endblock %}
 
 {% block content %}
   <section class="row margin-top-2x">
-    <div class="small-12 medium-4 medium-push-8 large-3 large-push-9 columns">
-      {% sponsor_sidebar %}
-    </div>
+    {% blog_sidebar show_sponsor=True display_first=True %}
     <div class="small-12 medium-8 medium-pull-4 large-9 large-pull-3 columns">
       <h2>{{ self.full_title }}</h2>
 
