@@ -24,14 +24,19 @@
         </ul>
       </div>
       <div class="top-bar-right">
-        {# TODO: Implement user log in #}
         {% if request.user.is_authenticated %}
           <ul class="dropdown menu logged-in" data-dropdown-menu>
             <li>
-              <a href="#">{{ request.user.get_username }}</a>
+              {% if request.user.compsocuser %}
+                <a href="#">{{ request.user.compsocuser }}</a>
+              {% else %}
+                <a href="#">{{ request.user.get_username }}</a>
+              {% endif %}
               <ul class="menu vertical">
                 <li><a href="{% url 'profile' %}">Profile</a></li>
-{#                <li><a href="#">Admin</a></li>#}
+                {% if request.user.is_staff %}
+                  <li><a href="{% url 'admin:index' %}">Admin</a></li>
+                {% endif %}
                 <li><a href="{% url 'logout' %}">Log out</a></li>
               </ul>
             </li>
