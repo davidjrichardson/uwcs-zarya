@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block title %}UWCS | Your profile {% endblock %}
+
+{% block content %}
+  <section class="row margin-top-2x">
+    <div class="small-12 columns">
+      <h2>Your account</h2>
+      <p>You joined on {{ request.user.date_joined }} You last logged in on {{ request.user.last_login }}</p>
+
+      <div class="row margin-top-1x">
+        <section class="small-12 medium-4 large-3 medium-push-8 large-push-9 columns sidebar margin-bottom-1x">
+          <h5>Account actions</h5>
+          <ul class="vertical menu">
+            <li><a href="{% url 'password_change' %}">Change your password</a></li>
+            <li><a href="{% url 'profile_update' %}">
+              {% if request.user.compsocuser %}Update user information{% else %}Set your nickname{% endif %}</a>
+            </li>
+            {% if not request.user.shellaccount %}
+              <li><a href="{% url 'request_shell' %}">Request shell account</a></li>
+            {% endif %}
+            {% if not request.user.databaseaccount %}
+              <li><a href="{% url 'request_database' %}">Request database account</a></li>
+            {% endif %}
+          </ul>
+        </section>
+        <section class="small-12 medium-8 medium-pull-3 large-9 large-pull-3 columns">
+          <h4>User information</h4>
+
+          {% if request.user.compsocuser %}
+            {% with request.user.compsocuser as user %}
+              {% if user.nickname %}
+                <h6>Nickname:</h6>
+                <p>{{ user.nickname }}</p>
+              {% endif %}
+
+              {% if user.website_url %}
+                <h6>Website:</h6>
+                <a href="{{ user.website_url }}">
+                  {% if user.website_title %}{{ user.website_title }}{% else %}{{ user.website_url }}{% endif %}
+                </a>
+              {% endif %}
+            {% endwith %}
+          {% else %}
+            <p>You have not provided any additional user information</p>
+          {% endif %}
+
+          <h4 class="margin-top-1x">Shell account</h4>
+          {% if request.user.shellaccount %}
+            {% if request.user.shellaccount.status == 'RE' %}
+              <p>You have requested a shell account. Its login details will be emailed to you shortly</p>
+            {% elif request.user.shellaccount.status == 'DD' %}
+              <p>Your shell account has been disabled. Please contact <a href="mailto:tech@uwcs.co.uk">the technical
+                officer</a> for assistance</p>
+            {% else %}
+              <p>Your shell account is active for the username '{{ request.user.shellaccount.name }}'</p>
+            {% endif %}
+          {% else %}
+            <p>You currently have no requests for a shell account</p>
+          {% endif %}
+
+          <h4 class="margin-top-1x">Database account</h4>
+          {% if request.user.databaseaccount %}
+            {% if request.user.databaseaccount.status == 'RE' %}
+              <p>You have requested a database account. Its login details will be emailed to you shortly</p>
+            {% elif request.user.databaseaccount.status == 'DD' %}
+              <p>Your database account has been disabled. Please contact <a href="mailto:tech@uwcs.co.uk">the technical
+                officer</a> for assistance</p>
+            {% else %}
+              <p>Your database account is active for the username '{{ request.user.databaseaccount.name }}'</p>
+            {% endif %}
+          {% else %}
+            <p>You currently have no requests for a database account</p>
+          {% endif %}
+        </section>
+      </div>
+
+    </div>
+  </section>
+{% endblock %}

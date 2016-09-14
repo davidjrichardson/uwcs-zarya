@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}UWCS | Request shell account {% endblock %}
+
+{% block content %}
+  <section class="row margin-top-2x">
+    <div class="small-12 medium-8 large-6 medium-push-2 large-push-3 columns margin-top-1x margin-bottom-1x">
+      <h2>Enter requested username</h2>
+      <form method="post">
+        <p>Enter the desired shell account username in the field below using lowercase alphanumerics</p>
+        {% csrf_token %}
+
+        <label {% if form.name.errors %}class="error"{% endif %}>{{ form.name.label }}
+          {{ form.name }}
+          {% if form.name.errors %}
+            <span class="error">{{ form.name.errors.as_text }}</span>
+          {% endif %}
+        </label>
+
+        <input type="submit" class="button" value="Request account">
+      </form>
+    </div>
+  </section>
+{% endblock %}

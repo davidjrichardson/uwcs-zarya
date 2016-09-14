@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}UWCS | Your profile {% endblock %}
+
+{% block content %}
+  <section class="row margin-top-2x">
+    <div class="small-12 medium-8 large-6 medium-push-2 large-push-3 columns margin-top-1x margin-bottom-1x">
+      <h2>Update user information</h2>
+      <form method="post">
+        {% csrf_token %}
+
+        <label {% if form.nickname.errors %}class="error"{% endif %}>{{ form.nickname.label }}
+          {{ form.nickname }}
+          {% if form.nickname.errors %}
+            <span class="error">{{ form.nickname.errors.as_text }}</span>
+          {% endif %}
+        </label>
+
+        <label {% if form.website_title.errors %}class="error"{% endif %}>{{ form.website_title.label }}
+          {{ form.website_title }}
+          {% if form.website_title.errors %}
+            <span class="error">{{ form.website_title.errors.as_text }}</span>
+          {% endif %}
+        </label>
+
+        <label {% if form.website_url.errors %}class="error"{% endif %}>{{ form.website_url.label }}
+          {{ form.website_url }}
+          {% if form.website_url.errors %}
+            <span class="error">{{ form.website_url.errors.as_text }}</span>
+          {% endif %}
+        </label>
+
+        <input type="submit" class="button" value="Update information">
+      </form>
+    </div>
+  </section>
+{% endblock %}

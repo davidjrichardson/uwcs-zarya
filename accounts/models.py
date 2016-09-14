@@ -1,12 +1,17 @@
 from datetime import date
 
+from django.core.validators import RegexValidator
 from django.conf import settings
 from django.db import models
 
+import re
+
+username_pattern = re.compile(r'^[a-z0-9]+$')
+
 STATUS = (
-    ('RE','Requested'),
-    ('PR','Enabled'),
-    ('DD','Disabled'),
+    ('RE', 'Requested'),
+    ('PR', 'Enabled'),
+    ('DD', 'Disabled'),
 )
 
 
@@ -22,7 +27,7 @@ class CompsocUser(models.Model):
     )
 
     def __str__(self):
-        return self.name
+        return self.name()
 
     def is_fresher(self):
         return self.user.username.startswith("%02d".format(date.today().year - 2000))
@@ -39,7 +44,9 @@ class ShellAccount(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
     )
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=30,
+                            error_messages={'regex': 'The name must contain all lowercase alphanumeric characters'},
+                            validators=[RegexValidator(regex=username_pattern, code='regex')])
     status = models.CharField(max_length=2, choices=STATUS)
 
     def __str__(self):
@@ -51,7 +58,9 @@ class DatabaseAccount(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
     )
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=30,
+                            error_messages={'regex': 'The name must contain all lowercase alphanumeric characters'},
+                            validators=[RegexValidator(regex=username_pattern, code='regex')])
     status = models.CharField(max_length=2, choices=STATUS)
 
     def __str__(self):
