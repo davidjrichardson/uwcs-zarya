@@ -11,7 +11,7 @@
     {% blog_sidebar show_events=True show_sponsor=True display_first=True %}
 
     <article class="small-12 medium-8 medium-pull-4 large-9 large-pull-3 columns">
-      <div id="article-title">
+      <div id="article-title" class="margin-bottom-1x">
         <h2>{{ self.title }}</h2>
         <h6 class="subheader">Posted on {{ self.date }}{% if self.tags.all %}, Categories: {{ self.tags.all|join:', ' }}{% endif %}</h6>
       </div>
