@@ -5,7 +5,43 @@
 {% block content %}
   <section class="row margin-top-2x margin-bottom-1x">
     <div class="small-12 columns">
-      <h2>Profile</h2>
+      <h2>
+        {% if user.compsocuser %}
+          {{ user.compsocuser }}'s profile
+        {% else %}
+          {{ user.get_full_name|default:user.username }}'s profile
+        {% endif %}
+      </h2>
+      <div class="margin-top-1x">
+        <h4>User information</h4>
+        <h6>Real name:</h6>
+        <p>{{ user.get_full_name }}</p>
+
+        {% if user.compsocuser %}
+          {% with user.compsocuser as csuser %}
+            {% if csuser.nickname %}
+              <h6>Nickname:</h6>
+              <p>{{ csuser.nickname }}</p>
+            {% endif %}
+
+            {% if csuser.website_url %}
+              <h6>Website:</h6>
+              <p>
+                <a href="{{ csuser.website_url }}">
+                  {% if csuser.website_title %}
+                    {{ csuser.website_title }}
+                  {% else %}
+                    {{ csuser.website_url }}
+                  {% endif %}
+                </a>
+              </p>
+            {% endif %}
+          {% endwith %}
+        {% endif %}
+
+        <h6>Join date</h6>
+        <p>User joined UWCS in {{ user.date_joined|date:'M Y' }}</p>
+      </div>
     </div>
   </section>
 {% endblock %}
