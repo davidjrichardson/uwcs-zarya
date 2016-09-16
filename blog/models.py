@@ -236,6 +236,16 @@ class EventsIndexPage(Page):
     pass
 
 
+class EventPagetag(TaggedItemBase):
+    content_object = ParentalKey('blog.EventPage', related_name='tagged_items')
+
+
+class EventPage(Page):
+    body = StreamField(BlogStreamBlock())
+    description = RichTextField(max_length=200)
+    categories = ClusterTaggableManager(through=EventPagetag, blank=True)
+
+
 class AboutPage(Page):
     body = StreamField(BlogStreamBlock())
     full_title = models.CharField(max_length=255)
