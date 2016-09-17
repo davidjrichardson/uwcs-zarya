@@ -12,11 +12,6 @@ class ShellAccountForm(ModelForm):
     class Meta:
         model = ShellAccount
         fields = ['name']
-        error_messages = {
-            'name': {
-
-            }
-        }
 
 
 class DatabaseAccountForm(ModelForm):
