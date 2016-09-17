@@ -1,13 +1,13 @@
 beautifulsoup4==4.5.1
-Django==1.10
+Django==1.10.1
 django-appconf==1.0.2
 django-bower==5.1.0
-django-classy-tags==0.7.2
+django-classy-tags==0.8.0
 django-compressor==2.1
 django-libsass==0.7
 django-modelcluster==2.0
 django-taggit==0.18.3
-django-taggit-templatetags2==1.5.2
+django-taggit-templatetags2==1.5.3
 django-treebeard==4.0.1
 djangorestframework==3.4.6
 html5lib==0.999999
@@ -20,6 +20,6 @@ rcssmin==1.0.6
 rjsmin==1.0.12
 six==1.10.0
 Unidecode==0.4.19
-wagtail==1.6
+wagtail==1.6.2
 webencodings==0.5
 Willow==0.3.1
