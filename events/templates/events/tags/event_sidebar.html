@@ -1,0 +1,11 @@
+{% load base_tags %}
+
+<aside class="small-12 medium-4 large-3 {% if display_first %}medium-push-8 large-push-9{% endif %} columns sidebar">
+  {% if show_sponsor %}
+    {% sponsor_sidebar %}
+  {% endif %}
+
+  <div class="row">
+    {# TODO: Maybe something comes here? #}
+  </div>
+</aside>

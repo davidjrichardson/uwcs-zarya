@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% load wagtailcore_tags event_tags %}
+
+{% block title %}UWCS | {{ self.title }} ({{ self.start|date:'Y-m-d' }}) {% endblock %}
+
+{% block content %}
+  {% breadcrumbs %}
+
+  <section class="row margin-top-1x">
+    <article class="small-12 medium-8 large-9 columns">
+      <section class="row">
+        <div class="small-12 columns">
+          <h2>Event details for {{ self.title }}</h2>
+          <p>{{ self.description }}</p>
+        </div>
+      </section>
+      <section class="row details">
+        <div class="small-12 columns">
+          <div class="row">
+            <div class="small-12 columns row-title">Time &amp; Date</div>
+            <div class="small-12 columns row-info">
+              <p>{{ self.start|date:'D jS F Y' }} - {{ self.finish|date:'D jS F Y' }}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="small-12 columns row-title">Location</div>
+            <div class="small-12 columns row-info">
+              <p>{{ self.location }}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="small-12 columns row-title">Description</div>
+            <div class="small-12 columns row-info">
+              {{ self.body }}
+            </div>
+          </div>
+          <div class="row">
+            <div class="small-12 columns row-title">Signups open</div>
+            <div class="small-12 columns row-info">
+              <p>{{ self.signup_open|date:'D jS F Y, H:i' }} {% if self.signup_freshers_open %}(Freshers:{{ self.signup_freshers_open|date:'D jS F Y, H:i' }}{% endif %}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="small-12 columns row-title">Signups close</div>
+            <div class="small-12 columns row-info">
+              <p>{{ self.signup_open|date:'D jS F Y, H:i' }} {% if self.signup_freshers_open %}(Freshers:{{ self.signup_freshers_open|date:'D jS F Y, H:i' }}{% endif %}</p>
+            </div>
+          </div>
+          {% if self.facebook_link %}
+            <div class="row">
+              <div class="small-12 columns row-title">Facebook event</div>
+              <div class="small-12 columns row-info">
+                <p><a href="{{ self.facebook_link }}">Facebook event for {{ self.title }} ({{ self.start|date:'Y-m-d' }})</a>
+                </p>
+              </div>
+            </div>
+          {% endif %}
+          {# TODO: Seating plan link goes here #}
+        </div>
+      </section>
+      {% if request.user.is_authenticated %}
+        <section class="row signup">
+          <div class="small-12 columns">
+            <p>You aren't signed up for this event. Press sign up below, optionally leaving a comment.</p>
+            <form action="{# TODO #}" method="post">
+              {% csrf_token %}
+
+              {# TODO: Use a model form for this #}
+              <div class="flex-row">
+                <div class="flex-columns collapse-left">
+                  <input type="text" placeholder="Optional comment">
+                </div>
+                <div class="flex-shrink flex-columns collapse-right">
+                  <input type="submit" class="button float-right" value="Signup">
+                </div>
+              </div>
+            </form>
+          </div>
+        </section>
+      {% endif %}
+      <section class="comments row">
+        <div class="small-12 columns">
+          <h4>Signup comments</h4>
+          {# TODO: Signup comments #}
+        </div>
+      </section>
+    </article>
+
+    {% sidebar show_sponsor=True %}
+
+  </section>
+{% endblock content %}

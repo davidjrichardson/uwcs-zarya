@@ -294,7 +294,7 @@
     }
   }
 
-  & a.button {
+  & input.button {
     outline-color: $white;
 
     background-color: transparentize($white, 0.13);

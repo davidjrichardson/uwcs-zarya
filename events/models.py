@@ -58,7 +58,11 @@ class EventPage(Page):
     signup_freshers_open = models.DateTimeField(
         help_text='Set a date for when freshers may sign up to the event, leave blank if they are to sign up at the\
                    same time as everyone else', blank=True, null=True)
+
     # TODO: Seating plan association goes here
+
+    def get_context(self, request, *args, **kwargs):
+        return super(EventPage, self).get_context(request)
 
 
 EventPage.content_panels = [
