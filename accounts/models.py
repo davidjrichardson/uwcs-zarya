@@ -38,6 +38,12 @@ class CompsocUser(models.Model):
         else:
             return self.user.get_full_name()
 
+    def full_name(self):
+        if self.nickname.strip():
+            return '%s (%s)'.format(self.nickname.strip(), self.user.get_full_name())
+        else:
+            return self.user.get_full_name()
+
 
 class ShellAccount(models.Model):
     user = models.OneToOneField(

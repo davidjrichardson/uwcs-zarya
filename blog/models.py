@@ -24,8 +24,6 @@ from wagtail.wagtailimages.blocks import ImageChooserBlock
 from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
 from wagtail.wagtailsnippets.models import register_snippet
 
-from events.models import EventType
-
 
 @register_snippet
 class Footer(models.Model):
@@ -237,53 +235,6 @@ BlogPage.promote_panels = Page.promote_panels + [
 # TODO: Events
 class EventsIndexPage(Page):
     pass
-
-
-# Django doesn't serialise lambdas for makemigrations
-def _get_default_end():
-    return datetime.now() + timedelta(hours=1)
-
-
-class EventPage(Page):
-    # Event fields
-    body = StreamField(BlogStreamBlock())
-    description = models.CharField(max_length=200)
-    category = models.OneToOneField(EventType, on_delete=models.PROTECT)
-    location = models.CharField(max_length=50, default='Department of Computer Science')
-    start = models.DateTimeField(default=datetime.now)
-    finish = models.DateTimeField(default=_get_default_end())
-    cancelled = models.BooleanField()
-    facebook_link = models.URLField(verbose_name='Facebook event',
-                                    help_text='A link to the associated Facebook event if one exists', blank=True)
-    # Event signup fields
-    signup_limit = models.IntegerField(verbose_name='Signup limit', help_text='Enter 0 for unlimited signups')
-    signup_open = models.DateTimeField()
-    signup_close = models.DateTimeField()
-    signup_freshers_open = models.DateTimeField(
-        help_text='Set a date for when freshers may sign up to the event, leave blank if they are to sign up at the\
-                   same time as everyone else', blank=True)
-    # TODO: Seating plan association goes here
-
-
-EventPage.content_panels = [
-    MultiFieldPanel([
-        FieldPanel('title', classname="full title"),
-        FieldPanel('cancelled'),
-        FieldPanel('description'),
-        FieldPanel('category'),
-        FieldPanel('location'),
-        FieldPanel('facebook_link'),
-        FieldPanel('start'),
-        FieldPanel('finish'),
-        StreamFieldPanel('body'),
-    ], heading='Event details'),
-    MultiFieldPanel([
-        FieldPanel('signup_limit'),
-        FieldPanel('signup_open'),
-        FieldPanel('signup_close'),
-        FieldPanel('signup_freshers_open')
-    ], heading='Signup information')
-]
 
 
 class AboutPage(Page):
