@@ -36,6 +36,10 @@ def _get_default_end():
     return datetime.now() + timedelta(hours=1)
 
 
+class EventsIndexPage(Page):
+    pass
+
+
 class EventPage(Page):
     # Event fields
     body = StreamField(BlogStreamBlock())

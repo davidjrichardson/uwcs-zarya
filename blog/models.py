@@ -232,11 +232,6 @@ BlogPage.promote_panels = Page.promote_panels + [
 ]
 
 
-# TODO: Events
-class EventsIndexPage(Page):
-    pass
-
-
 class AboutPage(Page):
     body = StreamField(BlogStreamBlock())
     full_title = models.CharField(max_length=255)
