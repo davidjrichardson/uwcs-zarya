@@ -53,7 +53,7 @@ class EventPage(Page):
     signup_close = models.DateTimeField()
     signup_freshers_open = models.DateTimeField(
         help_text='Set a date for when freshers may sign up to the event, leave blank if they are to sign up at the\
-                   same time as everyone else', blank=True)
+                   same time as everyone else', blank=True, null=True)
     # TODO: Seating plan association goes here
 
 
