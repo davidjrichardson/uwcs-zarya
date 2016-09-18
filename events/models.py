@@ -38,7 +38,10 @@ def _get_default_end():
 
 
 class EventsIndexPage(Page):
-    pass
+    def get_context(self, request, *args, **kwargs):
+        context = super(EventsIndexPage, self).get_context(request)
+        # TODO: Get upcoming events, split them by week
+        return context
 
 
 class EventPage(Page):
