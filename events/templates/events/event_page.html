@@ -38,13 +38,15 @@
           <div class="row">
             <div class="small-12 columns row-title">Signups open</div>
             <div class="small-12 columns row-info">
-              <p>{{ self.signup_open|date:'D jS F Y, H:i' }} {% if self.signup_freshers_open %}(Freshers:{{ self.signup_freshers_open|date:'D jS F Y, H:i' }}{% endif %}</p>
+              <p>{{ self.signup_open|date:'D jS F Y, H:i' }} {% if self.signup_freshers_open %}(Freshers:
+                {{ self.signup_freshers_open|date:'D jS F Y, H:i' }}{% endif %}</p>
             </div>
           </div>
           <div class="row">
             <div class="small-12 columns row-title">Signups close</div>
             <div class="small-12 columns row-info">
-              <p>{{ self.signup_open|date:'D jS F Y, H:i' }} {% if self.signup_freshers_open %}(Freshers:{{ self.signup_freshers_open|date:'D jS F Y, H:i' }}{% endif %}</p>
+              <p>{{ self.signup_open|date:'D jS F Y, H:i' }} {% if self.signup_freshers_open %}(Freshers:
+                {{ self.signup_freshers_open|date:'D jS F Y, H:i' }}{% endif %}</p>
             </div>
           </div>
           {% if self.facebook_link %}
@@ -57,27 +59,37 @@
             </div>
           {% endif %}
           {# TODO: Seating plan link goes here #}
+          {% if user_signed_up %}
+            <div class="row">
+              <div class="small-12 columns row-title">Unsignup</div>
+              <div class="small-12 columns row-info">
+                <p><a href="{% url 'event_unsignup' event_id=self.page_ptr_id %}">Click here to unsignup from this event
+                  <i class="fa fa-trash" aria-hidden="true"></i></a></p>
+              </div>
+            </div>
+          {% endif %}
         </div>
       </section>
       {% if request.user.is_authenticated %}
-        <section class="row signup">
-          <div class="small-12 columns">
-            <p>You aren't signed up for this event. Press sign up below, optionally leaving a comment.</p>
-            <form action="{# TODO #}" method="post">
-              {% csrf_token %}
+        {% if not user_signed_up %}
+          <section class="row signup">
+            <div class="small-12 columns">
+              <p>You aren't signed up for this event. Press sign up below, optionally leaving a comment</p>
+              <form action="{% url 'event_signup' event_id=self.page_ptr_id %}" method="post">
+                {% csrf_token %}
 
-              {# TODO: Use a model form for this #}
-              <div class="flex-row">
-                <div class="flex-columns collapse-left">
-                  <input type="text" placeholder="Optional comment">
+                <div class="flex-row">
+                  <div class="flex-columns collapse-left">
+                    <input id="id_comment" name="comment" type="text">
+                  </div>
+                  <div class="flex-shrink flex-columns collapse-right">
+                    <input type="submit" class="button float-right" value="Signup">
+                  </div>
                 </div>
-                <div class="flex-shrink flex-columns collapse-right">
-                  <input type="submit" class="button float-right" value="Signup">
-                </div>
-              </div>
-            </form>
-          </div>
-        </section>
+              </form>
+            </div>
+          </section>
+        {% endif %}
       {% endif %}
       <section class="comments row">
         <div class="small-12 columns">

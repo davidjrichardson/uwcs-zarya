@@ -18,6 +18,8 @@ class MemberAccountView(LoginRequiredMixin, View):
 
 
 class MemberAccountUpdateView(LoginRequiredMixin, FormView):
+    login_url = '/accounts/login/'
+    redirect_field_name = 'redirect_to'
     template_name = 'accounts/account_update.html'
     success_url = 'done/'
     form_class = CompsocUserForm
@@ -57,6 +59,8 @@ class MemberProfileView(View):
 
 
 class RequestShellAccountView(LoginRequiredMixin, FormView):
+    login_url = '/accounts/login/'
+    redirect_field_name = 'redirect_to'
     template_name = 'accounts/request_shell.html'
     success_url = 'done/'
     form_class = ShellAccountForm
@@ -71,6 +75,8 @@ class RequestShellAccountView(LoginRequiredMixin, FormView):
 
 
 class RequestDatabaseAccountView(LoginRequiredMixin, FormView):
+    login_url = '/accounts/login/'
+    redirect_field_name = 'redirect_to'
     template_name = 'accounts/request_database.html'
     success_url = 'done/'
     form_class = DatabaseAccountForm
@@ -95,6 +101,8 @@ class RootRedirectView(RedirectView):
 
 
 class RequestAccountDoneView(LoginRequiredMixin, View):
+    login_url = '/accounts/login/'
+    redirect_field_name = 'redirect_to'
     template_name = 'accounts/request_account_done.html'
 
     def get(self, request):
@@ -102,6 +110,8 @@ class RequestAccountDoneView(LoginRequiredMixin, View):
 
 
 class MemberAccountUpdateDoneView(LoginRequiredMixin, View):
+    login_url = '/accounts/login/'
+    redirect_field_name = 'redirect_to'
     template_name = 'accounts/account_update_done.html'
 
     def get(self, request):

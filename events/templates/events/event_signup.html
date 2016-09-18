@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% load wagtailcore_tags %}
+
+{% block title %}UWCS | Signed up for {{ event.title }} {% endblock %}
+
+{% block content %}
+  <section class="row margin-top-2x margin-bottom-1x">
+    <div class="small-12 medium-8 large-6 medium-push-2 large-push-3 columns">
+      <h2>Sign up successful</h2>
+      <p>You're now signed up to {{ event.title }} on {{ event.start|date:'D jS F Y, H:i' }} at the {{ event.location }}</p>
+      <p><a href="{% pageurl event %}">Back to the event</a></p>
+    </div>
+  </section>
+{% endblock %}

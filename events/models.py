@@ -62,7 +62,19 @@ class EventPage(Page):
     # TODO: Seating plan association goes here
 
     def get_context(self, request, *args, **kwargs):
-        return super(EventPage, self).get_context(request)
+        context = super(EventPage, self).get_context(request)
+
+        signups = EventSignup.objects.filter(event=self).all()
+        context['signups'] = signups
+
+        if request.user.is_authenticated() and signups.filter(member=request.user).first():
+            user_signed_up = True
+        else:
+            user_signed_up = False
+
+        context['user_signed_up'] = user_signed_up
+
+        return context
 
 
 EventPage.content_panels = [
@@ -90,7 +102,7 @@ class EventSignup(models.Model):
     member = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     event = models.OneToOneField(EventPage, on_delete=models.CASCADE)
     signup_created = models.DateTimeField(default=datetime.now)
-    comment = models.TextField(blank=True)
+    comment = models.CharField(blank=True, max_length=140)
 
     def __str__(self):
         try:
