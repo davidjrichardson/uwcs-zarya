@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import timedelta
 
 from taggit.models import TaggedItemBase
 
@@ -8,6 +8,7 @@ from wagtail.wagtailcore.models import Page
 
 from django.db import models
 from django.conf import settings
+from django.utils import timezone
 
 from accounts.models import CompsocUser
 from blog.models import BlogStreamBlock
@@ -33,7 +34,7 @@ class EventType(models.Model):
 
 # Django doesn't serialise lambdas for makemigrations
 def _get_default_end():
-    return datetime.now() + timedelta(hours=1)
+    return timezone.now() + timedelta(hours=1)
 
 
 class EventsIndexPage(Page):
@@ -46,7 +47,7 @@ class EventPage(Page):
     description = models.CharField(max_length=200)
     category = models.OneToOneField(EventType, on_delete=models.PROTECT)
     location = models.CharField(max_length=50, default='Department of Computer Science')
-    start = models.DateTimeField(default=datetime.now)
+    start = models.DateTimeField(default=timezone.now)
     finish = models.DateTimeField(default=_get_default_end())
     cancelled = models.BooleanField()
     facebook_link = models.URLField(verbose_name='Facebook event',
@@ -99,9 +100,9 @@ EventPage.content_panels = [
 
 
 class EventSignup(models.Model):
-    member = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    event = models.OneToOneField(EventPage, on_delete=models.CASCADE)
-    signup_created = models.DateTimeField(default=datetime.now)
+    member = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    event = models.ForeignKey(EventPage, on_delete=models.CASCADE)
+    signup_created = models.DateTimeField(default=timezone.now)
     comment = models.CharField(blank=True, max_length=140)
 
     def __str__(self):
