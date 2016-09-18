@@ -8,6 +8,13 @@
   {% breadcrumbs %}
 
   <section class="row margin-top-1x">
+    {% if self.cancelled %}
+      <div class="callout alert">
+        <h4>This event has been cancelled</h4>
+        <p>Sorry for any inconvenience caused</p>
+      </div>
+    {% endif %}
+
     <article class="small-12 medium-8 large-9 columns">
       <section class="row">
         <div class="small-12 columns">
@@ -58,8 +65,24 @@
               </div>
             </div>
           {% endif %}
+          <div class="row">
+            <div class="small-12 columns row-title">Total signups</div>
+            <div class="small-12 columns row-info">
+              <p>
+                {% if self.signup_limit <= 0 %}
+                  This event has unlimited spaces
+                {% else %}
+                  {% if can_signup %}
+                    This event has {{ self.signup_limit|subtract:signups.count }} places remaining ({{ signups.count }}/{{ self.signup_limit}})
+                  {% else %}
+                    There are no more spaces left for this event
+                  {% endif %}
+                {% endif %}
+              </p>
+            </div>
+          </div>
           {# TODO: Seating plan link goes here #}
-          {% if user_signed_up %}
+          {% if user_signed_up and not self.cancelled %}
             <div class="row">
               <div class="small-12 columns row-title">Unsignup</div>
               <div class="small-12 columns row-info">
@@ -71,7 +94,7 @@
         </div>
       </section>
       {% if request.user.is_authenticated %}
-        {% if not user_signed_up %}
+        {% if not user_signed_up and not self.cancelled and can_signup %}
           <section class="row signup">
             <div class="small-12 columns">
               <p>You aren't signed up for this event. Press sign up below, optionally leaving a comment</p>

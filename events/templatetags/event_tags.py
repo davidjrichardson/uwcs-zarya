@@ -28,3 +28,8 @@ def sidebar(context, show_sponsor=False, display_first=False):
         # required by the pageurl tag that we want to use within this template
         'request': context['request'],
     }
+
+
+@register.filter
+def subtract(value, arg):
+    return value - arg

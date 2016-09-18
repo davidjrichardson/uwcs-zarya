@@ -67,6 +67,7 @@ class EventPage(Page):
 
         signups = EventSignup.objects.filter(event=self).all()
         context['signups'] = signups
+        context['can_signup'] = (self.signup_limit != signups.count())
 
         if request.user.is_authenticated() and signups.filter(member=request.user).first():
             user_signed_up = True
