@@ -94,7 +94,39 @@
       <section class="comments row">
         <div class="small-12 columns">
           <h4>Signup comments</h4>
-          {# TODO: Signup comments #}
+          {% if signups %}
+            <table class="comment-table">
+              <thead class="sr-only">
+              <tr>
+                <th>User</th>
+                <th>Comment</th>
+              </tr>
+              </thead>
+              <tbody>
+              {% for comment in signups %}
+                <tr>
+                  <td class="user">
+                    <a href="{% url 'public_profile' uid=comment.member.id %}">
+                      {% if comment.member.compsocuser %}
+                        {{ comment.member.compsocuser }}
+                      {% else %}
+                        {{ comment.member.get_full_name }}
+                      {% endif %}
+                    </a>
+                  </td>
+                  <td>
+                    <p><span class="date">{{ comment.signup_created|date:'D jS F Y, H:i' }}</span></p>
+                    {% if comment.comment %}
+                      <p>{{ comment.comment }}</p>
+                    {% endif %}
+                  </td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          {% else %}
+            <p>There are no sign ups for this event yet, why not be the first?</p>
+          {% endif %}
         </div>
       </section>
     </article>
