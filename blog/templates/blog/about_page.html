@@ -6,15 +6,11 @@
 
 {% block content %}
   <section class="row margin-top-2x margin-bottom-1x">
-    {# TODO: Refactor the sidebar? #}
-    {% blog_sidebar show_sponsor=True display_first=True %}
+    {% blog_sidebar show_children=True parent=self %}
+
     <div class="small-12 medium-8 medium-pull-4 large-9 large-pull-3 columns">
       <h2>{{ self.full_title }}</h2>
-
       {% include 'blog/includes/streamfield.html' with content=body %}
     </div>
-
-    {# TODO: Add list of child pages if they exist #}
-
   </section>
 {% endblock content %}

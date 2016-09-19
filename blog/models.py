@@ -152,9 +152,7 @@ class BlogIndexPage(Page):
     @property
     def blogs(self):
         # Get list of live blog pages that are descendants of this page ordered by most recent
-        blogs = BlogPage.objects.live().descendant_of(self).order_by('-date')
-
-        return blogs
+        return BlogPage.objects.live().descendant_of(self).order_by('-date')
 
     def get_context(self, request):
         # Get blogs
@@ -222,11 +220,16 @@ BlogPage.promote_panels = Page.promote_panels + [
 
 class AboutPage(Page):
     body = StreamField(BlogStreamBlock())
-    full_title = models.CharField(max_length=255)
+    full_title = models.CharField(max_length=255, blank=True, null=True)
+
+    @property
+    def children(self):
+        return AboutPage.objects.live().descendant_of(self).order_by('title')
 
     def get_context(self, request):
         context = super(AboutPage, self).get_context(request)
         context['body'] = self.body
+        context['children'] = self.children
         return context
 
 

@@ -12,8 +12,7 @@ register = template.Library()
     'blog/tags/blog_sidebar.html',
     takes_context = True
 )
-def blog_sidebar(context, show_sponsor=False, show_archives=False, show_events=False, show_tags=False,
-                 display_first=False):
+def blog_sidebar(context, show_sponsor=True, show_archives=False, show_tags=False, show_children=False, parent=None):
     blog_index = BlogIndexPage.objects.live().in_menu().first()
 
     if show_archives:
@@ -23,12 +22,17 @@ def blog_sidebar(context, show_sponsor=False, show_archives=False, show_events=F
     else:
         archives = None
 
+    if show_children and parent:
+        children = parent.children
+    else:
+        children = None
+
     return {
         'blog_index': blog_index,
         'archives': archives,
+        'children': children,
         'show_sponsor': show_sponsor,
         'show_tags': show_tags,
-        'display_first': display_first,
         # required by the pageurl tag that we want to use within this template
         'request': context['request'],
     }

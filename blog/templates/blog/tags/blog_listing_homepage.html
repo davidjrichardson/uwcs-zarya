@@ -4,7 +4,7 @@
   <div class="small-12 columns">
     <h4>Recent news</h4>
   </div>
-  {% blog_sidebar show_archives=True show_tags=True display_first=True %}
+  {% blog_sidebar show_sponsor=False show_tags=True %}
   <div class="small-12 medium-8 medium-pull-4 large-9 large-pull-3 columns">
     {% for blog in blogs %}
       {% include "blog/includes/blog_list_item.html" %}
