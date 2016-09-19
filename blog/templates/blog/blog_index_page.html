@@ -15,7 +15,7 @@
       {% for blog in blogs.object_list %}
         {% include "blog/includes/blog_list_item.html" %}
       {% empty %}
-        {# TODO: Add no blogs found message #}
+        <p>No news item can be found</p>
       {% endfor %}
 
       {% if blogs %}

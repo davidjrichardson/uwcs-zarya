@@ -67,19 +67,6 @@ class Sponsor(models.Model):
             return self.text
 
 
-# TODO: Remove these - for some reason makemigrations has a fit when these are removed.
-class ImageFormatChoiceBlock(FieldBlock):
-    field = forms.ChoiceField(choices=(
-        ('left', 'Wrap left'), ('right', 'Wrap right'), ('mid', 'Mid width'), ('full', 'Full width'),
-    ))
-
-
-class HTMLAlignmentChoiceBlock(FieldBlock):
-    field = forms.ChoiceField(choices=(
-        ('normal', 'Normal'), ('full', 'Full width'),
-    ))
-
-
 class PullQuoteBlock(StructBlock):
     quote = TextBlock("quote title")
     attribution = CharBlock()
@@ -247,12 +234,3 @@ AboutPage.content_panels = [
     FieldPanel('full_title'),
     StreamFieldPanel('body'),
 ]
-
-
-# TODO: Also remove these - Django's migrator is an idiot >.<
-class ContactIndexPage(Page):
-    pass
-
-
-class ExecPage(Page):
-    pass

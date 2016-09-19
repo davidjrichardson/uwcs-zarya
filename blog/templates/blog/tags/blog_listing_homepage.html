@@ -1,6 +1,6 @@
 {% load wagtailcore_tags blog_tags %}
 
-<section class="row" id="news">
+<section class="row margin-bottom-1x" id="news">
   <div class="small-12 columns">
     <h4>Recent news</h4>
   </div>
@@ -8,8 +8,6 @@
   <div class="small-12 medium-8 medium-pull-4 large-9 large-pull-3 columns">
     {% for blog in blogs %}
       {% include "blog/includes/blog_list_item.html" %}
-    {% empty %}
-      {# TODO: Empty blog feed message #}
     {% endfor %}
 
     {% if blogs %}

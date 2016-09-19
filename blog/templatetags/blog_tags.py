@@ -22,12 +22,6 @@ def blog_sidebar(context, show_sponsor=False, show_archives=False, show_events=F
     else:
         archives = None
 
-    if show_events:
-        # TODO: Implement upcoming events
-        events = ["Foo"]
-    else:
-        events = None
-
     return {
         'blog_index': blog_index,
         'archives': archives,
