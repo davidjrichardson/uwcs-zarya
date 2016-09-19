@@ -56,6 +56,7 @@ def footer(context, parent):
         'menuitems': parent.get_children().live().in_menu(),
         'facebook_url': Footer.objects.first().facebook_url,
         'twitch_url': Footer.objects.first().twitch_url,
+        'twitter_url': Footer.objects.first().twitter_url,
         # required by the pageurl tag that we want to use within this template
         'request': context['request'],
     }

@@ -1,6 +1,5 @@
-from datetime import datetime, timedelta
+from datetime import datetime
 
-from django import forms
 from django.utils.safestring import mark_safe
 from django.core.paginator import PageNotAnInteger, Paginator, EmptyPage
 from django.db import models
@@ -14,8 +13,8 @@ from pygments.lexers import get_lexer_by_name
 
 from taggit.models import TaggedItemBase
 
-from wagtail.wagtailadmin.edit_handlers import FieldPanel, StreamFieldPanel, MultiFieldPanel
-from wagtail.wagtailcore.blocks import TextBlock, StructBlock, StreamBlock, FieldBlock, CharBlock, RichTextBlock, \
+from wagtail.wagtailadmin.edit_handlers import FieldPanel, StreamFieldPanel
+from wagtail.wagtailcore.blocks import TextBlock, StructBlock, StreamBlock, CharBlock, RichTextBlock, \
     ChoiceBlock
 from wagtail.wagtailcore.fields import StreamField, RichTextField
 from wagtail.wagtailcore.models import Page
@@ -29,10 +28,12 @@ from wagtail.wagtailsnippets.models import register_snippet
 class Footer(models.Model):
     facebook_url = models.URLField(null=True, blank=True)
     twitch_url = models.URLField(null=True, blank=True)
+    twitter_url = models.URLField(null=True, blank=True)
 
     panels = [
         FieldPanel('facebook_url'),
         FieldPanel('twitch_url'),
+        FieldPanel('twitter_url'),
     ]
 
     def __str__(self):

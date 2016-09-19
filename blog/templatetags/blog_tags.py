@@ -25,7 +25,6 @@ def blog_sidebar(context, show_sponsor=False, show_archives=False, show_events=F
     return {
         'blog_index': blog_index,
         'archives': archives,
-        'events': events,
         'show_sponsor': show_sponsor,
         'show_tags': show_tags,
         'display_first': display_first,
