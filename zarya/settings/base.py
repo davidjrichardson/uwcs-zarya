@@ -141,7 +141,6 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-
 # Django Compressor
 
 PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
