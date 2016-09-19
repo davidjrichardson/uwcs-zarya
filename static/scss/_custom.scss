@@ -32,7 +32,10 @@
   display: block;
   padding: 0.7rem 1rem 0.7rem 0;
   line-height: 1;
-  color: $primary-color-2;
+
+  & a strong {
+    color: $primary-color-2;
+  }
 
   &.top-bar-title > span {
     margin-right: $global-margin;
