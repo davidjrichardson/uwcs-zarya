@@ -52,8 +52,7 @@
           <div class="row">
             <div class="small-12 columns row-title">Signups close</div>
             <div class="small-12 columns row-info">
-              <p>{{ self.signup_open|date:'D jS F Y, H:i' }} {% if self.signup_freshers_open %}(Freshers:
-                {{ self.signup_freshers_open|date:'D jS F Y, H:i' }}{% endif %}</p>
+              <p>{{ self.signup_close|date:'D jS F Y, H:i' }}</p>
             </div>
           </div>
           {% if self.facebook_link %}

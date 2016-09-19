@@ -1,17 +1,46 @@
 {% extends "base.html" %}
 
-{% load wagtailcore_tags base_tags blog_tags %}
+{% load wagtailcore_tags event_tags %}
 
 {% block title %}UWCS | Events overview {% endblock %}
 
 {% block content %}
-  <section class="row margin-top-2x margin-top-1x">
-    <div class="small-12 columns margin-bottom-1x">
+  <section class="row margin-top-2x margin-top-1x events">
+    <div class="small-12 columns">
       <h4>{{ self.title }}</h4>
     </div>
-    {% blog_sidebar show_sponsor=True display_first=True %}
+    {% sidebar show_sponsor=True display_first=True %}
     <div class="small-12 medium-8 medium-pull-4 large-9 large-pull-3 columns">
-      {# TODO: List events #}
+      <ul class="no-bullet week-list">
+        {% if weeks %}
+          {% for week in weeks %}
+            <li>
+              <h5>Week beginning {{ week.0.start|first_monday|date:'jS F Y' }}</h5>
+              <ul class="no-bullet event-list">
+                {% for event in week %}
+                  <li class="row event">
+                    <div class="small-12 medium-4 large-3 columns">
+                      <a href="{% pageurl event %}"><h3>{{ event.title }}</h3></a>
+                      {% if event.signup_limit > 0 %}
+                        <h6 class="subheader">Signups: {{ event.signups.count }}/{{ event.signup_limit }}</h6>
+                      {% endif %}
+                    </div>
+                    <ul class="small-12 medium-8 large-9 columns no-bullet">
+                      <li>{{ event.start|date:'D jS F H:i' }} - {{ event.finish|date:'D jS F H:i' }}</li>
+                      <li>Location: {{ event.location }}</li>
+                      <li>{{ event.description }}</li>
+                    </ul>
+                  </li>
+                {% endfor %}
+              </ul>
+            </li>
+          {% endfor %}
+        {% else %}
+          <li>
+            <h5>There are no upcoming events</h5>
+          </li>
+        {% endif %}
+      </ul>
     </div>
   </section>
 {% endblock content %}

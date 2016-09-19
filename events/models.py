@@ -1,4 +1,5 @@
 from datetime import timedelta
+from collections import defaultdict
 
 from taggit.models import TaggedItemBase
 
@@ -38,9 +39,29 @@ def _get_default_end():
 
 
 class EventsIndexPage(Page):
+    @property
+    def events(self):
+        events = EventPage.objects.live().descendant_of(self).order_by('-start')
+
+        return events
+
     def get_context(self, request, *args, **kwargs):
         context = super(EventsIndexPage, self).get_context(request)
-        # TODO: Get upcoming events, split them by week
+
+        events = self.events
+        weeks_dict = defaultdict(list)
+
+        for event in events:
+            event_week = event.start.isocalendar()[1]
+            weeks_dict[event_week].append(event)
+
+        weeks = list()
+
+        for _, week in weeks_dict.items():
+            weeks.append(week)
+
+        context['weeks'] = weeks
+
         return context
 
 
@@ -65,14 +86,19 @@ class EventPage(Page):
 
     # TODO: Seating plan association goes here
 
+    @property
+    def signups(self):
+        signups = EventSignup.objects.filter(event=self).all()
+
+        return signups
+
     def get_context(self, request, *args, **kwargs):
         context = super(EventPage, self).get_context(request)
 
-        signups = EventSignup.objects.filter(event=self).all()
-        context['signups'] = signups
-        context['can_signup'] = (self.signup_limit != signups.count())
+        context['signups'] = self.signups
+        context['can_signup'] = (self.signup_limit != self.signups.count())
 
-        if request.user.is_authenticated() and signups.filter(member=request.user).first():
+        if request.user.is_authenticated() and self.signups.filter(member=request.user).first():
             user_signed_up = True
         else:
             user_signed_up = False

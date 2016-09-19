@@ -1,3 +1,5 @@
+from datetime import date, timedelta
+
 from django import template
 from wagtail.wagtailcore.models import Page
 
@@ -28,6 +30,14 @@ def sidebar(context, show_sponsor=False, display_first=False):
         # required by the pageurl tag that we want to use within this template
         'request': context['request'],
     }
+
+
+@register.filter
+def first_monday(event_date):
+    year = event_date.isocalendar()[0]
+    week = event_date.isocalendar()[1]
+    d = date(year, 1, 4)  # The Jan 4th must be in week 1  according to ISO
+    return d + timedelta(weeks=(week-1), days=-d.weekday())
 
 
 @register.filter
