@@ -30,8 +30,10 @@
         </a>
       {% endif %}
     {% endfor %}
-    <a class="flex-column event-item" href="{% pageurl event_list %}">
-      <h5>See all events <i class="fa fa-chevron-right" aria-hidden="true"></i></h5>
-    </a>
+    {% if events %}
+      <a class="flex-column event-item" href="{% pageurl event_list %}">
+        <h5>See all events <i class="fa fa-chevron-right" aria-hidden="true"></i></h5>
+      </a>
+    {% endif %}
   </div>
 </section>
