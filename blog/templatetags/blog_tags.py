@@ -1,6 +1,7 @@
-from datetime import date, datetime
+from datetime import datetime
 from django import template
-from django.conf import settings
+
+from events.models import EventPage, EventsIndexPage
 
 from blog.models import BlogPage, BlogIndexPage, CodeBlock
 
@@ -61,9 +62,11 @@ def blog_listing_homepage(context, count=5):
     takes_context=True
 )
 def event_listing_homepage(context, count=4):
-    # TODO: Get upcoming events
+    events = EventPage.objects.live().order_by('start')[:count]
+
     return {
-        'events': [],
+        'events': events,
+        'event_list': EventsIndexPage.objects.live().first(),
         # required by the pageurl tag that we want to use within this template
         'request': context['request'],
     }

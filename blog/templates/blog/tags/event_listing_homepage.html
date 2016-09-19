@@ -4,12 +4,34 @@
 
   <div class="row">
     <div class="small-12 columns">
-      <h4 class="{% if not events %}empty-display{% endif %}">{% if events %}Upcoming events{% else %}No upcoming events{% endif %}</h4>
+      <h4 class="{% if not events %}empty-display{% endif %}">{% if events %}Upcoming events{% else %}No upcoming
+        events{% endif %}</h4>
     </div>
   </div>
   <div class="flex-row">
     {% for event in events %}
-      {# TODO: Events go here #}
+      {% if forloop.counter0 > 2 %}
+        <a class="flex-column event-item show-for-large" href="{% pageurl event %}">
+          <h5>{{ event.title }}</h5>
+          <p>{{ event.start|date:'D jS F Y' }}</p>
+          <p>{{ event.description }}</p>
+        </a>
+      {% elif forloop.counter0 > 0 %}
+        <a class="flex-column event-item show-for-medium" href="{% pageurl event %}">
+          <h5>{{ event.title }}</h5>
+          <p>{{ event.start|date:'D jS F Y' }}</p>
+          <p>{{ event.description }}</p>
+        </a>
+      {% else %}
+        <a class="flex-column event-item" href="{% pageurl event %}">
+          <h5>{{ event.title }}</h5>
+          <p>{{ event.start|date:'D jS F Y' }}</p>
+          <p>{{ event.description }}</p>
+        </a>
+      {% endif %}
     {% endfor %}
+    <a class="flex-column event-item" href="{% pageurl event_list %}">
+      <h5>See all events <i class="fa fa-chevron-right" aria-hidden="true"></i></h5>
+    </a>
   </div>
 </section>
