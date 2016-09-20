@@ -18,7 +18,6 @@ import os
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
@@ -94,7 +93,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'zarya.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
@@ -104,7 +102,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
@@ -119,7 +116,6 @@ USE_L10N = True
 
 # We only need to worry about times being local time
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
@@ -146,9 +142,23 @@ MEDIA_URL = '/media/'
 PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
 BOWER_COMPONENTS_ROOT = os.path.join(PROJECT_PATH, "../components")
 COMPRESS_PRECOMPILERS = (
-    ('text/x-scss', 'sass --scss -I "%s/bower_components/foundation-sites/scss" -I "%s/bower_components/motion-ui" "{infile}" "{outfile}"' % (BOWER_COMPONENTS_ROOT, BOWER_COMPONENTS_ROOT)),
+    ('text/x-scss',
+     'sass --scss -I "%s/bower_components/foundation-sites/scss" -I "%s/bower_components/motion-ui" "{infile}" "{outfile}"' % (
+     BOWER_COMPONENTS_ROOT, BOWER_COMPONENTS_ROOT)),
 )
 
+PASSWORD_HASHERS = [
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+    'django.contrib.auth.hashers.Argon2PasswordHasher',
+    'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
+    'django.contrib.auth.hashers.BCryptPasswordHasher',
+    'django.contrib.auth.hashers.SHA1PasswordHasher',
+    'django.contrib.auth.hashers.MD5PasswordHasher',
+    'django.contrib.auth.hashers.UnsaltedSHA1PasswordHasher',
+    'django.contrib.auth.hashers.UnsaltedMD5PasswordHasher',
+    'django.contrib.auth.hashers.CryptPasswordHasher',
+]
 
 # Django-bower
 
@@ -156,7 +166,6 @@ BOWER_INSTALLED_APPS = [
     'foundation-sites~6.2.3',
     'motion-ui~1.2.2',
 ]
-
 
 # Wagtail settings
 WAGTAIL_SITE_NAME = "UWCS (Zarya)"
