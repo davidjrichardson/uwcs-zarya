@@ -9,6 +9,30 @@ TARGETS = (
     ('SCT', 'Society'),
 )
 
+COMMS_TYPE = (
+    ('NL', 'Newsletter'),
+    ('M', 'Minute'),
+    ('N', 'News Item'),
+)
+
+STATUS = (
+    ('RE', 'Requested'),
+    ('PR', 'Present'),
+    ('DD', 'Disabled'),
+)
+
+
+# The following models are copied from the previous compsoc website (Django Reinhardt)
+
+class Communication(models.Model):
+    title = models.CharField(max_length=100)
+    date = models.DateField()
+    text = models.TextField()
+    type = models.CharField(max_length=2, choices=COMMS_TYPE)
+
+    class Meta:
+        app_label = 'comms'
+
 
 class EventType(models.Model):
     name = models.CharField(max_length=20)
@@ -68,3 +92,75 @@ class Signup(models.Model):
 
     class Meta:
         app_label = 'events'
+
+
+class Member(models.Model):
+    """
+    Used to store auxiliary data to the default profile data for
+    a django User.
+    """
+    user = models.OneToOneField(User)
+    showDetails = models.BooleanField()
+    guest = models.BooleanField()
+
+    class Meta:
+        app_label = 'memberinfo'
+
+
+# Optional info about one's website
+class WebsiteDetails(models.Model):
+    user = models.OneToOneField(User)
+    websiteUrl = models.CharField(max_length=50)
+    websiteTitle = models.CharField(max_length=50)
+
+    class Meta:
+        app_label = 'memberinfo'
+
+
+class NicknameDetails(models.Model):
+    user = models.OneToOneField(User)
+    nickname = models.CharField(max_length=20)
+
+    class Meta:
+        app_label = 'memberinfo'
+
+
+class ShellAccount(models.Model):
+    user = models.OneToOneField(User)
+    name = models.CharField(max_length=30)
+    status = models.CharField(max_length=2, choices=STATUS)
+
+    class Meta:
+        app_label = 'memberinfo'
+
+
+class DatabaseAccount(models.Model):
+    user = models.OneToOneField(User)
+    name = models.CharField(max_length=30)
+    status = models.CharField(max_length=2, choices=STATUS)
+
+    class Meta:
+        app_label = 'memberinfo'
+
+
+class ExecPosition(models.Model):
+    """
+    Represents an exec position
+    """
+    title = models.CharField(max_length=30)
+
+    class Meta:
+        app_label = 'memberinfo'
+
+
+class ExecPlacement(models.Model):
+    """
+    Represents a time period of working on the exec
+    """
+    position = models.ForeignKey(ExecPosition)
+    user = models.ForeignKey(User)
+    start = models.DateField()
+    end = models.DateField()
+
+    class Meta:
+        app_label = 'memberinfo'

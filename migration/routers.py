@@ -1,5 +1,5 @@
 OLD_APPS = [
-    'cms',
+    'comms',
     'events',
     'memberinfo'
 ]
