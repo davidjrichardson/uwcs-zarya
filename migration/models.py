@@ -30,6 +30,9 @@ class Communication(models.Model):
     text = models.TextField()
     type = models.CharField(max_length=2, choices=COMMS_TYPE)
 
+    class Meta:
+        db_table = 'comms_communication'
+
 
 class OldEventType(models.Model):
     name = models.CharField(max_length=20)
