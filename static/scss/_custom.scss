@@ -81,10 +81,6 @@
 
   padding-top: 0;
   padding-bottom: $global-padding;
-
-  @media screen and (min-width: 640px) {
-    padding-bottom: 0;
-  }
 }
 
 // Footer
