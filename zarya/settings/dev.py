@@ -23,8 +23,6 @@ DATABASES = {
     }
 }
 
-DATABASE_ROUTERS = ['migration.routers.MigrateRouter']
-
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 try:

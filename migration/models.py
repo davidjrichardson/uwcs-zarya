@@ -30,25 +30,22 @@ class Communication(models.Model):
     text = models.TextField()
     type = models.CharField(max_length=2, choices=COMMS_TYPE)
 
-    class Meta:
-        app_label = 'comms'
 
-
-class EventType(models.Model):
+class OldEventType(models.Model):
     name = models.CharField(max_length=20)
     info = models.TextField()
     target = models.CharField(max_length=3, choices=TARGETS)
 
     class Meta:
-        app_label = 'events'
+        db_table = 'events_eventtype'
 
 
-class Event(models.Model):
+class OldEvent(models.Model):
     """
     Represents a single event
     """
     # I'm never using camel case for model fields again :p
-    type = models.ForeignKey(EventType)
+    type = models.ForeignKey(OldEventType)
     shortDescription = models.CharField(max_length=255, verbose_name="Short Description",
                                         help_text="This text is displayed on the events index.")
     longDescription = models.TextField(verbose_name="Long Description",
@@ -60,16 +57,16 @@ class Event(models.Model):
     cancelled = models.BooleanField()
 
     class Meta:
-        app_label = 'events'
+        db_table = 'events_event'
 
 
-class EventSignup(models.Model):
+class OldEventSignup(models.Model):
     """
     This represents the signup options for a particular event,
     e.g Signup limits and time constraints
     This might be renamed to EventSignupOptions
     """
-    event = models.OneToOneField(Event)
+    event = models.OneToOneField(OldEvent)
     signupsLimit = models.IntegerField(verbose_name="Signups Limit", help_text="0 here implies unlimited signups.")
     open = models.DateTimeField()
     close = models.DateTimeField()
@@ -81,17 +78,17 @@ class EventSignup(models.Model):
     # this might be renamed to seating_plan for clarity
 
     class Meta:
-        app_label = 'events'
+        db_table = 'events_eventsignup'
 
 
 class Signup(models.Model):
-    event = models.ForeignKey(Event)
+    event = models.ForeignKey(OldEvent)
     time = models.DateTimeField()
     user = models.ForeignKey(User)
     comment = models.TextField(blank=True)
 
     class Meta:
-        app_label = 'events'
+        db_table = 'events_signup'
 
 
 class Member(models.Model):
@@ -103,9 +100,6 @@ class Member(models.Model):
     showDetails = models.BooleanField()
     guest = models.BooleanField()
 
-    class Meta:
-        app_label = 'memberinfo'
-
 
 # Optional info about one's website
 class WebsiteDetails(models.Model):
@@ -113,16 +107,10 @@ class WebsiteDetails(models.Model):
     websiteUrl = models.CharField(max_length=50)
     websiteTitle = models.CharField(max_length=50)
 
-    class Meta:
-        app_label = 'memberinfo'
-
 
 class NicknameDetails(models.Model):
     user = models.OneToOneField(User)
     nickname = models.CharField(max_length=20)
-
-    class Meta:
-        app_label = 'memberinfo'
 
 
 class ShellAccount(models.Model):
@@ -130,17 +118,11 @@ class ShellAccount(models.Model):
     name = models.CharField(max_length=30)
     status = models.CharField(max_length=2, choices=STATUS)
 
-    class Meta:
-        app_label = 'memberinfo'
-
 
 class DatabaseAccount(models.Model):
     user = models.OneToOneField(User)
     name = models.CharField(max_length=30)
     status = models.CharField(max_length=2, choices=STATUS)
-
-    class Meta:
-        app_label = 'memberinfo'
 
 
 class ExecPosition(models.Model):
@@ -148,9 +130,6 @@ class ExecPosition(models.Model):
     Represents an exec position
     """
     title = models.CharField(max_length=30)
-
-    class Meta:
-        app_label = 'memberinfo'
 
 
 class ExecPlacement(models.Model):
@@ -161,6 +140,3 @@ class ExecPlacement(models.Model):
     user = models.ForeignKey(User)
     start = models.DateField()
     end = models.DateField()
-
-    class Meta:
-        app_label = 'memberinfo'
