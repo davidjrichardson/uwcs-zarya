@@ -336,6 +336,8 @@ table.comment-table {
 
 // Pagination
 .pagination {
+  margin-bottom: 0;
+
   & li.current {
     background-color: transparent;
     display: inline-block;
