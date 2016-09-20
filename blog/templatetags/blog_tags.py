@@ -1,26 +1,33 @@
 from datetime import datetime
 from django import template
 
+import sys
+
 from events.models import EventPage, EventsIndexPage
 
 from blog.models import BlogPage, BlogIndexPage, CodeBlock
+
+from collections import OrderedDict
 
 register = template.Library()
 
 
 @register.inclusion_tag(
     'blog/tags/blog_sidebar.html',
-    takes_context = True
+    takes_context=True
 )
-def blog_sidebar(context, show_sponsor=True, show_archives=False, show_tags=False, show_children=False, parent=None):
+def blog_sidebar(context, show_sponsor=True, show_archives=False, show_tags=False, show_children=False, parent=None,
+                 archive_count=sys.maxsize):
     blog_index = BlogIndexPage.objects.live().in_menu().first()
 
     if show_archives:
-        archives = dict()
-        for blog in BlogPage.objects.live().order_by('-date'):
+        archives = OrderedDict()
+        for blog in BlogPage.objects.live().order_by('-first_published_at'):
             archives.setdefault(blog.date.year, {}).setdefault(blog.date.month, []).append(blog)
     else:
         archives = None
+
+    print(archives)
 
     if show_children and parent:
         children = parent.children
@@ -33,6 +40,7 @@ def blog_sidebar(context, show_sponsor=True, show_archives=False, show_tags=Fals
         'children': children,
         'show_sponsor': show_sponsor,
         'show_tags': show_tags,
+        'archive_count': archive_count,
         # required by the pageurl tag that we want to use within this template
         'request': context['request'],
     }

@@ -25,16 +25,18 @@
         <h5>Archives</h5>
         <ul class="vertical menu" data-accordion-menu>
           {% for year, months in archives.items %}
-            <li>
-              <a href="#">{{ year }}</a>
-              <ul class="vertical menu">
-                {% for month, posts in months.items %}
-                  <li><a
-                      href="{% pageurl blog_index %}?date={{ year }}-{{ month|stringformat:'02d' }}">{{ month|to_month_str }}
-                    ({{ posts|length }})</a></li>
-                {% endfor %}
-              </ul>
-            </li>
+            {% if forloop.counter0 < archive_count %}
+              <li>
+                <a href="#">{{ year }}</a>
+                <ul class="vertical menu">
+                  {% for month, posts in months.items %}
+                    <li><a
+                        href="{% pageurl blog_index %}?date={{ year }}-{{ month|stringformat:'02d' }}">{{ month|to_month_str }}
+                      ({{ posts|length }})</a></li>
+                  {% endfor %}
+                </ul>
+              </li>
+            {% endif %}
           {% endfor %}
         </ul>
       </div>
