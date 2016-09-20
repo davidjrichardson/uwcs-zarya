@@ -107,36 +107,54 @@ class WebsiteDetails(models.Model):
     websiteUrl = models.CharField(max_length=50)
     websiteTitle = models.CharField(max_length=50)
 
+    class Meta:
+        db_table = 'memberinfo_websitedetails'
+
 
 class NicknameDetails(models.Model):
     user = models.OneToOneField(User)
     nickname = models.CharField(max_length=20)
 
+    class Meta:
+        db_table = 'memberinfo_nicknamedetails'
 
-class ShellAccount(models.Model):
+
+class OldShellAccount(models.Model):
     user = models.OneToOneField(User)
     name = models.CharField(max_length=30)
     status = models.CharField(max_length=2, choices=STATUS)
 
+    class Meta:
+        db_table = 'memberinfo_shellaccount'
 
-class DatabaseAccount(models.Model):
+
+class OldDatabaseAccount(models.Model):
     user = models.OneToOneField(User)
     name = models.CharField(max_length=30)
     status = models.CharField(max_length=2, choices=STATUS)
 
+    class Meta:
+        db_table = 'memberinfo_databaseaccount'
 
-class ExecPosition(models.Model):
+
+class OldExecPosition(models.Model):
     """
     Represents an exec position
     """
     title = models.CharField(max_length=30)
 
+    class Meta:
+        db_table = 'memberinfo_execposition'
 
-class ExecPlacement(models.Model):
+
+class OldExecPlacement(models.Model):
     """
     Represents a time period of working on the exec
     """
-    position = models.ForeignKey(ExecPosition)
+    position = models.ForeignKey(OldExecPosition)
     user = models.ForeignKey(User)
     start = models.DateField()
     end = models.DateField()
+
+    class Meta:
+        db_table = 'memberinfo_execplacement'
