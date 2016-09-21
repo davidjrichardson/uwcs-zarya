@@ -75,7 +75,8 @@ class EventPage(Page):
     finish = models.DateTimeField(default=_get_default_end())
     cancelled = models.BooleanField()
     facebook_link = models.URLField(verbose_name='Facebook event',
-                                    help_text='A link to the associated Facebook event if one exists', blank=True)
+                                    help_text='A link to the associated Facebook event if one exists', blank=True,
+                                    default='')
     # Event signup fields
     signup_limit = models.IntegerField(verbose_name='Signup limit',
                                        help_text='Enter 0 for unlimited signups or -1 for no signups',
