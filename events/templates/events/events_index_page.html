@@ -19,13 +19,13 @@
               <ul class="no-bullet event-list">
                 {% for event in week %}
                   <li class="row event">
-                    <div class="small-12 medium-4 large-3 columns">
+                    <div class="small-12 columns">
                       <a href="{% pageurl event %}"><h3>{{ event.title }}</h3></a>
                       {% if event.signup_limit > 0 %}
                         <h6 class="subheader">Signups: {{ event.signups.count }}/{{ event.signup_limit }}</h6>
                       {% endif %}
                     </div>
-                    <ul class="small-12 medium-8 large-9 columns no-bullet">
+                    <ul class="small-12 columns no-bullet">
                       <li>{{ event.start|date:'D jS F H:i' }} - {{ event.finish|date:'D jS F H:i' }}</li>
                       <li>Location: {{ event.location }}</li>
                       <li>{{ event.description }}</li>

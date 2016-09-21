@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 from django.contrib.auth import get_user_model
-from django.template.defaultfilters import slugify, linebreaks
+from django.template.defaultfilters import slugify, linebreaks, date, truncatechars
 
 from wagtail.wagtailcore.models import Page
 from wagtail.wagtailcore.rich_text import RichText
@@ -87,12 +87,11 @@ def migrate_old_posts():
 
     for post in old_posts:
         if post.title:
-            slug = slugify('{title} - {rand}'.format(title=post.title, rand=int(round(time.time() * 1000))))
             title = post.title
         else:
-            slug = slugify(
-                'Archived item from {date} - {rand}'.format(date=post.date, rand=int(round(time.time() * 1000))))
-            title = 'Archived item from {date}'.format(date=post.date)
+            title = 'Archived item from {date}'.format(date=date(post.date, 'D jS F Y'))
+
+        slug = slugify('{title} - {rand}'.format(title=title, rand=int(round(time.time() * 1000))))
 
         if len(post.text) > 512:
             intro = post.text[:512] + '...'
@@ -131,25 +130,63 @@ def migrate_events():
     event_index = Page.objects.get(id=6).specific
     user = get_user_model().objects.get(id=1)
     old_events = OldEvent.objects.using('old_data').all()
-    old_event_types = OldEventType.objects.using('old_data').all()
-    old_event_signups = OldEventSignup.objects.using('old_data').all()
-    old_signups = Signup.objects.using('old_data').all()
 
     # Migrate events
-    for event in old_events:
-        old_event_type = event.type
-        try:
-            old_signups = OldEventSignup.objects.using('old_data').get(id=event.id)
-        except OldEventSignup.DoesNotExist:
-            old_signups = None
+    for old_event in old_events:
+        old_event_type = old_event.type
 
         try:
+            # We don't actually care about this - its a test to migrate the event across
             event_type = EventType.objects.get(name=old_event_type.name, target=old_event_type.target)
         except EventType.DoesNotExist:
             event_type = EventType(name=old_event_type.name, target=old_event_type.target)
-            # event_type.save()
+            event_type.save()
 
-        print(old_signups)
+        title = '{type} on {date}'.format(type=old_event_type.name, date=date(old_event.start, 'D jS F Y'))
+        slug = slugify('{title} - {rand}'.format(title=title, rand=int(round(time.time() * 1000))))
+
+        if old_event.shortDescription:
+            description = old_event.shortDescription
+        else:
+            if old_event_type.info:
+                description = old_event_type.info
+            else:
+                description = old_event_type.name
+
+        new_event = EventPage(
+            title=title.strip(),
+            slug=slug,
+            description=description.strip(),
+            start=old_event.start,
+            finish=old_event.finish,
+            cancelled=old_event.cancelled,
+            category=event_type,
+            location=old_event.location.name
+        )
+
+        new_event.body.stream_data = [
+            ('paragraph', RichText('<p>{body}</p>'.format(body=linebreaks(old_event.longDescription))))
+        ]
+
+        print('Restoring event {type} from {date}'.format(type=old_event.type.name, date=old_event.start))
+
+        event_index.add_child(instance=new_event)
+        revision = new_event.save_revision(
+            user=user,
+            submitted_for_moderation=False
+        )
+        revision.publish()
+        new_event.save()
+
+        # Deal with signups
+        old_signups = Signup.objects.using('old_data').filter(event_id=old_event.id)
+
+        for old_signup in old_signups:
+            print('Restoring signup for {type} from {date}'.format(type=old_event.type.name, date=old_event.start))
+            new_signup = EventSignup(comment=truncatechars(old_signup.comment, 1024),
+                                     member=get_user_model().objects.get(id=old_signup.user_id),
+                                     event_id=new_event.id, signup_created=old_signup.time)
+            new_signup.save()
 
 
 class Command(BaseCommand):

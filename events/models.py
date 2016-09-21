@@ -41,12 +41,15 @@ def _get_default_end():
 class EventsIndexPage(Page):
     @property
     def events(self):
+        # TODO: Filter this to get events after today
         events = EventPage.objects.live().descendant_of(self).order_by('-start')
 
         return events
 
     def get_context(self, request, *args, **kwargs):
         context = super(EventsIndexPage, self).get_context(request)
+
+        # TODO: Rework this algorithm to correctly retain ordering
 
         events = self.events
         weeks_dict = defaultdict(list)
@@ -91,7 +94,7 @@ class EventPage(Page):
 
     @property
     def signups(self):
-        signups = EventSignup.objects.filter(event=self).all()
+        signups = EventSignup.objects.filter(event=self).all().order_by('-signup_created')
 
         return signups
 
