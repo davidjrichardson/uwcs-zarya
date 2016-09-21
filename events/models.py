@@ -68,7 +68,7 @@ class EventsIndexPage(Page):
 class EventPage(Page):
     # Event fields
     body = StreamField(BlogStreamBlock())
-    description = models.CharField(max_length=200)
+    description = models.TextField()
     category = models.ForeignKey(EventType, on_delete=models.PROTECT)
     location = models.CharField(max_length=50, default='Department of Computer Science')
     start = models.DateTimeField(default=timezone.now)
