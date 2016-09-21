@@ -43,6 +43,16 @@ class OldEventType(models.Model):
         db_table = 'events_eventtype'
 
 
+class OldLocation(models.Model):
+    name = models.CharField(max_length=60)
+    description = models.TextField()
+    image_url = models.CharField(max_length=255, default="/static/img/no_location.png")
+    map_loc = models.CharField(max_length=30, blank=True)
+
+    class Meta:
+        db_table = 'events_location'
+
+
 class OldEvent(models.Model):
     """
     Represents a single event
@@ -51,6 +61,7 @@ class OldEvent(models.Model):
     type = models.ForeignKey(OldEventType)
     shortDescription = models.CharField(max_length=255, verbose_name="Short Description",
                                         help_text="This text is displayed on the events index.")
+    location = models.ForeignKey(OldLocation)
     longDescription = models.TextField(verbose_name="Long Description",
                                        help_text="This text is displayed on the details page for this event.")
     start = models.DateTimeField(default=datetime.now)
