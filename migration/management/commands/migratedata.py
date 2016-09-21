@@ -5,9 +5,10 @@ from django.template.defaultfilters import slugify, linebreaks
 from wagtail.wagtailcore.models import Page
 from wagtail.wagtailcore.rich_text import RichText
 
-from migration.models import WebsiteDetails, NicknameDetails, OldShellAccount, OldDatabaseAccount, Communication
+from migration.models import *
 from accounts.models import CompsocUser, ShellAccount, DatabaseAccount
 from blog.models import BlogPage
+from events.models import EventSignup, EventPage, EventType
 
 import time
 
@@ -70,6 +71,8 @@ def migrate_compsoc_memberinfo():
         new_userinfo = CompsocUser(nickname=details['nickname'], website_title=details['website_title'],
                                    website_url=details['website_url'], user=user)
 
+        print('Restoring {user}'.format(user=new_userinfo))
+
         new_userinfo.save()
 
 
@@ -84,11 +87,17 @@ def migrate_old_posts():
 
     for post in old_posts:
         if post.title:
-            slug = slugify('old news {title} - {rand}'.format(title=post.title, rand=int(round(time.time() * 1000))))
+            slug = slugify('{title} - {rand}'.format(title=post.title, rand=int(round(time.time() * 1000))))
             title = post.title
         else:
-            slug = slugify('old news from {date} - rand'.format(date=post.date, rand=int(round(time.time() * 1000))))
-            title = 'Old news from {date}'.format(date=post.date)
+            slug = slugify(
+                'Archived item from {date} - {rand}'.format(date=post.date, rand=int(round(time.time() * 1000))))
+            title = 'Archived item from {date}'.format(date=post.date)
+
+        if len(post.text) > 512:
+            intro = post.text[:512] + '...'
+        else:
+            intro = post.text
 
         page = BlogPage(
             search_description='',
@@ -98,7 +107,7 @@ def migrate_old_posts():
             title=title,
             date=post.date,
             first_published_at=post.date,
-            intro='Archived post from {date}'.format(date=post.date),
+            intro=linebreaks(intro),
         )
 
         page.body.stream_data = [
@@ -106,6 +115,8 @@ def migrate_old_posts():
         ]
 
         page.tags.add(COMMS_DICT[post.type])
+
+        print('Restoring article from {date}'.format(date=post.date))
 
         index.add_child(instance=page)
         revision = page.save_revision(
@@ -116,7 +127,33 @@ def migrate_old_posts():
         page.save()
 
 
+def migrate_events():
+    event_index = Page.objects.get(id=6).specific
+    user = get_user_model().objects.get(id=1)
+    old_events = OldEvent.objects.using('old_data').all()
+    old_event_types = OldEventType.objects.using('old_data').all()
+    old_event_signups = OldEventSignup.objects.using('old_data').all()
+    old_signups = Signup.objects.using('old_data').all()
+
+    # Migrate events
+    for event in old_events:
+        old_event_type = event.type
+        try:
+            old_signups = OldEventSignup.objects.using('old_data').get(id=event.id)
+        except OldEventSignup.DoesNotExist:
+            old_signups = None
+
+        try:
+            event_type = EventType.objects.get(name=old_event_type.name, target=old_event_type.target)
+        except EventType.DoesNotExist:
+            event_type = EventType(name=old_event_type.name, target=old_event_type.target)
+            # event_type.save()
+
+        print(old_signups)
+
+
 class Command(BaseCommand):
     def handle(self, *args, **options):
-        migrate_compsoc_memberinfo()
-        migrate_old_posts()
+        # migrate_compsoc_memberinfo()
+        # migrate_old_posts()
+        migrate_events()

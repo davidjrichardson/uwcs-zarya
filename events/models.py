@@ -77,9 +77,11 @@ class EventPage(Page):
     facebook_link = models.URLField(verbose_name='Facebook event',
                                     help_text='A link to the associated Facebook event if one exists', blank=True)
     # Event signup fields
-    signup_limit = models.IntegerField(verbose_name='Signup limit', help_text='Enter 0 for unlimited signups')
-    signup_open = models.DateTimeField()
-    signup_close = models.DateTimeField()
+    signup_limit = models.IntegerField(verbose_name='Signup limit',
+                                       help_text='Enter 0 for unlimited signups or -1 for no signups',
+                                       default=-1)
+    signup_open = models.DateTimeField(default=timezone.now)
+    signup_close = models.DateTimeField(default=_get_default_end())
     signup_freshers_open = models.DateTimeField(
         help_text='Set a date for when freshers may sign up to the event, leave blank if they are to sign up at the\
                    same time as everyone else', blank=True, null=True)
@@ -96,7 +98,7 @@ class EventPage(Page):
         context = super(EventPage, self).get_context(request)
 
         context['signups'] = self.signups
-        context['can_signup'] = (self.signup_limit != self.signups.count())
+        context['can_signup'] = (self.signup_limit != self.signups.count() and self.signup_limit > -1)
 
         if request.user.is_authenticated() and self.signups.filter(member=request.user).first():
             user_signed_up = True

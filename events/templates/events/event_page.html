@@ -42,19 +42,21 @@
               {{ self.body }}
             </div>
           </div>
-          <div class="row">
-            <div class="small-12 columns row-title">Signups open</div>
-            <div class="small-12 columns row-info">
-              <p>{{ self.signup_open|date:'D jS F Y, H:i' }} {% if self.signup_freshers_open %}(Freshers:
-                {{ self.signup_freshers_open|date:'D jS F Y, H:i' }}{% endif %}</p>
+          {% if can_signup %}
+            <div class="row">
+              <div class="small-12 columns row-title">Signups open</div>
+              <div class="small-12 columns row-info">
+                <p>{{ self.signup_open|date:'D jS F Y, H:i' }} {% if self.signup_freshers_open %}(Freshers:
+                  {{ self.signup_freshers_open|date:'D jS F Y, H:i' }}{% endif %}</p>
+              </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="small-12 columns row-title">Signups close</div>
-            <div class="small-12 columns row-info">
-              <p>{{ self.signup_close|date:'D jS F Y, H:i' }}</p>
+            <div class="row">
+              <div class="small-12 columns row-title">Signups close</div>
+              <div class="small-12 columns row-info">
+                <p>{{ self.signup_close|date:'D jS F Y, H:i' }}</p>
+              </div>
             </div>
-          </div>
+          {% endif %}
           {% if self.facebook_link %}
             <div class="row">
               <div class="small-12 columns row-title">Facebook event</div>
@@ -72,7 +74,8 @@
                   This event has unlimited spaces
                 {% else %}
                   {% if can_signup %}
-                    This event has {{ self.signup_limit|subtract:signups.count }} places remaining ({{ signups.count }}/{{ self.signup_limit}})
+                    This event has {{ self.signup_limit|subtract:signups.count }} places remaining ({{ signups.count }}/
+                    {{ self.signup_limit }})
                   {% else %}
                     There are no more spaces left for this event
                   {% endif %}
