@@ -27,8 +27,6 @@ def blog_sidebar(context, show_sponsor=True, show_archives=False, show_tags=Fals
     else:
         archives = None
 
-    print(archives)
-
     if show_children and parent:
         children = parent.children
     else:
