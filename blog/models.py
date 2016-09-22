@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from django.utils import timezone
 from django.utils.safestring import mark_safe
 from django.core.paginator import PageNotAnInteger, Paginator, EmptyPage
 from django.db import models
@@ -193,7 +194,7 @@ class BlogPage(Page):
     body = StreamField(BlogStreamBlock())
     intro = RichTextField(help_text="This is displayed on the home and blog listing pages")
     tags = ClusterTaggableManager(through=BlogPageTag, blank=True)
-    date = models.DateField("Post date")
+    date = models.DateField("Post date", default=timezone.now)
 
     @property
     def blog_index(self):
