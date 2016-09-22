@@ -71,8 +71,8 @@ def blog_listing_homepage(context, count=5):
     'blog/tags/event_listing_homepage.html',
     takes_context=True
 )
-def event_listing_homepage(context, count=4):
-    events = EventPage.objects.live().order_by('start')[:count]
+def event_listing_homepage(context, count=3):
+    events = EventPage.objects.live().filter(finish__gte=datetime.now()).order_by('start')[:count]
 
     return {
         'events': events,
