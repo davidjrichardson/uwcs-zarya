@@ -101,6 +101,13 @@ class EventPage(Page):
     # TODO: Seating plan association goes here
 
     @property
+    def is_ongoing(self):
+        if self.start < timezone.now() and self.finish >= timezone.now():
+            return True
+        else:
+            return False
+
+    @property
     def signups(self):
         signups = EventSignup.objects.filter(event=self).all().order_by('-signup_created')
 
@@ -147,7 +154,7 @@ class EventSignup(models.Model):
     member = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     event = models.ForeignKey(EventPage, on_delete=models.CASCADE)
     signup_created = models.DateTimeField(default=timezone.now)
-    comment = models.CharField(blank=True, max_length=140)
+    comment = models.CharField(blank=True, max_length=1024)
 
     def __str__(self):
         try:

@@ -18,7 +18,10 @@
     <article class="small-12 medium-8 large-9 columns">
       <section class="row">
         <div class="small-12 columns">
-          <h2>Event details for {{ self.title }}</h2>
+          <h2>{{ self.title }}</h2>
+          {% if self.is_ongoing %}
+            <p><strong>This event is in progress</strong></p>
+          {% endif %}
           <p>{{ self.description }}</p>
         </div>
       </section>
@@ -65,8 +68,7 @@
                   {% else %}
                     {% if can_signup %}
                       This event has {{ self.signup_limit|subtract:signups.count }} places remaining (
-                      {{ signups.count }}/
-                      {{ self.signup_limit }})
+                      {{ signups.count }}/{{ self.signup_limit }})
                     {% else %}
                       There are no more spaces left for this event
                     {% endif %}
@@ -117,9 +119,12 @@
           </section>
         {% endif %}
       {% endif %}
+
       <section class="comments row">
         <div class="small-12 columns">
-          <h4>Signup comments</h4>
+          {% if can_signup or signups %}
+            <h4>Signup comments</h4>
+          {% endif %}
           {% if signups %}
             <table class="comment-table">
               <thead class="sr-only">
@@ -151,7 +156,11 @@
               </tbody>
             </table>
           {% else %}
-            <p>There are no sign ups for this event yet, why not be the first?</p>
+            {% if can_signup %}
+              <p>There are no sign ups for this event yet, why not be the first?</p>
+            {% elif signups %}
+              <p>There are no sign ups for this event</p>
+            {% endif %}
           {% endif %}
         </div>
       </section>
