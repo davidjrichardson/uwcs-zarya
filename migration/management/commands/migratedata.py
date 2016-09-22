@@ -191,6 +191,6 @@ def migrate_events():
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
-        # migrate_compsoc_memberinfo()
-        # migrate_old_posts()
+        migrate_compsoc_memberinfo()
+        migrate_old_posts()
         migrate_events()
