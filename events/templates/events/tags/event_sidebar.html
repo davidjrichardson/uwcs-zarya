@@ -6,13 +6,15 @@
   {% endif %}
 
   {% if archive_page %}
-    <div class="small-12 columns">
-      <h5>Useful links</h5>
-      <ul class="vertical menu">
-        <li>
-          <a href="{% pageurl archive_page %}">{{ archive_page.title }}</a>
-        </li>
-      </ul>
+    <div class="row">
+      <div class="small-12 columns margin-top-1x">
+        <h5>Useful links</h5>
+         <ul class="vertical menu">
+          <li>
+            <a href="{% pageurl archive_page %}">{{ archive_page.title }}</a>
+          </li>
+        </ul>
+      </div>
     </div>
   {% endif %}
 </aside>
