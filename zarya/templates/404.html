@@ -1,9 +1,12 @@
 {% extends "base.html" %}
 
-{% block body_class %}template-404{% endblock %}
+{% block title %}UWCS | Error 404{% endblock %}
 
 {% block content %}
-<h1>Page not found</h1>
-
-<h2>Sorry, this page could not be found.</h2>
+  <section class="row margin-top-2x margin-bottom-1x">
+    <div class="small-12 columns">
+      <h1 class="text-center error-code">404</h1>
+      <p class="text-center">Sorry, this page could not be found.</p>
+    </div>
+  </section>
 {% endblock %}

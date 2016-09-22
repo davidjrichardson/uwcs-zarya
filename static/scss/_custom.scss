@@ -436,6 +436,11 @@ label.error {
   }
 }
 
+// Error pages
+.error-code {
+  font-size: rem-calc(144px);
+}
+
 // Margin utils
 .margin-top-1x {
   margin-top: $global-margin;
