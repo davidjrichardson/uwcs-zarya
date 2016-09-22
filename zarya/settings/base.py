@@ -23,13 +23,13 @@ BASE_DIR = os.path.dirname(PROJECT_DIR)
 
 
 # Application definition
-
 INSTALLED_APPS = [
     'lib',
     'blog',
     'accounts',
     'events',
-    'migration',
+    # Uncomment this for data migration - otherwise it causes a large number of
+    # 'migration',
 
     'wagtail.wagtailforms',
     'wagtail.wagtailredirects',
@@ -96,7 +96,6 @@ WSGI_APPLICATION = 'zarya.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -106,7 +105,6 @@ DATABASES = {
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
-
 LANGUAGE_CODE = 'en-gb'
 
 TIME_ZONE = 'GMT'
@@ -115,12 +113,10 @@ USE_I18N = True
 
 USE_L10N = True
 
-# We only need to worry about times being local time
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
-
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
@@ -139,7 +135,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 # Django Compressor
-
 PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
 BOWER_COMPONENTS_ROOT = os.path.join(PROJECT_PATH, "../components")
 COMPRESS_PRECOMPILERS = (
@@ -162,14 +157,16 @@ PASSWORD_HASHERS = [
 ]
 
 # Django-bower
-
 BOWER_INSTALLED_APPS = [
     'foundation-sites~6.2.3',
     'motion-ui~1.2.2',
 ]
 
+# WarwickSU Membership API key
+UNION_API_KEY = 'insert-api-key'
+
 # Wagtail settings
-WAGTAIL_SITE_NAME = "UWCS (Zarya)"
+WAGTAIL_SITE_NAME = 'UWCS (Zarya)'
 
 # Base URL to use when referring to full URLs within the Wagtail admin backend -
 # e.g. in notification emails. Don't include '/admin' or a trailing slash

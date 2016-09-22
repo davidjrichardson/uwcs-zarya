@@ -1,5 +1,6 @@
 from django.core.management.base import BaseCommand
 from django.conf import settings
+from django.core.mail import send_mail
 
 from django.template.defaultfilters import title
 
@@ -16,6 +17,19 @@ except ImportError:
 API_PREFIX = 'https://www.warwicksu.com/membershipapi/listMembers/'
 
 
+def send_signup_mail(user, password):
+    subject = 'Welcome to the University of Warwick Computing Society'
+    from_email = 'noreply@uwcs.co.uk'
+    message = 'Thanks for joining the society! Your login details are as follows:\n\n' \
+              'Username: {username}\n' \
+              'Password: {password}\n\n' \
+              'You can log in at https://uwcs.co.uk/accounts/login/. We suggest you change your \n' \
+              'password as soon as you log in. Don\'t forget to add a nickname, too!\n\n' \
+              'Regards,\n' \
+              'UWCS Exec'.format(username=user.username, password=password)
+    user.email_user(subject, message, from_email)
+
+
 class Command(BaseCommand):
     def handle(self, *args, **options):
         members_xml = requests.get('{prefix}{key}/'.format(prefix=API_PREFIX,
@@ -30,16 +44,16 @@ class Command(BaseCommand):
                 if current_member.is_active:
                     active_members.append(current_member.id)
             except User.DoesNotExist:
+                # Create the user and then email their password to them
                 password = User.objects.make_random_password()
                 new_user = User.objects.create_user(username=member.find('UniqueID').text,
                                                     email=member.find('EmailAddress').text,
                                                     password=password)
-                # TODO: Email the password to the user
                 new_user.first_name = title(member.find('FirstName').text.encode('utf-8'))
                 new_user.last_name = title(member.find('LastName').text.encode('utf-8'))
                 new_user.save()
-
-                active_members.append(new_user)
+                send_signup_mail(new_user, password)
+                active_members.append(new_user.id)
 
         # Handle special cases with Ex-exec, exec and staff/superuser status
         for member in User.objects.all():
