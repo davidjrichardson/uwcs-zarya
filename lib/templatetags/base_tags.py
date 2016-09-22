@@ -52,14 +52,20 @@ def top_menu(context, parent, calling_page=None):
 # Retrieves the footer sitemap items
 @register.inclusion_tag('lib/tags/footer.html', takes_context=True)
 def footer(context, parent):
-    return {
-        'menuitems': parent.get_children().live().in_menu(),
-        'facebook_url': Footer.objects.first().facebook_url,
-        'twitch_url': Footer.objects.first().twitch_url,
-        'twitter_url': Footer.objects.first().twitter_url,
-        # required by the pageurl tag that we want to use within this template
-        'request': context['request'],
-    }
+    if Footer.objects.first():
+        return {
+            'menuitems': parent.get_children().live().in_menu(),
+            'facebook_url': Footer.objects.first().facebook_url,
+            'twitch_url': Footer.objects.first().twitch_url,
+            'twitter_url': Footer.objects.first().twitter_url,
+            # required by the pageurl tag that we want to use within this template
+            'request': context['request'],
+        }
+    else:
+        return {
+            # required by the pageurl tag that we want to use within this template
+            'request': context['request'],
+        }
 
 
 @register.inclusion_tag('lib/tags/breadcrumbs.html', takes_context=True)
