@@ -1,4 +1,4 @@
-from datetime import timedelta
+from datetime import timedelta, datetime
 from collections import OrderedDict
 
 from taggit.models import TaggedItemBase
@@ -10,6 +10,7 @@ from wagtail.wagtailcore.models import Page
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
+from django.core.paginator import PageNotAnInteger, Paginator, EmptyPage
 
 from accounts.models import CompsocUser
 from blog.models import BlogStreamBlock
@@ -45,12 +46,6 @@ class EventsIndexPage(Page):
 
         return events
 
-    @property
-    def archive_events(self):
-        events = EventPage.objects.live().descendant_of(self).filter(finish__lt=timezone.now()).order_by('-start')
-
-        return events
-
     def get_context(self, request, *args, **kwargs):
         context = super(EventsIndexPage, self).get_context(request)
 
@@ -72,6 +67,56 @@ class EventsIndexPage(Page):
             weeks.append(week)
 
         context['weeks'] = weeks
+
+        return context
+
+
+class EventsArchivePage(Page):
+    @property
+    def archive_events(self):
+        events = EventPage.objects.live().descendant_of(self.get_parent()).filter(finish__lt=timezone.now()).order_by(
+            '-start')
+
+        return events
+
+    def get_context(self, request, *args, **kwargs):
+        context = super(EventsArchivePage, self).get_context(request)
+
+        events = self.archive_events
+
+        # Filter by date
+        filter_date = request.GET.get('date')
+        if filter_date:
+            filter_date = datetime.strptime(filter_date, '%Y-%m')
+            events = events.filter(start__month=filter_date.month, start__year=filter_date.year)
+
+        weeks_dict = OrderedDict()
+
+        for event in events:
+            event_week = event.start.isocalendar()[1]
+            key = '{year}-{week}'.format(year=event.start.year, week=event_week)
+
+            if weeks_dict.get(key):
+                weeks_dict.get(key).append(event)
+            else:
+                weeks_dict[key] = [event]
+
+        weeks = list()
+
+        for _, week in weeks_dict.items():
+            weeks.append(week)
+
+        # Pagination
+        paginator = Paginator(weeks, 8)  # Show 8 weeks per page
+        try:
+            weeks = paginator.page(request.GET.get('page'))
+        except PageNotAnInteger:
+            weeks = paginator.page(1)
+        except EmptyPage:
+            weeks = paginator.page(paginator.num_pages)
+
+        context['weeks'] = weeks
+        context['paginator'] = paginator
 
         return context
 
@@ -102,7 +147,7 @@ class EventPage(Page):
 
     @property
     def is_ongoing(self):
-        if self.start < timezone.now() and self.finish >= timezone.now():
+        if self.start < timezone.now() <= self.finish:
             return True
         else:
             return False

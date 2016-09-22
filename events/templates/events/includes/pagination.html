@@ -1,0 +1,25 @@
+{% load wagtailcore_tags %}
+
+<section class="row">
+  <div class="small-12 columns">
+    <ul class="pagination text-center" role="navigation" aria-label="Pagination">
+      <li class="pagination-previous {% if not weeks.has_previous %}disabled{% endif %}">
+        {% if weeks.has_previous %}
+          <a href="?page={{ weeks.previous_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&amp;{{ key }}={{ value }}{% endifnotequal %}{% endfor %}" aria-label="Previous page">Previous</a>
+        {% else %}
+          <span>Previous</span>
+        {% endif %}
+      </li>
+
+      <li class="current"><span class="show-for-sr">You're on </span> Page {{ weeks.number }} of {{ paginator.num_pages }}</li>
+
+      <li class="pagination-next {% if not weeks.has_next %}disabled{% endif %}">
+        {% if weeks.has_next %}
+          <a href="?page={{ weeks.next_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&amp;{{ key }}={{ value }}{% endifnotequal %}{% endfor %}" aria-label="Next page">Next</a>
+        {% else %}
+          <span>Next</span>
+        {% endif %}
+      </li>
+    </ul>
+  </div>
+</section>

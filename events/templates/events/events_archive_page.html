@@ -5,11 +5,13 @@
 {% block title %}UWCS | Events overview {% endblock %}
 
 {% block content %}
+  {% archive_breadcrumbs %}
+
   <section class="row margin-top-2x margin-bottom-1x events">
     <div class="small-12 columns">
       <h4>{{ self.title }}</h4>
     </div>
-    {% sidebar show_sponsor=True display_first=True show_archive_link=True %}
+    {% archive_sidebar self show_sponsor=True display_first=True %}
     <div class="small-12 medium-8 medium-pull-4 large-9 large-pull-3 columns">
       {% if weeks %}
         <ul class="no-bullet week-list">
@@ -39,6 +41,8 @@
             </li>
           {% endfor %}
         </ul>
+
+        {% include "events/includes/pagination.html" %}
       {% else %}
         <p class="margin-top-1x-mobile">There are no upcoming events</p>
       {% endif %}
