@@ -1,5 +1,5 @@
 from datetime import timedelta
-from collections import defaultdict
+from collections import OrderedDict
 
 from taggit.models import TaggedItemBase
 
@@ -41,22 +41,30 @@ def _get_default_end():
 class EventsIndexPage(Page):
     @property
     def events(self):
-        # TODO: Filter this to get events after today
-        events = EventPage.objects.live().descendant_of(self).order_by('-start')
+        events = EventPage.objects.live().descendant_of(self).filter(finish__gte=timezone.now()).order_by('start')
+
+        return events
+
+    @property
+    def archive_events(self):
+        events = EventPage.objects.live().descendant_of(self).filter(finish__lt=timezone.now()).order_by('-start')
 
         return events
 
     def get_context(self, request, *args, **kwargs):
         context = super(EventsIndexPage, self).get_context(request)
 
-        # TODO: Rework this algorithm to correctly retain ordering
-
         events = self.events
-        weeks_dict = defaultdict(list)
+        weeks_dict = OrderedDict()
 
         for event in events:
             event_week = event.start.isocalendar()[1]
-            weeks_dict[event_week].append(event)
+            key = '{year}-{week}'.format(year=event.start.year, week=event_week)
+
+            if weeks_dict.get(key):
+                weeks_dict.get(key).append(event)
+            else:
+                weeks_dict[key] = [event]
 
         weeks = list()
 
