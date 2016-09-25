@@ -15,7 +15,9 @@
       </div>
     {% endif %}
 
-    <article class="small-12 medium-8 large-9 columns">
+    {% sidebar show_sponsor=True display_first=True %}
+
+    <article class="small-12 medium-8 medium-pull-4 large-9 large-pull-3 columns">
       <section class="row">
         <div class="small-12 columns">
           <h2>{{ self.title }}</h2>
@@ -165,8 +167,6 @@
         </div>
       </section>
     </article>
-
-    {% sidebar show_sponsor=True %}
 
   </section>
 {% endblock content %}
