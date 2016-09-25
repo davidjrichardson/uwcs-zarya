@@ -56,6 +56,7 @@ INSTALLED_APPS = [
 
     'djangobower',
     'compressor',
+    'anymail',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -155,6 +156,9 @@ PASSWORD_HASHERS = [
     'django.contrib.auth.hashers.UnsaltedMD5PasswordHasher',
     'django.contrib.auth.hashers.CryptPasswordHasher',
 ]
+
+# Anymail
+DEFAULT_FROM_EMAIL = "noreply@uwcs.co.uk"
 
 # Django-bower
 BOWER_INSTALLED_APPS = [
