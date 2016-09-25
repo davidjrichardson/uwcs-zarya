@@ -67,8 +67,8 @@
                     This event has unlimited spaces
                   {% else %}
                     {% if can_signup %}
-                      This event has {{ self.signup_limit|subtract:signups.count }} places remaining (
-                      {{ signups.count }}/{{ self.signup_limit }})
+                      This event has {{ self.signup_limit|subtract:self.signups.count }} places remaining (
+                      {{ self.signups.count }}/{{ self.signup_limit }})
                     {% else %}
                       There are no more spaces left for this event
                     {% endif %}
@@ -122,10 +122,10 @@
 
       <section class="comments row">
         <div class="small-12 columns">
-          {% if can_signup or signups %}
+          {% if can_signup or self.signups %}
             <h4>Signup comments</h4>
           {% endif %}
-          {% if signups %}
+          {% if self.signups %}
             <table class="comment-table">
               <thead class="sr-only">
               <tr>
@@ -134,7 +134,7 @@
               </tr>
               </thead>
               <tbody>
-              {% for comment in signups %}
+              {% for comment in self.signups %}
                 <tr>
                   <td class="user">
                     <a href="{% url 'public_profile' uid=comment.member.id %}">
@@ -158,7 +158,7 @@
           {% else %}
             {% if can_signup %}
               <p>There are no sign ups for this event yet, why not be the first?</p>
-            {% elif signups %}
+            {% else %}
               <p>There are no sign ups for this event</p>
             {% endif %}
           {% endif %}

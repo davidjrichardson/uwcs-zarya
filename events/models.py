@@ -161,10 +161,16 @@ class EventPage(Page):
     def get_context(self, request, *args, **kwargs):
         context = super(EventPage, self).get_context(request)
 
-        context['signups'] = self.signups
-        context['can_signup'] = (self.signup_limit != self.signups.count() and self.signup_limit > -1)
+        if self.signup_limit == -1:
+            context['can_signup'] = False
+        elif self.signup_limit == 0:
+            context['can_signup'] = True if timezone.now() < self.signup_close else False
+        elif self.signups.count() < self.signup_limit:
+            context['can_signup'] = True if timezone.now() < self.signup_close else False
+        else:
+            context['can_signup'] = False
 
-        if request.user.is_authenticated() and self.signups.filter(member=request.user).first():
+        if request.user.is_authenticated() and self.signups.filter(member=request.user).exists():
             user_signed_up = True
         else:
             user_signed_up = False
