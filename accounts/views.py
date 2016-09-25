@@ -6,6 +6,7 @@ from django.contrib.auth import get_user_model
 
 from .models import CompsocUser
 from .forms import CompsocUserForm, ShellAccountForm, DatabaseAccountForm
+from .tasks import create_ldap_user
 
 
 class MemberAccountView(LoginRequiredMixin, View):
@@ -70,6 +71,8 @@ class RequestShellAccountView(LoginRequiredMixin, FormView):
         account.user = self.request.user
         account.status = 'RE' # Requested
         account.save()
+
+        create_ldap_user.delay(account.id)
 
         return super(RequestShellAccountView, self).form_valid(form)
 
