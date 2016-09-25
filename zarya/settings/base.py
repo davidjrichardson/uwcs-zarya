@@ -108,7 +108,7 @@ DATABASES = {
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 LANGUAGE_CODE = 'en-gb'
 
-TIME_ZONE = 'GMT'
+TIME_ZONE = 'Europe/London'
 
 USE_I18N = True
 
@@ -174,4 +174,4 @@ WAGTAIL_SITE_NAME = 'UWCS (Zarya)'
 
 # Base URL to use when referring to full URLs within the Wagtail admin backend -
 # e.g. in notification emails. Don't include '/admin' or a trailing slash
-BASE_URL = 'https://uwcs.co.uk'
+BASE_URL = 'uwcs.co.uk'

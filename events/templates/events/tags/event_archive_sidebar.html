@@ -8,6 +8,14 @@
   {% if archives %}
     <div class="row">
       <div class="small-12 columns">
+        <h5>Useful links</h5>
+        <ul class="vertical menu">
+          <li>
+            <a href="{% url 'ical_feed' %}">iCal feed</a>
+          </li>
+        </ul>
+      </div>
+      <div class="small-12 columns">
         <h5>Archives</h5>
         <ul class="vertical menu" data-accordion-menu>
           {% for year, months in archives.items %}

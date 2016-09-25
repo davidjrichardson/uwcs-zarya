@@ -1,8 +1,32 @@
-from django.views.generic import View, RedirectView
-from django.shortcuts import render, get_object_or_404, redirect
+from django.utils import timezone
+from django.views.generic import View
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+from django_ical.views import ICalFeed
+
 from .models import EventSignup, EventPage
+
+
+class EventFeed(ICalFeed):
+    product_id = '-//uwcs.co.uk//Events//EN'
+    timezone = 'GMT'
+    file_name = 'events.ics'
+
+    def items(self):
+        return EventPage.objects.filter(finish__gte=timezone.now()).order_by('-start')
+
+    def item_title(self, item):
+        return item.title
+
+    def item_description(self, item):
+        return item.description
+
+    def item_start_datetime(self, item):
+        return item.start
+
+    def item_link(self, item):
+        return 'https://uwcs.co.uk' + item.get_url_parts()[2]
 
 
 class EventSignupView(LoginRequiredMixin, View):
