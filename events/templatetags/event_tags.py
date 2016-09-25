@@ -61,8 +61,6 @@ def archive_sidebar(context, calling_page, show_sponsor=False, display_first=Fal
     for event in events:
         archives.setdefault(event.start.year, {}).setdefault(event.start.month, []).append(event)
 
-    print(archives.items(),'\n\n')
-
     return {
         'show_sponsor': show_sponsor,
         'display_first': display_first,
