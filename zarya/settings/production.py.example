@@ -1,0 +1,54 @@
+from .base import *
+
+DEBUG = True
+SECRET_KEY = 'your_secret_key_here'
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'database_name',
+        'USER': 'username',
+        'PASSWORD': 'password',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
+}
+
+try:
+    from .local import *
+except ImportError:
+    pass
+
+# Celery
+BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'GMT'
+
+# LDAP
+LDAP_URL = 'ldap://localhost'
+LDAP_PORT = 389
+LDAP_USER = 'ldap_user'
+LDAP_PASSWORD = 'ldap_password'
+
+# Anymail
+EMAIL_BACKEND = "anymail.backends.mailgun.MailgunBackend"
+
+ANYMAIL = {
+    "MAILGUN_API_KEY": "your_api_key",
+    "MAILGUN_SENDER_DOMAIN": "sender_domain",
+}
+
+# SASS Compression
+COMPRESS_ENABLED = True
+COMPRESS_OFFLINE = True
+
+# WarwickSU Membership API key
+UNION_API_KEY = 'su_api_key'
+
+# Allowed hosts
+ALLOWED_HOSTS = [
+    'allowed_host(s)'
+]
