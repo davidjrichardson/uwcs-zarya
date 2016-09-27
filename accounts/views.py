@@ -3,6 +3,9 @@ from django.views.generic.edit import FormView
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model
+from django.core.mail import send_mail
+
+from datetime import datetime
 
 from .models import CompsocUser
 from .forms import CompsocUserForm, ShellAccountForm, DatabaseAccountForm
@@ -68,12 +71,22 @@ class RequestShellAccountView(LoginRequiredMixin, FormView):
     def form_valid(self, form):
         account = form.save(commit=False)
         account.user = self.request.user
-        account.status = 'RE' # Requested
+        account.status = 'RE'  # Requested
         account.save()
 
         create_ldap_user.delay(account.id)
 
         return super(RequestShellAccountView, self).form_valid(form)
+
+
+def notify_account_requested(user, request):
+    subject = '{username} requested a database account at {datetime}'.format(username=user.username,
+                                                                             datetime=datetime.now())
+    from_email = 'noreply@uwcs.co.uk'
+    to_email = 'tech@uwcs.co.uk'
+    message = '{username} has requested a database account with the username {db_username} at {datetime}.'.format(
+        username=user.username, db_username=request.name)
+    send_mail(subject, message, from_email, to_email)
 
 
 class RequestDatabaseAccountView(LoginRequiredMixin, FormView):
@@ -86,8 +99,10 @@ class RequestDatabaseAccountView(LoginRequiredMixin, FormView):
     def form_valid(self, form):
         account = form.save(commit=False)
         account.user = self.request.user
-        account.status = 'RE' # Requested
+        account.status = 'RE'  # Requested
         account.save()
+
+        notify_account_requested(self.request.user, account)
 
         return super(RequestDatabaseAccountView, self).form_valid(form)
 
