@@ -44,7 +44,6 @@ class MemberAccountUpdateView(LoginRequiredMixin, FormView):
                                                                       website_url=account.website_url,
                                                                       website_title=account.website_title)
         else:
-            print("Saving new object")
             account.save()
 
         return super(MemberAccountUpdateView, self).form_valid(form)

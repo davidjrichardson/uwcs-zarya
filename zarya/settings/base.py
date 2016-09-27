@@ -108,7 +108,7 @@ DATABASES = {
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 LANGUAGE_CODE = 'en-gb'
 
-TIME_ZONE = 'Europe/London'
+TIME_ZONE = 'GMT'
 
 USE_I18N = True
 
@@ -134,14 +134,6 @@ STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
-
-# Celery
-BROKER_URL = 'redis://localhost:6379'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379'
-CELERY_ACCEPT_CONTENT = ['application/json']
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_SERIALIZER = 'json'
-CELERY_TIMEZONE = 'GMT'
 
 # Django Compressor
 PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
