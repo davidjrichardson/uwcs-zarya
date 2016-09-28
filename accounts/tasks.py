@@ -1,5 +1,4 @@
 from celery.decorators import task
-from celery.utils.log import get_task_logger
 
 from accounts.models import ShellAccount
 
@@ -12,16 +11,14 @@ from ldap3 import Connection, Server, SYNC, SIMPLE, ALL_ATTRIBUTES
 
 import crypt
 
-logger = get_task_logger('zarya')
-
 
 def send_user_issue_email(user, username):
     subject = 'There\'s an issue with your shell account request'
     from_email = 'noreply@uwcs.co.uk'
     message = 'Hi {first_name},\n\n' \
-              'Unfortunately the nickname that you had provided for your shell account ({username}) is in use\n' \
-              'which means we can\'t create an account for you. No worries though, just send an email\n' \
-              'to tech@uwcs.co.uk explaining the situation the account name that you\'d like and we\n' \
+              'Unfortunately the nickname that you had provided for your shell account ({username}) is in use \n' \
+              'which means we can\'t create an account for you. No worries though, just send an email \n' \
+              'to tech@uwcs.co.uk explaining the situation the account name that you\'d like and we \n' \
               'should be able to sort things out for you.\n\n' \
               'Regards,\n' \
               'UWCS Tech Team\n\n' \
@@ -33,13 +30,13 @@ def send_user_issue_email(user, username):
 def send_success_mail(user, username, password):
     subject = 'Shell account request successful'
     from_email = 'noreply@uwcs.co.uk'
-    message = 'Your shell account request has been successful and an account has been created with the\n' \
+    message = 'Your shell account request has been successful and an account has been created with the \n' \
               'following credentials:\n\n' \
               'username: {username}\n' \
               'password: {password}\n\n' \
-              'You can access our server(s) by using ssh and the address nodd.uwcs.co.uk. We recommend you' \
-              'change your password using the passwd command once logged in. From \'nodd\', you then may' \
-              'log into our other servers. A full breakdown of our servers and what they\n' \
+              'You can access our server(s) by using ssh and the address nodd.uwcs.co.uk. We recommend you ' \
+              'change your password using the passwd command once logged in. From \'nodd\', you then may ' \
+              'log into our other servers. A full breakdown of our servers and what they \n' \
               'do is available on our about page: https://uwcs.co.uk/about/\n\n' \
               'Regards,\n' \
               'UWCS Tech Team\n\n' \

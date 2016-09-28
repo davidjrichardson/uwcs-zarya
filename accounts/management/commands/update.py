@@ -25,7 +25,9 @@ def send_signup_mail(user, password):
               'You can log in at https://uwcs.co.uk/accounts/login/. We suggest you change your \n' \
               'password as soon as you log in. Don\'t forget to add a nickname, too!\n\n' \
               'Regards,\n' \
-              'UWCS Exec'.format(username=user.username, password=password)
+              'UWCS Exec\n\n' \
+              'P.S.: Please don\'t reply to this email, you will not get a response.'.format(username=user.username, 
+                                                                                             password=password)
     user.email_user(subject, message, from_email)
 
 

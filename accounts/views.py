@@ -83,9 +83,9 @@ def notify_account_requested(user, request):
     subject = '{username} requested a database account at {datetime}'.format(username=user.username,
                                                                              datetime=datetime.now())
     from_email = 'noreply@uwcs.co.uk'
-    to_email = 'tech@uwcs.co.uk'
+    to_email = ['tech@uwcs.co.uk']
     message = '{username} has requested a database account with the username {db_username} at {datetime}.'.format(
-        username=user.username, db_username=request.name)
+        username=user.username, db_username=request.name, datetime=datetime.now())
     send_mail(subject, message, from_email, to_email)
 
 
