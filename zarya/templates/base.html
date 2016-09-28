@@ -4,52 +4,76 @@
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js"> <!--<![endif]-->
 <head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>{% block title_prefix %}{% endblock %}{% block title %}{% if self.seo_title %}{{ self.seo_title }}{% else %}{{ self.title }}{% endif %}{% endblock %}{% block title_suffix %}{% endblock %}</title>
-  <meta name="description" content="" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#141E24" />
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <title>{% block title_prefix %}{% endblock %}{% block title %}{% if self.seo_title %}{{ self.seo_title }}{% else %}
+    {{ self.title }}{% endif %}{% endblock %}{% block title_suffix %}{% endblock %}</title>
+  <meta name="description" content=""/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="theme-color" content="#141E24"/>
 
   {# Global stylesheets #}
   {% compress css %}
-    <link href="{% static 'scss/app.scss' %}" rel="stylesheet" type="text/x-scss" />
+    <link href="{% static 'scss/app.scss' %}" rel="stylesheet" type="text/x-scss"/>
   {% endcompress %}
-  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css"
+        href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
   <link href="https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i|Montserrat|Ubuntu+Mono" rel="stylesheet">
 
   {% block extra_css %}
-  {# Override this in templates to add extra stylesheets #}
+    {# Override this in templates to add extra stylesheets #}
   {% endblock %}
+
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="icon" sizes="16x16 32x32 64x64" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="196x196" href="/favicon-192.png">
+  <link rel="icon" type="image/png" sizes="160x160" href="/favicon-160.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png">
+  <link rel="icon" type="image/png" sizes="64x64" href="/favicon-64.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" href="/favicon-57.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/favicon-114.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/favicon-72.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/favicon-144.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/favicon-60.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/favicon-120.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/favicon-76.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/favicon-152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png">
+  <meta name="msapplication-TileColor" content="#FFFFFF">
+  <meta name="msapplication-TileImage" content="/favicon-144.png">
+  <meta name="msapplication-config" content="/browserconfig.xml">
 </head>
 
 <body>
-  {% wagtailuserbar %}
+{% wagtailuserbar %}
 
-  <div class="flex-wrapper">
-    {% get_site_root as site_root %}
-    <div class="flex-content">
-      {% top_menu parent=site_root calling_page=request.path %}
+<div class="flex-wrapper">
+  {% get_site_root as site_root %}
+  <div class="flex-content">
+    {% top_menu parent=site_root calling_page=request.path %}
 
-      {% block content %}{% endblock %}
-    </div>
-
-    <div class="flex-footer footer">
-      {% footer parent=site_root %}
-    </div>
+    {% block content %}{% endblock %}
   </div>
 
-  {# Global javascript #}
-  <script type="text/javascript" src='{% static 'js/jquery.min.js' %}'></script>
-  <script type="text/javascript" src='{% static 'js/foundation.min.js' %}'></script>
+  <div class="flex-footer footer">
+    {% footer parent=site_root %}
+  </div>
+</div>
 
-  <script type="text/javascript">
-    $(document).foundation();
-  </script>
-  {% block extra_js %}
+{# Global javascript #}
+<script type="text/javascript" src='{% static 'js/jquery.min.js' %}'></script>
+<script type="text/javascript" src='{% static 'js/foundation.min.js' %}'></script>
+
+<script type="text/javascript">
+  $(document).foundation();
+</script>
+{% block extra_js %}
   {# Override this in templates to add extra javascript #}
-  {% endblock %}
+{% endblock %}
 </body>
 </html>
