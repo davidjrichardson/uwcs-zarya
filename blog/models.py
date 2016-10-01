@@ -142,6 +142,9 @@ class BlogStreamBlock(StreamBlock):
 
 
 class HomePage(Page):
+    # Parent page/subpage rules
+    subpage_types = ['blog.BlogIndexPage', 'blog.AboutPage', 'events.EventsIndexPage']
+
     description = models.TextField(max_length=400, default='')
 
     content_panels = Page.content_panels + [
@@ -150,6 +153,10 @@ class HomePage(Page):
 
 
 class BlogIndexPage(Page):
+    # Parent page/subpage rules
+    parent_page_types = ['blog.HomePage']
+    subpage_types = ['blog.BlogPage']
+
     @property
     def blogs(self):
         # Get list of live blog pages that are descendants of this page ordered by most recent
@@ -191,6 +198,9 @@ class BlogPageTag(TaggedItemBase):
 
 
 class BlogPage(Page):
+    # Parent page/subpage rules
+    parent_page_types = ['blog.BlogIndexPage']
+
     body = StreamField(BlogStreamBlock())
     intro = RichTextField(help_text="This is displayed on the home and blog listing pages")
     tags = ClusterTaggableManager(through=BlogPageTag, blank=True)
@@ -220,6 +230,10 @@ BlogPage.promote_panels = Page.promote_panels + [
 
 
 class AboutPage(Page):
+    # Parent page/subpage rules
+    parent_page_types = ['blog.HomePage', 'blog.AboutPage']
+    subpage_types = ['blog.AboutPage']
+
     body = StreamField(BlogStreamBlock())
     full_title = models.CharField(max_length=255, blank=True, null=True)
 

@@ -40,6 +40,10 @@ def _get_default_end():
 
 
 class EventsIndexPage(Page):
+    # Parent page/subpage rules
+    parent_page_types = ['blog.HomePage']
+    subpage_types = ['events.EventPage', 'events.EventsArchivePage']
+
     @property
     def events(self):
         events = EventPage.objects.live().descendant_of(self).filter(finish__gte=timezone.now()).order_by('start')
@@ -72,6 +76,9 @@ class EventsIndexPage(Page):
 
 
 class EventsArchivePage(Page):
+    # Parent page/subpage rules
+    parent_page_types = ['events.EventsIndexPage']
+
     @property
     def archive_events(self):
         events = EventPage.objects.live().descendant_of(self.get_parent()).filter(finish__lt=timezone.now()).order_by(
@@ -122,6 +129,9 @@ class EventsArchivePage(Page):
 
 
 class EventPage(Page):
+    # Parent page/subpage rules
+    parent_page_types = ['events.EventsIndexPage']
+
     # Event fields
     body = StreamField(BlogStreamBlock())
     description = models.TextField()
