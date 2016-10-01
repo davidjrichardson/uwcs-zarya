@@ -279,15 +279,24 @@
     // Fudging specificity here
     &.ongoing.ongoing.ongoing {
       background-color: $primary-color;
-
       color: $white;
+
       & a {
-        color: $white;
+        color: transparentize($white, 0.13);
+
+        &:hover,
+        &:focus {
+          color: $white;
+        }
       }
 
       & h6.subheader {
         color: rgba(255, 255, 255, 0.8);
       }
+    }
+
+    &.cancelled.cancelled.cancelled {
+      background-color: #ffdce3;
     }
 
     & h6.subheader {

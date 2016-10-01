@@ -22,11 +22,13 @@
               </div>
               <ul class="no-bullet event-list">
                 {% for event in week %}
-                  <li class="row event {% if event.is_ongoing %}ongoing{% endif %}">
+                  <li class="row event {% if event.is_ongoing %}ongoing{% elif event.cancelled %}cancelled{% endif %}">
                     <div class="small-12 columns">
                       <a href="{% pageurl event %}"><h3>{{ event.title }}</h3></a>
                       {% if event.is_ongoing %}
                         <p><strong>Event is in progress</strong></p>
+                      {% elif event.cancelled %}
+                        <p><strong>Event has been cancelled</strong></p>
                       {% endif %}
                       {% if event.signup_limit > 0 %}
                         <h6 class="subheader">Signups: {{ event.signups.count }}/{{ event.signup_limit }}</h6>
