@@ -17,7 +17,9 @@
         <ul class="no-bullet week-list">
           {% for week in weeks %}
             <li>
-              <h5>Week beginning {{ week.0.start|first_monday|date:'jS F Y' }}</h5>
+              <div class="row">
+                <h5 class="week-title">Week beginning {{ week.0.start|first_monday|date:'jS F Y' }}</h5>
+              </div>
               <ul class="no-bullet event-list">
                 {% for event in week %}
                   <li class="row event {% if event.is_ongoing %}ongoing{% endif %}">

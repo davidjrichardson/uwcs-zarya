@@ -258,9 +258,24 @@
     & > li:first-child {
       margin-top: $global-margin;
     }
+
+    & > li .week-title {
+      padding: 1rem 0.625rem;
+      margin: 0;
+
+      background-color: $top-bar-bg;
+      color: $white;
+
+      @media screen and (min-width: 40rem) {
+        padding: 1rem 0.9365rem;
+      }
+    }
   }
 
   & .event-list > .event {
+    background-color: $table-striped-background;
+    padding: 2*$global-padding 0;
+
     // Fudging specificity here
     &.ongoing.ongoing.ongoing {
       background-color: $primary-color;
@@ -275,8 +290,6 @@
       }
     }
 
-    padding: 2*$global-padding 0;
-
     & h6.subheader {
       color: rgba(0, 0, 0, 0.65);
     }
@@ -286,7 +299,7 @@
     }
 
     &:nth-of-type(even) {
-      background-color: $table-striped-background;
+      background-color: darken($light-gray, 3%);
     }
   }
 }
