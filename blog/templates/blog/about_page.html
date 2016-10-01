@@ -5,6 +5,10 @@
 {% block title_prefix %}UWCS | {% endblock %}
 
 {% block content %}
+  {% if self.is_child %}
+    {% breadcrumbs %}
+  {% endif %}
+
   <section class="row margin-top-2x margin-bottom-1x">
     <div class="small-12 columns">
       <h4>{{ self.full_title }}</h4>

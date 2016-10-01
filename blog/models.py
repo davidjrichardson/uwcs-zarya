@@ -227,6 +227,10 @@ class AboutPage(Page):
     def children(self):
         return AboutPage.objects.live().descendant_of(self).order_by('title')
 
+    @property
+    def is_child(self):
+        return type(self.get_parent().specific) is not HomePage
+
     def get_context(self, request):
         context = super(AboutPage, self).get_context(request)
         context['body'] = self.body
