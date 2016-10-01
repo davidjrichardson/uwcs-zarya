@@ -27,11 +27,11 @@
             {% if csuser.website_url %}
               <h6>Website:</h6>
               <p>
-                <a href="{{ csuser.website_url }}">
+                <a href="{{ csuser.abs_website_url }}">
                   {% if csuser.website_title %}
                     {{ csuser.website_title }}
                   {% else %}
-                    {{ csuser.website_url }}
+                    {{ csuser.abs_website_url }}
                   {% endif %}
                 </a>
               </p>

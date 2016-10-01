@@ -26,6 +26,13 @@ class CompsocUser(models.Model):
         on_delete=models.CASCADE,
     )
 
+    @property
+    def abs_website_url(self):
+        if self.website_url.startswith(('http://', 'https://')):
+            return self.website_url
+        else:
+            return 'http://{url}'.format(url=self.website_url)
+
     def __str__(self):
         return self.name()
 

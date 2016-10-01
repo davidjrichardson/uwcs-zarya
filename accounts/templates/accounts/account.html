@@ -36,8 +36,8 @@
 
               {% if user.website_url %}
                 <h6>Website:</h6>
-                <a href="{{ user.website_url }}">
-                  {% if user.website_title %}{{ user.website_title }}{% else %}{{ user.website_url }}{% endif %}
+                <a href="{{ user.abs_website_url }}">
+                  {% if user.website_title %}{{ user.website_title }}{% else %}{{ user.abs_website_url }}{% endif %}
                 </a>
               {% endif %}
             {% endwith %}
