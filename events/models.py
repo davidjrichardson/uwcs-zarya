@@ -177,14 +177,21 @@ class EventPage(Page):
             user_signed_up = False
 
         context['user_signed_up'] = user_signed_up
+        
+        if request.user.is_authenticated():
+            try:
+                user = CompsocUser.objects.get(user=request.user.id)
 
-        if CompsocUser.objects.filter(user=request.user).exists():
-            if CompsocUser.objects.get(user=request.user).is_fresher():
-                in_signup_window = self.signup_freshers_open < timezone.now() <= self.signup_close
-            else:
+                print('is_fresher', user.is_fresher())
+
+                if user.is_fresher():
+                    in_signup_window = self.signup_freshers_open < timezone.now() <= self.signup_close
+                else:
+                    in_signup_window = self.signup_open < timezone.now() <= self.signup_close
+            except CompsocUser.DoesNotExist:
                 in_signup_window = self.signup_open < timezone.now() <= self.signup_close
         else:
-            in_signup_window = self.signup_open < timezone.now() <= self.signup_close
+            in_signup_window = False
 
         if self.signup_limit == -1:
             context['can_signup'] = False

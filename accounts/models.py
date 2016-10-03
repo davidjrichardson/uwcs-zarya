@@ -37,7 +37,7 @@ class CompsocUser(models.Model):
         return self.name()
 
     def is_fresher(self):
-        return self.user.username.startswith("%02d".format(date.today().year - 2000))
+        return self.user.username.startswith(str(date.today().year)[2:])
 
     def name(self):
         if self.nickname.strip():
