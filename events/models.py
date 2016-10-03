@@ -178,8 +178,8 @@ class EventPage(Page):
 
         context['user_signed_up'] = user_signed_up
 
-        if CompsocUser.objects.filter(request.user.id).exists():
-            if CompsocUser.objects.get(request.user.id).is_fresher():
+        if CompsocUser.objects.filter(user=request.user).exists():
+            if CompsocUser.objects.get(user=request.user).is_fresher():
                 in_signup_window = self.signup_freshers_open < timezone.now() <= self.signup_close
             else:
                 in_signup_window = self.signup_open < timezone.now() <= self.signup_close
