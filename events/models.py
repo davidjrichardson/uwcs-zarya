@@ -34,11 +34,6 @@ class EventType(models.Model):
         ordering = ['name']
 
 
-# Django doesn't serialise lambdas for makemigrations
-def _get_default_end():
-    return timezone.now() + timedelta(hours=1)
-
-
 class EventsIndexPage(Page):
     # Parent page/subpage rules
     parent_page_types = ['blog.HomePage']
@@ -138,7 +133,7 @@ class EventPage(Page):
     category = models.ForeignKey(EventType, on_delete=models.PROTECT)
     location = models.CharField(max_length=50, default='Department of Computer Science')
     start = models.DateTimeField(default=timezone.now)
-    finish = models.DateTimeField(default=_get_default_end())
+    finish = models.DateTimeField(default=timezone.now)
     cancelled = models.BooleanField()
     facebook_link = models.URLField(verbose_name='Facebook event',
                                     help_text='A link to the associated Facebook event if one exists', blank=True,
@@ -148,7 +143,7 @@ class EventPage(Page):
                                        help_text='Enter 0 for unlimited signups or -1 for no signups',
                                        default=-1)
     signup_open = models.DateTimeField(default=timezone.now)
-    signup_close = models.DateTimeField(default=_get_default_end())
+    signup_close = models.DateTimeField(default=timezone.now)
     signup_freshers_open = models.DateTimeField(
         help_text='Set a date for when freshers may sign up to the event, leave blank if they are to sign up at the\
                    same time as everyone else', blank=True, null=True)
