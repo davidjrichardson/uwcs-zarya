@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}UWCS | Send newsletter{% endblock %}
+
+{% block content %}
+  <div class="row margin-top-2x">
+    <div class="small-12 columns">
+      <h2>Send a newsletter</h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="small-12 columns">
+      <form action="post">
+        {{ form }}
+
+        <input type="submit" class="button" value="Send newsletter">
+      </form>
+    </div>
+  </div>
+{% endblock %}
+
+{% block extra_js %}
+  {{ form.media }}
+{% endblock %}
