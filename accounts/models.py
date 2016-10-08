@@ -3,8 +3,11 @@ from datetime import date
 from django.core.validators import RegexValidator
 from django.conf import settings
 from django.db import models
+from django.contrib.auth.models import User
 
 import re
+
+from django.db.models.signals import post_save
 
 username_pattern = re.compile(r'^[a-z0-9]+$')
 
@@ -50,6 +53,13 @@ class CompsocUser(models.Model):
             return '%s (%s)'.format(self.nickname.strip(), self.user.get_full_name())
         else:
             return self.user.get_full_name()
+
+
+# Create a CompsocUser object for every new user
+def ensure_compsocuser_callback(sender, instance, **kwargs):
+    profile, new = CompsocUser.objects.get_or_create(user=instance)
+
+post_save.connect(ensure_compsocuser_callback, sender=User)
 
 
 class ShellAccount(models.Model):
