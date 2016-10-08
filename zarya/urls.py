@@ -15,6 +15,7 @@ urlpatterns = [
     url(r'^newsletter/', include('newsletter.urls')),
     url(r'^cms/', include(wagtailadmin_urls)),
     url(r'^documents/', include(wagtaildocs_urls)),
+    url(r'^markdownx/', include('markdownx.urls')),
     url(r'', include(wagtail_urls))
 ]
 

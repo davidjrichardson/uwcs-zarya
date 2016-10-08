@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'djangobower',
     'compressor',
     'anymail',
+    'markdownx',
 ]
 
 MIDDLEWARE_CLASSES = [
