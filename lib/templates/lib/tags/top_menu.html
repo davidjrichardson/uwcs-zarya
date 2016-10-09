@@ -4,52 +4,56 @@
 <section class="top-bar">
   <div class="row">
     <div class="small-12 columns">
-    <div class="top-bar-title">
+      <div class="top-bar-title">
       <span class="hide-for-medium" data-responsive-toggle="responsive-menu">
         <button class="menu-icon" type="button" data-toggle></button>
       </span>
-      <a href="{% pageurl site_root %}"><strong>UW<span class="accent">CS</span></strong></a>
-    </div>
-    <div id="responsive-menu">
-      <div class="top-bar-left">
-        <ul class="menu">
-          <li>
-            <a href="{% pageurl site_root %}" class="{% if is_home %}current{% endif %}">Home</a>
-          </li>
-          {% for menuitem in menuitems %}
-          <li>
-            <a href="{% pageurl menuitem %}" class="{% if menuitem.active %}current{% endif %}">{{ menuitem.title }}</a>
-          </li>
-          {% endfor %}
-        </ul>
+        <a href="{% pageurl site_root %}"><strong>UW<span class="accent">CS</span></strong></a>
       </div>
-      <div class="top-bar-right">
-        {% if request.user.is_authenticated %}
-          <ul class="dropdown menu logged-in" data-dropdown-menu>
-            <li>
-              {% if request.user.compsocuser %}
-                <a href="#">{{ request.user.compsocuser }}</a>
-              {% else %}
-                <a href="#">{{ request.user.get_username }}</a>
-              {% endif %}
-              <ul class="menu vertical">
-                <li><a href="{% url 'profile' %}">Profile</a></li>
-                {% if request.user.is_staff %}
-                  <li><a href="{% url 'admin:index' %}">Admin</a></li>
-                {% endif %}
-                <li><a href="{% url 'logout' %}">Log out</a></li>
-              </ul>
-            </li>
-          </ul>
-        {% else %}
+      <div id="responsive-menu">
+        <div class="top-bar-left">
           <ul class="menu">
             <li>
-              <a href="{% url 'login' %}">Log in</a>
+              <a href="{% pageurl site_root %}" class="{% if is_home %}current{% endif %}">Home</a>
             </li>
+            {% for menuitem in menuitems %}
+              <li>
+                <a href="{% pageurl menuitem %}"
+                   class="{% if menuitem.active %}current{% endif %}">{{ menuitem.title }}</a>
+              </li>
+            {% endfor %}
           </ul>
-        {% endif %} 
+        </div>
+        <div class="top-bar-right">
+          {% if request.user.is_authenticated %}
+            <ul class="dropdown menu logged-in" data-dropdown-menu>
+              <li>
+                {% if request.user.compsocuser %}
+                  <a href="#">{{ request.user.compsocuser }}</a>
+                {% else %}
+                  <a href="#">{{ request.user.get_username }}</a>
+                {% endif %}
+                <ul class="menu vertical">
+                  <li><a href="{% url 'profile' %}">Profile</a></li>
+                  {% if request.user.is_staff %}
+                    <li><a href="{% url 'admin:index' %}">Admin</a></li>
+                  {% endif %}
+                  {% if has_newsletter_perms %}
+                    <li><a href="{% url 'newsletters_index' %}">Newsletters</a></li>
+                  {% endif %}
+                  <li><a href="{% url 'logout' %}">Log out</a></li>
+                </ul>
+              </li>
+            </ul>
+          {% else %}
+            <ul class="menu">
+              <li>
+                <a href="{% url 'login' %}">Log in</a>
+              </li>
+            </ul>
+          {% endif %}
+        </div>
       </div>
     </div>
-  </div>
   </div>
 </section>

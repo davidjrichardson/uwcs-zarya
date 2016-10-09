@@ -40,10 +40,17 @@ def top_menu(context, parent, calling_page=None):
         # if the variable passed as calling_page does not exist.
         menuitem.active = (calling_page.startswith(menuitem.url)
                            if calling_page else False)
+    if context['request'].user.is_authenticated():
+        has_newsletter_perms = context['request'].user.has_perms(
+            ['newsletter.create_mail', 'newsletter.change_mail', 'newsletter.delete_mail'])
+    else:
+        has_newsletter_perms = False
+
     return {
         'calling_page': calling_page,
         'menuitems': menuitems,
         'is_home': calling_page == u'/',
+        'has_newsletter_perms': has_newsletter_perms,
         # required by the pageurl tag that we want to use within this template
         'request': context['request'],
     }
