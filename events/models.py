@@ -177,9 +177,7 @@ class EventPage(Page):
             try:
                 user = CompsocUser.objects.get(user=request.user.id)
 
-                print('is_fresher', user.is_fresher())
-
-                if user.is_fresher():
+                if user.is_fresher() and self.signup_freshers_open:
                     in_signup_window = self.signup_freshers_open < timezone.now() <= self.signup_close
                 else:
                     in_signup_window = self.signup_open < timezone.now() <= self.signup_close
