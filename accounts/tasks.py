@@ -14,7 +14,7 @@ import crypt
 
 def send_user_issue_email(user, username):
     subject = 'There\'s an issue with your shell account request'
-    from_email = 'noreply@uwcs.co.uk'
+    from_email = 'UWCS Techteam <noreply@uwcs.co.uk>'
     message = 'Hi {first_name},\n\n' \
               'Unfortunately the nickname that you had provided for your shell account ({username}) is in use \n' \
               'which means we can\'t create an account for you. No worries though, just send an email \n' \
@@ -29,7 +29,7 @@ def send_user_issue_email(user, username):
 
 def send_success_mail(user, username, password):
     subject = 'Shell account request successful'
-    from_email = 'noreply@uwcs.co.uk'
+    from_email = 'UWCS Techteam <noreply@uwcs.co.uk>'
     message = 'Your shell account request has been successful and an account has been created with the \n' \
               'following credentials:\n\n' \
               'username: {username}\n' \

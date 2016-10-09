@@ -18,7 +18,7 @@ API_PREFIX = 'https://www.warwicksu.com/membershipapi/listMembers/'
 
 def send_signup_mail(user, password):
     subject = 'Welcome to the University of Warwick Computing Society'
-    from_email = 'noreply@uwcs.co.uk'
+    from_email = 'UWCS Exec <noreply@uwcs.co.uk>'
     message = 'Thanks for joining the society! Your login details are as follows:\n\n' \
               'Username: {username}\n' \
               'Password: {password}\n\n' \
