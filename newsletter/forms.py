@@ -6,4 +6,4 @@ from .models import Mail
 class MailModelForm(ModelForm):
     class Meta:
         model = Mail
-        fields = ['subject', 'sender', 'text']
+        fields = ['subject', 'sender_name', 'sender_email', 'text']

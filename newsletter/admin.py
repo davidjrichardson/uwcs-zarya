@@ -6,7 +6,7 @@ from .models import Subscription, Mail
 
 
 class MailAdmin(MarkdownxModelAdmin):
-    list_display = ('subject', 'sender', 'date_created')
+    list_display = ('subject', 'sender_name', 'sender_email', 'date_created')
 
 
 admin.site.register(Subscription)

@@ -16,7 +16,8 @@ class Subscription(models.Model):
 
 class Mail(models.Model):
     subject = models.CharField(max_length=120)
-    sender = models.EmailField(default='noreply@uwcs.co.uk')
+    sender_name = models.CharField(max_length=50, default='UWCS Newsletter')
+    sender_email = models.EmailField(default='noreply@uwcs.co.uk')
     text = MarkdownxField()
     date_created = models.DateTimeField(default=timezone.now)
 

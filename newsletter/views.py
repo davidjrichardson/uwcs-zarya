@@ -2,14 +2,9 @@ from django.views.generic import View, FormView
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
-from markdown import markdown
-
-from .models import Mail
-
+from .models import Mail, Subscription
 from .forms import MailModelForm
-
-from bs4 import BeautifulSoup
-
+from .tasks import send_newsletter
 
 class UnsubscribeWithIdView(View):
     pass
@@ -51,14 +46,8 @@ class SendEmailView(LoginRequiredMixin, PermissionRequiredMixin, FormView):
     form_class = MailModelForm
 
     def form_valid(self, form):
-        email = form.save(commit=False)
-
-        # TODO: Append an unsubscribe link to the end (per-email basis)
-
-        email_html = markdown(email.text)
-        email_text = ''.join(BeautifulSoup(email_html, 'html5lib').findAll(text=True))
-
-        # TODO: Send the email (celery task)
+        email = form.save()
+        send_newsletter.delay(email.id)
 
         return super(SendEmailView, self).form_valid(form)
 
