@@ -4,12 +4,12 @@
 
 {% block content %}
   <section class="row margin-top-2x margin-bottom-1x">
-    <div class="small-12 medium-8 large-6 medium-push-2 large-push-3 columns">
+    <div class="small-12 medium-8 medium-push-2 columns">
       <h2>Send a newsletter</h2>
     </div>
   </section>
   <section class="row margin-bottom-1x">
-    <div class="small-12 medium-8 large-6 medium-push-2 large-push-3 columns">
+    <div class="small-12 medium-8 medium-push-2 columns">
       <form method="post">{% csrf_token %}
         {{ form }}
 

@@ -6,12 +6,15 @@ from .models import Mail, Subscription
 from .forms import MailModelForm
 from .tasks import send_newsletter
 
+
 class UnsubscribeWithIdView(View):
-    pass
+    template_name = 'newsletter/unsubscribe.html'
 
+    def get(self, request, email_id):
+        subscription = get_object_or_404(Subscription, id=email_id)
+        subscription.delete()
 
-class UnsubscribeDoneView(View):
-    pass
+        return render(request, self.template_name, {'email': subscription.email})
 
 
 class NewslettersIndexView(LoginRequiredMixin, PermissionRequiredMixin, View):
@@ -23,7 +26,6 @@ class NewslettersIndexView(LoginRequiredMixin, PermissionRequiredMixin, View):
     def get(self, request):
         sent_mail = Mail.objects.all().order_by('-date_created')
 
-        # TODO: Get the sent mails
         return render(request, self.template_name, {'sent_mail': sent_mail})
 
 
@@ -50,11 +52,6 @@ class SendEmailView(LoginRequiredMixin, PermissionRequiredMixin, FormView):
         send_newsletter.delay(email.id)
 
         return super(SendEmailView, self).form_valid(form)
-
-
-class SentEmailIndexView(LoginRequiredMixin, View):
-    # TODO: Need a mechanism to check for correct permissions here
-    pass
 
 
 class SentEmailDetailView(LoginRequiredMixin, View):
