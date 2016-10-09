@@ -3,20 +3,20 @@
 {% block title %}UWCS | Send newsletter{% endblock %}
 
 {% block content %}
-  <div class="row margin-top-2x">
-    <div class="small-12 columns">
+  <section class="row margin-top-2x margin-bottom-1x">
+    <div class="small-12 medium-8 large-6 medium-push-2 large-push-3 columns">
       <h2>Send a newsletter</h2>
     </div>
-  </div>
-  <div class="row">
-    <div class="small-12 columns">
-      <form action="post">
+  </section>
+  <section class="row margin-top-2x margin-bottom-1x">
+    <div class="small-12 medium-8 large-6 medium-push-2 large-push-3 columns">
+      <form method="post">{% csrf_token %}
         {{ form }}
 
         <input type="submit" class="button" value="Send newsletter">
       </form>
     </div>
-  </div>
+  </section>
 {% endblock %}
 
 {% block extra_js %}

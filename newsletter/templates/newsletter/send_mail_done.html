@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}UWCS | Newsletter sent{% endblock %}
+
+{% block content %}
+  <section class="row margin-top-2x margin-bottom-1x">
+    <div class="small-12 medium-8 large-6 medium-push-2 large-push-3 columns">
+      <h2>Newsletter sent</h2>
+      <p>The newsletter successfully submitted for sending to the newsletter recipients</p>
+      <p><a href="{% url 'newsletters_index' %}">Back to the newsletters overview</a></p>
+    </div>
+  </section>
+{% endblock %}

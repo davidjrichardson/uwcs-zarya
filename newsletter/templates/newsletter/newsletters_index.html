@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}UWCS | Newsletter sent{% endblock %}
+
+{% block content %}
+  <section class="row margin-top-2x margin-bottom-1x">
+    <div class="small-12 columns">
+      <h2>Newsletters overview</h2>
+    </div>
+  </section>
+
+  <section class="row margin-bottom-1x">
+    {{ sent_mail }}
+    {# TODO: Display the sent newsletters and a link to send a new newsletter #}
+  </section>
+
+  {# TODO: Maybe also add a copy functionality? Drafts? #}
+{% endblock %}
