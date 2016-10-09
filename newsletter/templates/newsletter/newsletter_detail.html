@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}UWCS | {{ newsletter.subject }}{% endblock %}
+
+{% block content %}
+  <section class="row margin-top-2x margin-bottom-1x">
+    <div class="small-12 columns">
+      <h2>{{ newsletter.subject }}</h2>
+      <h6 class="subhead">Sent {{ newsletter.date_created|date:'jS F Y, h:i a' }}</h6>
+      <section>
+        {{ newsletter_html|safe }}
+      </section>
+    </div>
+  </section>
+{% endblock %}

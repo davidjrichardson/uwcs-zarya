@@ -1,6 +1,7 @@
 from django.views.generic import View, FormView
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from markdown import markdown
 
 from .models import Mail, Subscription
 from .forms import MailModelForm
@@ -54,6 +55,14 @@ class SendEmailView(LoginRequiredMixin, PermissionRequiredMixin, FormView):
         return super(SendEmailView, self).form_valid(form)
 
 
-class SentEmailDetailView(LoginRequiredMixin, View):
-    # TODO: Need a mechanism to check for correct permissions here
-    pass
+class SentEmailDetailView(LoginRequiredMixin, PermissionRequiredMixin, View):
+    permission_required = ('newsletter.create_mail', 'newsletter.change_mail', 'newsletter.delete_mail')
+    login_url = '/accounts/login/'
+    redirect_field_name = 'redirect_to'
+    template_name = 'newsletter/newsletter_detail.html'
+
+    def get(self, request, email_id):
+        newsletter = get_object_or_404(Mail, id=email_id)
+
+        return render(request, self.template_name,
+                      {'newsletter': newsletter, 'newsletter_html': markdown(newsletter.text)})
