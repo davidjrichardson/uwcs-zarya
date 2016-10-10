@@ -423,9 +423,12 @@ table.comment-table {
   }
 
   & .code-highlighttable {
+      & .code-highlight > pre {
+        font-family: $font-family-monospace;
+        font-size: rem-calc(14);
+      }
+
     margin-bottom: rem-calc(4);
-    font-size: rem-calc(14);
-    font-family: $font-family-monospace;
 
     border: 1px solid $light-gray;
 
@@ -434,7 +437,12 @@ table.comment-table {
 
       & .linenos {
         color: transparentize($black, 0.46);
-        background-color: $light-gray
+        background-color: $light-gray;
+
+        & .linenodiv {
+          font-family: $font-family-monospace;
+          font-size: rem-calc(14);
+        }
       }
 
       & pre::selection,
