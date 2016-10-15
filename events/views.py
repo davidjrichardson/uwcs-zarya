@@ -25,6 +25,12 @@ class EventFeed(ICalFeed):
     def item_start_datetime(self, item):
         return item.start
 
+    def item_end_datetime(self, item):
+        return item.finish
+
+    def item_location(self, item):
+        return item.location
+
     def item_link(self, item):
         return 'https://uwcs.co.uk' + item.get_url_parts()[2]
 
