@@ -4,7 +4,7 @@
   <div class="small-12 columns">
     <div id="article-title">
       <a href="{% pageurl blog %}"><h3>{{ blog.title }}</h3></a>
-      <h6 class="subheader">Posted on {{ blog.date }}</h6>
+      <h6 class="subheader">Posted on {{ blog.date|date:'jS F Y' }}</h6>
     </div>
     <p>{{ blog.intro | richtext }} <a class="read-more" href="{% pageurl blog %}">Read more</a></p>
   </div>
