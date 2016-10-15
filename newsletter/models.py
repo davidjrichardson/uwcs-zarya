@@ -3,12 +3,25 @@ from django.utils import timezone
 
 from django.utils.datetime_safe import strftime
 
+from hashlib import sha256
+
 from markdownx.models import MarkdownxField
+
+
+def generate_unsub_token(email, date):
+    return sha256('{date}:{email}'.format(date=date, email=email).encode()).hexdigest()
 
 
 class Subscription(models.Model):
     email = models.EmailField()
     date_subscribed = models.DateTimeField(default=timezone.now)
+    unsubscribe_token = models.CharField(max_length=64, blank=True)
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            self.unsubscribe_token = generate_unsub_token(self.email, self.date_subscribed)
+
+        super(Subscription, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.email
