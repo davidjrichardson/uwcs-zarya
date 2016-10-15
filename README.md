@@ -101,7 +101,7 @@ root = Page.objects.first()
 home = root.add_child(instance=HomePage(title='UWCS Home', slug='home', description='UWCS Home', show_in_menus=True))
 home.add_child(instance=AboutPage(title='Home', slug='home', show_in_menus=True))
 home.add_child(instance=EventsIndexPage(title='Events', slug='events', show_in_menus=True))
-Site.objects.create(hostname='localhost', port=80, root_page=home, site_name='local', is_default_site=True)
+Site.objects.create(hostname='localhost', port=8000, root_page=home, site_name='local', is_default_site=True)
 ```
 
 Start development server:
