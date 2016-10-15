@@ -172,7 +172,7 @@ class EventPage(Page):
             user_signed_up = False
 
         context['user_signed_up'] = user_signed_up
-        
+
         if request.user.is_authenticated():
             try:
                 user = CompsocUser.objects.get(user=request.user.id)

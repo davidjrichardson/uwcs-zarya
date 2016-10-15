@@ -47,7 +47,7 @@
               {{ self.body }}
             </div>
           </div>
-          {% if can_signup %}
+          {% if self.signup_limit >= 0 %}
             <div class="row">
               <div class="small-12 columns row-title">Signups open</div>
               <div class="small-12 columns row-info">
@@ -65,14 +65,13 @@
               <div class="small-12 columns row-title">Total signups</div>
               <div class="small-12 columns row-info">
                 <p>
-                  {% if self.signup_limit <= 0 %}
+                  {% if self.signup_limit == 0 %}
                     This event has unlimited spaces
                   {% else %}
-                    {% if can_signup %}
-                      This event has {{ self.signup_limit|subtract:self.signups.count }} places remaining (
-                      {{ self.signups.count }}/{{ self.signup_limit }})
+                    {% if self.signups.count < self.signup_limit %}
+                      This event has {{ self.signup_limit|subtract:self.signups.count }} places remaining ({{ self.signups.count }}/{{ self.signup_limit }})
                     {% else %}
-                      There are no more spaces left for this event
+                      There are no more spaces left for this event ({{ self.signups.count }}/{{ self.signup_limit }})
                     {% endif %}
                   {% endif %}
                 </p>
