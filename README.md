@@ -43,6 +43,81 @@ With the packaged dependencies installed and configured (most/all should be avai
 10. Create the configuration file(s) for the web server of your chosing
 11. Run your web server (if you're developing locally, simply run `python manage.py runserver`
 
+#### Ubuntu 16.04 Xenial development setup
+
+If you blindly follow these instructions, you should have a working instance of the website.
+
+Setup postgres database:
+```
+sudo apt-get install postgresql
+sudo -u postgres createuser -D -A -P zarya
+(enter 'password' as password)
+sudo -u postgres createdb -Ozarya zarya
+```
+
+Install systemwide runtime/build dependencies:
+```
+sudo apt-get install virtualenv postgresql-server-dev-9.5 build-essential python3-dev redis ruby-sass
+```
+
+The nodejs in the default ubuntu repositories is too old so you have to do:
+```
+curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+sudo apt-get install -y nodejs
+```
+
+Create python virtualenv and install python dependencies:
+```
+virtualenv -p /usr/bin/python3 zarya-env
+. ./zarya-env/bin/activate
+pip install -r requirements.txt
+```
+
+Fetch bower components:
+```
+cd zarya/components
+npm install bower
+./node_modules/.bin/bower install
+```
+
+Seed the database:
+```
+python ./manage.py migrate
+python ./manage.py createsuperuser
+```
+
+At this point you can get a repl using:
+```
+python ./manage.py shell
+```
+
+Run these to create the basic site structure:
+```python
+from wagtail.wagtailcore.models import Page, Site
+from blog.models import HomePage, AboutPage
+from events.models import EventsIndexPage
+
+root = Page.objects.first()
+home = root.add_child(instance=HomePage(title='UWCS Home', slug='home', description='UWCS Home', show_in_menus=True))
+home.add_child(instance=AboutPage(title='Home', slug='home', show_in_menus=True))
+home.add_child(instance=EventsIndexPage(title='Events', slug='events', show_in_menus=True))
+Site.objects.create(hostname='localhost', port=80, root_page=home, site_name='local', is_default_site=True)
+```
+
+Start development server:
+```
+python ./manage.py runserver
+```
+
+Go to http://localhost:8000 and you should see a basic instance of the site!
+
+The last step is to start a celery worker for background tasks. Open a new terminal and run:
+
+```
+. ./bin/zarya-env/activate
+celery -A zarya worker -l info
+```
+
 ### License
 This project is distributed under the MIT license.
 
