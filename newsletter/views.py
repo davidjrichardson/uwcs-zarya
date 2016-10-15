@@ -11,8 +11,8 @@ from .tasks import send_newsletter
 class UnsubscribeWithIdView(View):
     template_name = 'newsletter/unsubscribe.html'
 
-    def get(self, request, email_id):
-        subscription = get_object_or_404(Subscription, id=email_id)
+    def get(self, request, token):
+        subscription = get_object_or_404(Subscription, unsubscribe_token=token)
         subscription.delete()
 
         return render(request, self.template_name, {'email': subscription.email})
