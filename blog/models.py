@@ -160,7 +160,7 @@ class BlogIndexPage(Page):
     @property
     def blogs(self):
         # Get list of live blog pages that are descendants of this page ordered by most recent
-        return BlogPage.objects.live().descendant_of(self).order_by('-date')
+        return BlogPage.objects.live().descendant_of(self).order_by('-first_published_at')
 
     def get_context(self, request):
         # Get blogs
@@ -219,7 +219,6 @@ class BlogPage(Page):
 
 BlogPage.content_panels = [
     FieldPanel('title', classname="full title"),
-    FieldPanel('date'),
     FieldPanel('intro'),
     StreamFieldPanel('body'),
 ]
