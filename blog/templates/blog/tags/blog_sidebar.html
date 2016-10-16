@@ -14,7 +14,7 @@
         <ul class="vertical menu">
           {% for tag in tags %}
             <li>
-              <a href="{% pageurl blog_index %}?tag={{ tag }}">{{ tag }}</a>
+              <a href="{% pageurl blog_index %}?tag={{ tag|urlencode }}">{{ tag }}</a>
             </li>
           {% endfor %}
         </ul>
