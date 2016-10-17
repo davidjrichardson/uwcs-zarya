@@ -12,7 +12,8 @@ from bs4 import BeautifulSoup
 
 def mail_newsletter(subscription, mail):
     # Create the unsubscribe link -- there should probably be a better way of doing this
-    unsub_link = 'https://uwcs.co.uk{path}'.format(path=reverse('unsub_with_id', kwargs={'email_id': subscription.id}))
+    unsub_link = 'https://uwcs.co.uk{path}'.format(
+        path=reverse('unsub_with_id', kwargs={'token': subscription.unsubscribe_token}))
     markdown_append = '\n\n[Click here to unsubscribe from the UWCS newsletter]({link})'.format(link=unsub_link)
     text_append = '\n\nClick the following link to unsubscribe from the UWCS newsletter:\n{link}'.format(
         link=unsub_link)
@@ -23,7 +24,8 @@ def mail_newsletter(subscription, mail):
     # Alter image sources to point to the right place
     soup = BeautifulSoup(email_html, 'html5lib')
     for img in soup.findAll('img'):
-        img['src'] = 'https://uwcs.co.uk{path}'.format(path=img['src'])
+        if not img['src'].startswith('https://uwcs.co.uk'):
+            img['src'] = 'https://uwcs.co.uk{path}'.format(path=img['src'])
     email_html = str(soup)
 
     email_text = ''.join(BeautifulSoup(markdown(mail.text), 'html5lib').findAll(text=True)) + text_append
