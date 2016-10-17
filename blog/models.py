@@ -204,7 +204,7 @@ class BlogPage(Page):
     body = StreamField(BlogStreamBlock())
     intro = RichTextField(help_text="This is displayed on the home and blog listing pages")
     tags = ClusterTaggableManager(through=BlogPageTag, blank=True)
-    date = models.DateField("Post date", default=timezone.now)
+    date = models.DateTimeField("Post date", default=timezone.now)
 
     @property
     def blog_index(self):
@@ -220,6 +220,7 @@ class BlogPage(Page):
 BlogPage.content_panels = [
     FieldPanel('title', classname="full title"),
     FieldPanel('intro'),
+    FieldPanel('date'),
     StreamFieldPanel('body'),
 ]
 
