@@ -22,8 +22,8 @@ def blog_sidebar(context, show_sponsor=True, show_archives=False, show_tags=Fals
 
     if show_archives:
         archives = OrderedDict()
-        for blog in BlogPage.objects.live().order_by('-first_published_at'):
-            archives.setdefault(blog.first_published_at.year, {}).setdefault(blog.first_published_at.month, []).append(
+        for blog in BlogPage.objects.live().order_by('-date'):
+            archives.setdefault(blog.date.year, {}).setdefault(blog.date.month, []).append(
                 blog)
     else:
         archives = None
@@ -51,12 +51,12 @@ def blog_sidebar(context, show_sponsor=True, show_archives=False, show_tags=Fals
     takes_context=True
 )
 def blog_listing_homepage(context, count=5):
-    blogs = BlogPage.objects.live().order_by('-first_published_at')
+    blogs = BlogPage.objects.live().order_by('-date')
     blog_index = BlogIndexPage.objects.live().in_menu().first()
 
     archives = dict()
     for blog in blogs:
-        archives.setdefault(blog.first_published_at.year, {}).setdefault(blog.first_published_at.month, []).append(blog)
+        archives.setdefault(blog.date.year, {}).setdefault(blog.date.month, []).append(blog)
 
     return {
         'blogs': blogs[:count],
