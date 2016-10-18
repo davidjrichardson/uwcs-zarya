@@ -11,6 +11,10 @@
       color: $white;
     }
   }
+  
+  & .top-bar-left .menu > li {
+    float: left;
+  }
 
   & .dropdown.menu > li > ul {
     border: none;
