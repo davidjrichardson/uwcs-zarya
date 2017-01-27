@@ -41,8 +41,9 @@ class Command(BaseCommand):
         # Add any new members
         for member in members_root:
             try:
-                current_member = User.objects.get(username=member.find('UniqueID').text)
-                active_members.append(current_member.id)
+                if member.find('UniqueID').text:
+                    current_member = User.objects.get(username=member.find('UniqueID').text)
+                    active_members.append(current_member.id)
             except User.DoesNotExist:
                 # Create the user and then email their password to them
                 password = User.objects.make_random_password()
