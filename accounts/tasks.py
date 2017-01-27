@@ -86,7 +86,7 @@ def create_ldap_user(account_id):
         group_attributes_dict = {
             'objectClass': ['posixGroup', 'top'],
             'cn': request.name,
-            'gidNumber': [user.username],
+            'gidNumber': [int(user.username)],
             'userPassword': [password_hashed],
         }
 
@@ -96,9 +96,9 @@ def create_ldap_user(account_id):
         user_attributes_dict = {
             'objectClass': ['account', 'posixAccount', 'top', 'shadowAccount'],
             'cn': [user.get_full_name()],
-            'gidNumber': [user.username],
+            'gidNumber': [int(user.username)],
             'uid': [request.name],
-            'uidNumber': [user.username],
+            'uidNumber': [int(user.username)],
             'homeDirectory': ['/compsoc/home/{nickname}'.format(nickname=request.name)],
             'loginShell': ['/bin/bash'],
             'shadowWarning': ['7'],
@@ -116,7 +116,7 @@ def create_ldap_user(account_id):
         sites_path = '/compsoc/sites/{nickname}'.format(nickname=request.name)
         if not os.path.exists(sites_path):
             os.makedirs(sites_path)
-            os.chown(sites_path, user.username, user.username)
+            os.chown(sites_path, int(user.username), int(user.username))
 
         send_success_mail(user, request.name, password)
 
