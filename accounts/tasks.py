@@ -82,7 +82,7 @@ def create_ldap_user(account_id):
         password_hashed = '{crypt}' + crypt.crypt(password, salt)
         days_since_epoch = (datetime.utcnow() - datetime(1970, 1, 1)).days
 
-        group_add_dn = 'cn={nickname},ou=Group,dc=uwcs,dc=co,dc=uk'.format(nickname=request.name)
+        group_add_dn = 'cn={nickname},ou=Groups,dc=uwcs,dc=co,dc=uk'.format(nickname=request.name)
         group_attributes_dict = {
             'objectClass': ['posixGroup', 'top'],
             'cn': request.name,
