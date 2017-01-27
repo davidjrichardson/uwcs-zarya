@@ -36,8 +36,8 @@ def send_success_mail(user, username, password):
               'following credentials:\n\n' \
               'username: {username}\n' \
               'password: {password}\n\n' \
-              'You can access our server(s) by using ssh and the address nodd.uwcs.co.uk. We recommend you ' \
-              'change your password using the passwd command once logged in. From \'nodd\', you then may ' \
+              'You can access our server(s) by using ssh and the address lovelace.uwcs.co.uk. We recommend you ' \
+              'change your password using the passwd command once logged in. From \'lovelace\', you then may ' \
               'log into our other servers. A full breakdown of our servers and what they \n' \
               'do is available on our about page: https://uwcs.co.uk/about/\n\n' \
               'Regards,\n' \
