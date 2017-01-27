@@ -11,6 +11,8 @@ from ldap3 import Connection, Server, SYNC, SIMPLE, ALL_ATTRIBUTES
 
 import crypt
 
+import os
+
 
 def send_user_issue_email(user, username):
     subject = 'There\'s an issue with your shell account request'
@@ -102,7 +104,7 @@ def create_ldap_user(account_id):
             'shadowWarning': ['7'],
             'shadowLastChange': [days_since_epoch],
             'shadowMax': ['99999'],
-            'gecos': ['{fullname},,,'.format(fullname=user.get_full_name())],
+            'gecos': ['{fullname}'.format(fullname=user.get_full_name())],
             'userPassword': [password_hashed],
         }
 
@@ -110,6 +112,11 @@ def create_ldap_user(account_id):
 
         request.status = 'PR'
         request.save()
+
+        sites_path = '/compsoc/sites/{nickname}'.format(nickname=request.name)
+        if not os.path.exists(sites_path):
+            os.makedirs(sites_path)
+            os.chown(sites_path, user.username, user.username)
 
         send_success_mail(user, request.name, password)
 
