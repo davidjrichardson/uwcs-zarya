@@ -95,7 +95,7 @@ def create_ldap_user(account_id):
             'objectClass': ['account', 'posixAccount', 'top', 'shadowAccount'],
             'cn': [user.get_full_name()],
             'gidNumber': [user.username],
-            'uid': ['tankskii'],
+            'uid': [request.name],
             'uidNumber': [user.username],
             'homeDirectory': ['/compsoc/home/{nickname}'.format(nickname=request.name)],
             'loginShell': ['/bin/bash'],
