@@ -3,35 +3,48 @@
 
 <div class="row">
   <div class="small-12 medium-3 columns uwcs-socials">
-    <h5>{{ site_root.title }}</h5>
-    <ul class="no-bullet social-list">
-      {% if facebook_url %}
-        <li>
-          <a href="{{ facebook_url }}">
-            <span class="show-for-sr">Facebook</span>
-            <i class="fa fa-2x fa-facebook-square" aria-hidden="true"></i>
-          </a>
-        </li>
-      {% endif %}
-      {% if twitch_url %}
-        <li>
-          <a href="{{ twitter_url }}">
-            <span class="show-for-sr">Twitter</span>
-            <i class="fa fa-2x fa-twitter-square" aria-hidden="true"></i>
-          </a>
-        </li>
-      {% endif %}
-      {% if twitch_url %}
-        <li>
-          <a href="{{ twitch_url }}">
-            <span class="show-for-sr">Twitch</span>
-            <i class="fa fa-2x fa-twitch" aria-hidden="true"></i>
-          </a>
-        </li>
-      {% endif %}
-    </ul>
+    <div class="row">
+      <div class="small-8 medium-12 columns margin-bottom-1x-mobile-inv">
+        <h5>{{ site_root.title }}</h5>
+        <ul class="no-bullet social-list">
+        {% if facebook_url %}
+          <li>
+            <a href="{{ facebook_url }}">
+              <span class="show-for-sr">Facebook</span>
+              <i class="fa fa-2x fa-facebook-square" aria-hidden="true"></i>
+            </a>
+          </li>
+        {% endif %}
+        {% if twitch_url %}
+          <li>
+            <a href="{{ twitter_url }}">
+              <span class="show-for-sr">Twitter</span>
+              <i class="fa fa-2x fa-twitter-square" aria-hidden="true"></i>
+            </a>
+          </li>
+        {% endif %}
+        {% if twitch_url %}
+          <li>
+            <a href="{{ twitch_url }}">
+              <span class="show-for-sr">Twitch</span>
+              <i class="fa fa-2x fa-twitch" aria-hidden="true"></i>
+            </a>
+          </li>
+        {% endif %}
+      </ul>
+      </div>
+      <div class="small-4 medium-12 columns switch-wrapper">
+        <h6>Night mode</h6>
+        <div class="switch">
+          <input class="switch-input" id="nightModeSwitch" type="checkbox" name="nightModeSwitch">
+          <label class="switch-paddle" for="nightModeSwitch">
+            <span class="show-for-sr">Toggle dark theme</span>
+          </label>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="small-12 medium-9 columns sitemap">
+  <div class="small-12 medium-6 medium-pull-3 columns sitemap">
     <h6 class="sitemap-title">Sitemap</h6>
     <ul class="no-bullet text-center sitemap-list">
       <li><a href="{% pageurl site_root %}">Home</a></li>

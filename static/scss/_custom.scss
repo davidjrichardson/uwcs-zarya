@@ -490,6 +490,13 @@ label.error {
   font-size: rem-calc(144px);
 }
 
+// Switch header
+.switch-wrapper {
+  h6 {
+    color: rgba(255, 255, 255, 0.87);
+  }
+}
+
 // Margin utils
 .margin-top-1x {
   margin-top: $global-margin;
@@ -511,6 +518,14 @@ label.error {
   margin-bottom: $global-margin;
 
   @media screen and (min-width: 640px) {
+    margin-bottom: 0;
+  }
+}
+
+.margin-bottom-1x-mobile-inv {
+  margin-bottom: $global-margin;
+
+  @media screen and (max-width: 639px) {
     margin-bottom: 0;
   }
 }
