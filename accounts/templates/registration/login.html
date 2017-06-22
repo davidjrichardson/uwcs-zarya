@@ -15,7 +15,7 @@
           </div>
         {% endif %}
 
-        <label {% if form.username.errors %}class="error"{% endif %}>{{ form.username.label }}
+        <label {% if form.username.errors %}class="error"{% endif %}>University Number
           {{ form.username }}
           {% if form.username.errors %}
             <span class="error">{{ form.username.errors.as_text }}</span>
