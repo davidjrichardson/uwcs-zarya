@@ -17,6 +17,7 @@
   }
 
   & .dropdown.menu > li > ul {
+    background-color: $user-dropdown-bg;
     border: none;
     border-radius: $global-radius;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
@@ -26,7 +27,7 @@
 
       &:hover {
         color: $anchor-color-hover-dark;
-        background-color: rgba(0, 0, 0, 0.05);
+        background-color: $user-dropdown-item-bg;
       }
     }
   }
@@ -74,14 +75,16 @@
 
 // Breadcrumbs
 .breadcrumb-wrapper {
-  background-color: $light-gray;
+  background-color: $breadcrumb-bg;
 
   margin-bottom: 2 * $global-margin;
 }
 
 // Jumbotron
 .jumbotron {
+  background-color: $body-background;
   border: none;
+  color: $body-font-color;
 
   padding-top: 0;
   padding-bottom: $global-padding;
@@ -160,7 +163,7 @@
 
       &:hover {
         color: $anchor-color-hover-dark;
-        background-color: rgba(0, 0, 0, 0.05);
+        background-color: $sidebar-item-bg-hover;
       }
     }
   }
@@ -168,7 +171,7 @@
 
 // Events
 .event-carousel {
-  background-color: $primary-color;
+  background-color: $event-carousel-bg;
 
   margin-bottom: 2 * $global-margin;
 
@@ -190,7 +193,7 @@
 
   & a:hover {
     color: $white;
-    background-color: $primary-color-2;
+    background-color: $event-carousel-hover-bg;
   }
 }
 
@@ -303,7 +306,7 @@
     }
 
     & h6.subheader {
-      color: rgba(0, 0, 0, 0.65);
+      color: $signup-counter-colour;
     }
 
     & ul > li:last-child {
@@ -311,13 +314,13 @@
     }
 
     &:nth-of-type(even) {
-      background-color: darken($light-gray, 3%);
+      background-color: smart-scale($table-striped-background, $table-color-scale);
     }
   }
 }
 
 .signup {
-  background-color: $primary-color;
+  background-color: $signup-input-background;
 
   padding-top: $global-padding;
   padding-bottom: $global-padding;
@@ -327,24 +330,26 @@
   margin-bottom: $global-margin;
 
   & input[type="text"] {
-    border-color: lighten($primary-color, 15%);
-    box-shadow: inset 0 1px 2px transparentize($primary-color, 0.8);
+    border-color: $signup-input-border-light;
+    box-shadow: inset 0 1px 2px transparentize($signup-input-background, 0.8);
+    background-color: $body-background;
+    color: $body-font-color;
 
     &:focus {
       box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.16);
-      border-color: darken($primary-color, 15%);
+      border-color: $signup-input-border-dark;
     }
   }
 
   & input.button {
-    outline-color: $white;
+    outline-color: $signup-button-full-colour;
 
-    background-color: transparentize($white, 0.13);
-    color: $primary-color;
+    background-color: $signup-button-colour;
+    color: $signup-button-text-colour;
 
     &:hover,
     &:focus {
-      background-color: $white;
+      background-color: $signup-button-full-colour;
     }
   }
 }
@@ -352,6 +357,10 @@
 table.comment-table {
   & tbody {
     border: none;
+  }
+
+  & tbody tr:nth-child(even) {
+    //background-color: $comment-even-colour;
   }
 
   & td.user {
@@ -380,6 +389,7 @@ table.comment-table {
   margin-bottom: 0;
 
   & li.current {
+    color: $body-font-color;
     background-color: transparent;
     display: inline-block;
   }

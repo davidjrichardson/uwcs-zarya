@@ -9,7 +9,6 @@ register = template.Library()
 
 @register.simple_tag(takes_context=True)
 def is_nightmode(context):
-    print(bool(context.request.session.get('night_mode', default=False)))
     return bool(context.request.session.get('night_mode', default=False))
 
 

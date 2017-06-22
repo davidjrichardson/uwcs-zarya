@@ -1,4 +1,5 @@
 {% load static wagtailuserbar compress base_tags %}
+{% is_nightmode as nightmode %}
 
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
@@ -19,7 +20,11 @@
 
   {# Global stylesheets #}
   {% compress css %}
-    <link href="{% static 'scss/app.scss' %}" rel="stylesheet" type="text/x-scss"/>
+    {% if nightmode %}
+      <link href="{% static 'scss/app-dark.scss' %}" rel="stylesheet" type="text/x-scss"/>
+    {% else %}
+      <link href="{% static 'scss/app.scss' %}" rel="stylesheet" type="text/x-scss"/>
+    {% endif %}
   {% endcompress %}
   <link rel="stylesheet" type="text/css"
         href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
@@ -76,7 +81,6 @@
 
     // Set jQuery XHR header for CSRF requests
     var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
-    console.log(csrftoken);
     function csrfSafeMethod(method) {
         // these HTTP methods do not require CSRF protection
         return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
