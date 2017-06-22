@@ -1,5 +1,6 @@
 {% load base_tags wagtailcore_tags %}
 {% get_site_root as site_root %}
+{% is_nightmode as nightmode %}
 
 <div class="row">
   <div class="small-12 medium-3 columns uwcs-socials">
@@ -36,8 +37,9 @@
       <div class="small-4 medium-12 columns switch-wrapper">
         <h6>Night mode</h6>
         <div class="switch">
-          <input class="switch-input" id="nightModeSwitch" type="checkbox" name="nightModeSwitch">
-          <label class="switch-paddle" for="nightModeSwitch">
+          <input class="switch-input" id="night-mode-switch" type="checkbox" name="night-mode-switch" {% if nightmode %}checked="checked"{% endif %}>
+          {% csrf_token %}
+          <label class="switch-paddle" for="night-mode-switch">
             <span class="show-for-sr">Toggle dark theme</span>
           </label>
         </div>

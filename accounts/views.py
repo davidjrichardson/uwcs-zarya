@@ -4,6 +4,7 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
+from django.http import HttpResponse
 
 from datetime import datetime
 
@@ -133,3 +134,11 @@ class MemberAccountUpdateDoneView(LoginRequiredMixin, View):
 
     def get(self, request):
         return render(request, self.template_name)
+
+
+class ToggleNightModeView(View):
+
+    def post(self, request):
+        request.session['night_mode'] = request.POST.get('night_mode', default="") == "true"
+
+        return HttpResponse(status=200)
