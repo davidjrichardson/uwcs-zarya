@@ -9,28 +9,67 @@
       <form method="post">
         {% csrf_token %}
 
-        <label {% if form.nickname.errors %}class="error"{% endif %}>{{ form.nickname.label }}
-          {{ form.nickname }}
-          {% if form.nickname.errors %}
-            <span class="error">{{ form.nickname.errors.as_text }}</span>
-          {% endif %}
-        </label>
+        <div class="row">
+          <div class="small-12 medium-6 columns">
+            <label {% if form.first_name.errors %}class="error"{% endif %}>{{ form.first_name.label }}
+              {{ form.first_name }}
+              {% if form.first_name.errors %}
+                <span class="error">{{ form.first_name.errors.as_text }}</span>
+              {% endif %}
+            </label>
+          </div>
+          <div class="small-12 medium-6 columns">
+            <label {% if form.last_name.errors %}class="error"{% endif %}>{{ form.last_name.label }}
+              {{ form.last_name }}
+              {% if form.last_name.errors %}
+                <span class="error">{{ form.last_name.errors.as_text }}</span>
+              {% endif %}
+            </label>
+          </div>
+          <div class="small-12 columns">
+            <p class="help-text">Setting your first name (and last name) will change your public preferred name, visible
+              on event signups</p>
+          </div>
+          <div class="small-12 columns">
+            <label {% if form.nickname.errors %}class="error"{% endif %}>{{ form.nickname.label }}
+              {{ form.nickname }}
+              {% if form.nickname.errors %}
+                <span class="error">{{ form.nickname.errors.as_text }}</span>
+              {% endif %}
+            </label>
+          </div>
+        </div>
 
-        <label {% if form.website_title.errors %}class="error"{% endif %}>{{ form.website_title.label }}
-          {{ form.website_title }}
-          {% if form.website_title.errors %}
-            <span class="error">{{ form.website_title.errors.as_text }}</span>
-          {% endif %}
-        </label>
+        <hr/>
 
-        <label {% if form.website_url.errors %}class="error"{% endif %}>{{ form.website_url.label }}
-          {{ form.website_url }}
-          {% if form.website_url.errors %}
-            <span class="error">{{ form.website_url.errors.as_text }}</span>
-          {% endif %}
-        </label>
+        <div class="row">
+          <div class="small-12 columns">
+            <label {% if form.website_title.errors %}class="error"{% endif %}>{{ form.website_title.label }}
+              {{ form.website_title }}
+              {% if form.website_title.errors %}
+                <span class="error">{{ form.website_title.errors.as_text }}</span>
+              {% endif %}
+            </label>
 
-        <input type="submit" class="button" value="Update information">
+            <label {% if form.website_url.errors %}class="error"{% endif %}>{{ form.website_url.label }}
+              {{ form.website_url }}
+              {% if form.website_url.errors %}
+                <span class="error">{{ form.website_url.errors.as_text }}</span>
+              {% endif %}
+            </label>
+          </div>
+        </div>
+
+        <hr/>
+
+        <div class="row">
+          <div class="small-12 columns">
+            {{ form.nightmode_on }}<label for="nightmode_on">{{ form.nightmode_on.label }}</label>
+            <p class="help-text">{{ form.nightmode_on.help_text }}</p>
+          </div>
+        </div>
+
+        <input type="submit" class="button" value="Update settings">
       </form>
     </div>
   </section>

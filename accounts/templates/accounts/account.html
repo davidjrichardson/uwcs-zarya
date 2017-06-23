@@ -35,7 +35,7 @@
 
           {% if request.user.compsocuser %}
             {% with request.user.compsocuser as user %}
-              {% if user.first_name or user.last_name %}
+              {% if user.first_name %}
                 <h6>Preferred name:</h6>
                 <p>{{ user.full_name }}</p>
               {% endif %}

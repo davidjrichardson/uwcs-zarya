@@ -23,7 +23,7 @@ class CompsocUser(models.Model):
     first_name = models.CharField(max_length=50, blank=True, default='')
     last_name = models.CharField(max_length=50, blank=True, default='')
 
-    nightmode_on = models.BooleanField(default=False)
+    nightmode_on = models.BooleanField(default=False, help_text='Enable night mode whenever you are logged into UWCS')
 
     website_url = models.CharField(max_length=50, blank=True, default='')
     website_title = models.CharField(max_length=50, blank=True, default='')
@@ -53,18 +53,16 @@ class CompsocUser(models.Model):
             return self.full_name()
 
     def full_name(self):
-        if self.first_name and self.last_name:
-            return '%s %s'.format(self.first_name.strip(), self.last_name.strip())
-        elif self.first_name:
-            return self.first_name.strip()
+        if self.first_name:
+            return '{} {}'.format(self.first_name.strip(), self.last_name.strip())
         else:
             return self.user.get_full_name()
 
     def long_name(self):
         if self.nickname.strip():
-            return '%s (%s)'.format(self.nickname.strip(), self.full_name())
+            return self.nickname.strip()
         else:
-            return self.user.get_full_name()
+            return self.full_name()
 
 
 # Create a CompsocUser object for every new user

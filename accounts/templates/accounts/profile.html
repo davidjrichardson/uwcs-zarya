@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}UWCS | Your profile {% endblock %}
+{% block title %}UWCS | {% if user.compsocuser %}{{ user.compsocuser }}'s profile{% else %}{{ user.get_full_name|default:user.username }}'s profile{% endif %}{% endblock %}
 
 {% block content %}
   <section class="row margin-top-2x margin-bottom-1x">
@@ -15,7 +15,11 @@
       <div class="margin-top-1x">
         <h4>User information</h4>
         <h6>Preferred name:</h6>
-        <p>{{ user.full_name }}</p>
+        {% if user.compsocuser %}
+          <p>{{ user.compsocuser.full_name }}</p>
+        {% else %}
+          <p>{{ user.get_full_name }}</p>
+        {% endif %}
 
         {% if user.compsocuser %}
           {% with user.compsocuser as csuser %}

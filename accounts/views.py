@@ -36,6 +36,9 @@ class MemberAccountUpdateView(LoginRequiredMixin, FormView):
                 'nickname': info.nickname,
                 'website_url': info.website_url,
                 'website_title': info.website_title,
+                'first_name': info.first_name,
+                'last_name': info.last_name,
+                'nightmode_on': info.nightmode_on
             }
         except CompsocUser.DoesNotExist:
             return None
@@ -46,7 +49,10 @@ class MemberAccountUpdateView(LoginRequiredMixin, FormView):
         if CompsocUser.objects.filter(user=self.request.user).first():
             CompsocUser.objects.filter(user=self.request.user).update(nickname=account.nickname,
                                                                       website_url=account.website_url,
-                                                                      website_title=account.website_title)
+                                                                      website_title=account.website_title,
+                                                                      first_name=account.first_name,
+                                                                      last_name=account.last_name,
+                                                                      nightmode_on=account.nightmode_on)
         else:
             account.save()
 
