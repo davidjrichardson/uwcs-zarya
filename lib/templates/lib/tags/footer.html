@@ -37,8 +37,15 @@
       <div class="small-4 medium-12 columns switch-wrapper">
         <h6>Night mode</h6>
         <div class="switch">
-          <input class="switch-input" id="night-mode-switch" type="checkbox" name="night-mode-switch" {% if nightmode %}checked="checked"{% endif %}>
+          <input
+              {% if nightmode and request.user.is_authenticated and request.user.compsocuser.nightmode_on %}
+                disabled
+              {% endif %}
+              class="switch-input" id="night-mode-switch" type="checkbox" name="night-mode-switch" {% if nightmode %}checked="checked"{% endif %}>
           {% csrf_token %}
+          {% if nightmode and request.user.is_authenticated and request.user.compsocuser.nightmode_on %}
+            <p class="margin-top-05x help-text">You have enabled night mode in your profile, you can turn it off there</p>
+          {% endif %}
           <label class="switch-paddle" for="night-mode-switch">
             <span class="show-for-sr">Toggle dark theme</span>
           </label>

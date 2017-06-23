@@ -197,6 +197,14 @@
   }
 }
 
+// Switch disabled theme
+input:disabled {
+  & ~ .switch-paddle {
+    background-color: smart-scale($body-background, 20%);
+    cursor: not-allowed;
+  }
+}
+
 // News items
 .news-item {
   margin-bottom: 2 * $global-margin;
@@ -510,6 +518,10 @@ label.error {
 // Margin utils
 .margin-top-1x {
   margin-top: $global-margin;
+}
+
+.margin-top-05x {
+  margin-top: 0.5 * $global-margin;
 }
 
 .margin-top-1x-mobile {

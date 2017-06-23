@@ -9,7 +9,11 @@ register = template.Library()
 
 @register.simple_tag(takes_context=True)
 def is_nightmode(context):
-    return bool(context.request.session.get('night_mode', default=False))
+    user = context.request.user
+    if user.compsocuser:
+        return user.compsocuser.nightmode_on or bool(context.request.session.get('night_mode', default=False))
+    else:
+        return bool(context.request.session.get('night_mode', default=False))
 
 
 @register.inclusion_tag('lib/tags/sponsor_homepage.html', takes_context=True)
