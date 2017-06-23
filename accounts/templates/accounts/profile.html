@@ -14,8 +14,8 @@
       </h2>
       <div class="margin-top-1x">
         <h4>User information</h4>
-        <h6>Real name:</h6>
-        <p>{{ user.get_full_name }}</p>
+        <h6>Preferred name:</h6>
+        <p>{{ user.full_name }}</p>
 
         {% if user.compsocuser %}
           {% with user.compsocuser as csuser %}

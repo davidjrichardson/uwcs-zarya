@@ -20,6 +20,10 @@ STATUS = (
 
 class CompsocUser(models.Model):
     nickname = models.CharField(max_length=50, blank=True, default='')
+    first_name = models.CharField(max_length=50, blank=True, default='')
+    last_name = models.CharField(max_length=50, blank=True, default='')
+
+    nightmode_on = models.BooleanField(default=False)
 
     website_url = models.CharField(max_length=50, blank=True, default='')
     website_title = models.CharField(max_length=50, blank=True, default='')
@@ -46,11 +50,19 @@ class CompsocUser(models.Model):
         if self.nickname.strip():
             return self.nickname.strip()
         else:
-            return self.user.get_full_name()
+            return self.full_name()
 
     def full_name(self):
+        if self.first_name and self.last_name:
+            return '%s %s'.format(self.first_name.strip(), self.last_name.strip())
+        elif self.first_name:
+            return self.first_name.strip()
+        else:
+            return self.user.get_full_name()
+
+    def long_name(self):
         if self.nickname.strip():
-            return '%s (%s)'.format(self.nickname.strip(), self.user.get_full_name())
+            return '%s (%s)'.format(self.nickname.strip(), self.full_name())
         else:
             return self.user.get_full_name()
 

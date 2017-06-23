@@ -227,7 +227,7 @@ class EventSignup(models.Model):
 
     def __str__(self):
         try:
-            return self.member.compsocuser.full_name()
+            return self.member.compsocuser.long_name()
         except CompsocUser.DoesNotExist:
             return self.member.get_full_name()
 

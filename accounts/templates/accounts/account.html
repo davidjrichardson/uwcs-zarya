@@ -15,10 +15,8 @@
             <div class="small-12 columns">
               <h5>Account actions</h5>
               <ul class="vertical menu">
+                <li><a href="{% url 'profile_update' %}">Account settings</a></li>
                 <li><a href="{% url 'password_change' %}">Change your password</a></li>
-                <li><a href="{% url 'profile_update' %}">
-                  {% if request.user.compsocuser %}Update user information{% else %}Set your nickname{% endif %}</a>
-                </li>
                 {% if not request.user.shellaccount %}
                   <li><a href="{% url 'request_shell' %}">Request shell account</a></li>
                 {% endif %}
@@ -32,9 +30,16 @@
 
         <section class="small-12 medium-8 medium-pull-3 large-9 large-pull-3 columns">
           <h4>User information</h4>
+          <h6>Full name (from Warwick SU):</h6>
+          <p>{{ user.get_full_name|default:user.username }}</p>
 
           {% if request.user.compsocuser %}
             {% with request.user.compsocuser as user %}
+              {% if user.first_name or user.last_name %}
+                <h6>Preferred name:</h6>
+                <p>{{ user.full_name }}</p>
+              {% endif %}
+
               {% if user.nickname %}
                 <h6>Nickname:</h6>
                 <p>{{ user.nickname }}</p>
