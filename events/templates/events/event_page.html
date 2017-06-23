@@ -140,7 +140,13 @@
                   <td class="user">
                     <a href="{% url 'public_profile' uid=comment.member.id %}">
                       {% if comment.member.compsocuser %}
-                        {{ comment.member.compsocuser }}
+                        {% with comment.member.compsocuser as user %}
+                          {% if user.nickname %}
+                            <span data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="{{ user.full_name }}">{{ user }}</span>
+                          {% else %}
+                            {{ user }}
+                          {% endif %}
+                        {% endwith %}
                       {% else %}
                         {{ comment.member.get_full_name }}
                       {% endif %}
