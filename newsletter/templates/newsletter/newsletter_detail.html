@@ -3,6 +3,19 @@
 {% block title %}UWCS | {{ newsletter.subject }}{% endblock %}
 
 {% block content %}
+  <section class="breadcrumb-wrapper">
+    <div class="row">
+      <div class="small-12 columns">
+        <nav aria-label="You are here:" role="navigation">
+          <ul class="breadcrumbs">
+            <li><a href="{% url 'newsletters_index' %}">Newsletters</a></li>
+            <li class="current-page"><span class="show-for-sr">Current: </span>{{ newsletter.subject }}</li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </section>
+
   <section class="row margin-top-2x margin-bottom-1x">
     <div class="small-12 columns">
       <h2>{{ newsletter.subject }}</h2>
