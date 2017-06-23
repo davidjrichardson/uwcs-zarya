@@ -19,13 +19,15 @@
   <meta property="og:image" content="https://uwcs.co.uk/static/favicon-180.png"/>
 
   {# Global stylesheets #}
-  {% compress css %}
-    {% if nightmode %}
+  {% if nightmode %}
+    {% compress css %}
       <link href="{% static 'scss/app-dark.scss' %}" rel="stylesheet" type="text/x-scss"/>
-    {% else %}
+    {% endcompress %}
+  {% else %}
+    {% compress css %}
       <link href="{% static 'scss/app.scss' %}" rel="stylesheet" type="text/x-scss"/>
-    {% endif %}
-  {% endcompress %}
+    {% endcompress %}
+  {% endif %}
   <link rel="stylesheet" type="text/css"
         href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
   <link href="https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i|Montserrat|Ubuntu+Mono" rel="stylesheet">
