@@ -7,7 +7,6 @@
         <option name="settingsModule" value="zarya/settings/base.py" />
         <option name="manageScript" value="manage.py" />
         <option name="environment" value="&lt;map/&gt;" />
-        <option name="commandsToSkip" value="" />
       </configuration>
     </facet>
   </component>
@@ -17,8 +16,9 @@
       <sourceFolder url="file://$MODULE_DIR$/lib" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/zarya" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/accounts" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/seating" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.5.1 virtualenv at ~/Documents/dev/compsoc/env" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.5.3 virtualenv at ~/Projects/uwcs-zarya/venv" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="TemplatesService">
