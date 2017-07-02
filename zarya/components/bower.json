@@ -13,7 +13,7 @@
     "tests"
   ],
   "dependencies": {
-    "foundation-sites": "^6.2.3",
-    "motion-ui": "^1.2.2"
+    "foundation-sites": "~6.2.4",
+    "motion-ui": "~1.2.2"
   }
 }
