@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'accounts',
     'events',
     'newsletter',
+    'seating',
     # Uncomment this for data migration - otherwise it causes a large number of
     # 'migration',
 
