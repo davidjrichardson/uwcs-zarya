@@ -28,7 +28,7 @@ def send_user_issue_email(user, username):
               'P.S.: Please don\'t reply to this email, you will not get a response.'.format(first_name=user.first_name,
                                                                                             username=username)
     user.email_user(subject, message, from_email)
-  
+
 def send_success_mail(user, username, password):
     subject = 'Shell account request successful'
     from_email = 'UWCS Techteam <noreply@uwcs.co.uk>'
