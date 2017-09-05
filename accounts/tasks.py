@@ -13,6 +13,8 @@ import crypt
 
 import os
 
+import subprocess
+
 def send_user_issue_email(user, username):
     subject = 'There\'s an issue with your shell account request'
     from_email = 'UWCS Techteam <noreply@uwcs.co.uk>'
@@ -144,8 +146,7 @@ def create_ldap_user(account_id):
             os.makedirs(sites_path)
             os.chown(sites_path, int(user.username), int(user.username))
             make_user_site_config(request.name)
-        
-        
+
         send_success_mail(user, request.name, password)
 
         return True
