@@ -13,6 +13,7 @@ import crypt
 
 import os
 
+import subprocess
 
 def send_user_issue_email(user, username):
     subject = 'There\'s an issue with your shell account request'
@@ -27,7 +28,6 @@ def send_user_issue_email(user, username):
               'P.S.: Please don\'t reply to this email, you will not get a response.'.format(first_name=user.first_name,
                                                                                             username=username)
     user.email_user(subject, message, from_email)
-
 
 def send_success_mail(user, username, password):
     subject = 'Shell account request successful'
@@ -46,6 +46,34 @@ def send_success_mail(user, username, password):
                                                                                             password=password)
     user.email_user(subject, message, from_email)
 
+def make_user_site_config(username):
+    f = open('/etc/apache2/sites-available/members-{username}.conf'.format(username=username), 'w')
+    f.write('<VirtualHost *:443>\n' \
+            '    SSLEngine on\n' \
+            '    SSLCertificateChainFile /etc/ssl/private/uwcs.co.uk/STAR_uwcs_co_uk.ca-bundle\n' \
+            '    SSLCertificateFile /etc/ssl/private/uwcs.co.uk/STAR_uwcs_co_uk.crt\n' \
+            '    SSLCertificateKeyFile /etc/ssl/private/uwcs.co.uk/server.key\n' \
+            '    SSLProtocol All -SSLv2 -SSLv3\n' \
+            '    SSLHonorCipherOrder On\n' \
+            '    SSLCompression off\n' \
+            '    SSLCipherSuite ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA:ECDHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA256:DHE-RSA-AES128-SHA256:DHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA:ECDHE-RSA-DES-CBC3-SHA:EDH-RSA-DES-CBC3-SHA:AES256-GCM-SHA384:AES128-GCM-SHA256:AES256-SHA256:AES128-SHA256:AES256-SHA:AES128-SHA:DES-CBC3-SHA:HIGH:!aNULL:!eNULL:!EXPORT:!CAMELLIA:!DES:!MD5:!PSK:!RC4\n\n' \
+            '    Header always set Strict-Transport-Security "max-age=15768000"\n\n' \
+            '    ServerName {username}.uwcs.co.uk\n\n' \
+            '    DocumentRoot /compsoc/sites/{username}\n\n' \
+            '    <Directory "/compsoc/sites/{username}">\n' \
+            '        Require all granted\n' \
+            '        Options -Indexes +ExecCGI\n' \
+            '    </Directory>\n\n' \
+            '    <IfModule suexec.c>\n' \
+            '        SuexecUserGroup {username} {username}\n' \
+            '    </IfModule>\n\n' \
+            '    ErrorLog ${{APACHE_LOG_DIR}}/error.log\n' \
+            '    CustomLog ${{APACHE_LOG_DIR}}/access.log combined\n\n' \
+            '</VirtualHost>\n\n' \
+            '# vim: syntax=apache ts=4 sw=4 sts=4 sr noet'.format(username=username))
+    f.close()
+    os.symlink('/etc/apache2/sites-enabled/members-{nickname}.conf'.format(nickname=username), '/etc/apache2/sites-available/members-{nickname}.conf'.format(nickname=username))
+    subprocess.call(['service', 'apache2', 'reload'], shell=False)
 
 @task(name='create_ldap_user')
 def create_ldap_user(account_id):
@@ -117,6 +145,7 @@ def create_ldap_user(account_id):
         if not os.path.exists(sites_path):
             os.makedirs(sites_path)
             os.chown(sites_path, int(user.username), int(user.username))
+            make_user_site_config(request.name)
 
         send_success_mail(user, request.name, password)
 
