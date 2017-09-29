@@ -14,9 +14,9 @@ import crypt
 import os
 
 def make_user_site_config(username):
-	f1 = open("/etc/apache2/sites-available/members-template.conf", "r")
-	memberTemplate = f1.read()
-	f1.close()
+    f1 = open("/etc/apache2/sites-available/members-template.conf", "r")
+    memberTemplate = f1.read()
+    f1.close()
     f2 = open("/etc/apache2/sites-available/members-{nickname}.conf".format(nickname=username), "w")
     f2.write(memberTemplate.format(user=username))
     f2.close()
