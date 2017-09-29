@@ -13,6 +13,15 @@ import crypt
 
 import os
 
+def make_user_site_config(username):
+	f1 = open("/etc/apache2/sites-available/members-template.conf", "r")
+	memberTemplate = f1.read()
+	f1.close()
+    f2 = open("/etc/apache2/sites-available/members-{nickname}.conf".format(nickname=username), "w")
+    f2.write(memberTemplate.format(user=username))
+    f2.close()
+    os.symlink("/etc/apache2/sites-enabled/members-{nickname}.conf".format(nickname=username),"/etc/apache2/sites-available/members-{nickname}.conf".format(nickname=username))
+    subprocess.call(['service', 'apache2', 'reload'], shell=False)
 
 def send_user_issue_email(user, username):
     subject = 'There\'s an issue with your shell account request'
@@ -117,6 +126,7 @@ def create_ldap_user(account_id):
         if not os.path.exists(sites_path):
             os.makedirs(sites_path)
             os.chown(sites_path, int(user.username), int(user.username))
+            make_user_site_config(request.name)
 
         send_success_mail(user, request.name, password)
 
