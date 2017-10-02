@@ -99,6 +99,10 @@
   & .flex-column {
     padding: $global-padding;
   }
+
+  &.sidebar .flex-column {
+    padding: $global-padding/2;
+  }
 }
 
 // Footer
