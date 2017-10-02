@@ -142,3 +142,7 @@ fabric.properties
 
 # Celery
 celerybeat.pid
+
+# Virtualenv
+env/
+venv/
