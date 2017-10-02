@@ -22,7 +22,7 @@ def is_nightmode(context):
 @register.inclusion_tag('lib/tags/sponsor_homepage.html', takes_context=True)
 def sponsor_homepage(context):
     return {
-        'sponsor': Sponsor.objects.filter(primary_sponsor=True).first(),
+        'sponsors': Sponsor.objects.filter(primary_sponsor=True).all(),
         'request': context['request'],
     }
 
@@ -30,7 +30,7 @@ def sponsor_homepage(context):
 @register.inclusion_tag('lib/tags/sponsor_sidebar.html', takes_context=True)
 def sponsor_sidebar(context):
     return {
-        'sponsor': Sponsor.objects.filter(primary_sponsor=True).first(),
+        'sponsors': Sponsor.objects.filter(primary_sponsor=True).all(),
         'request': context['request'],
     }
 

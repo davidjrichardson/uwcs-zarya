@@ -1,14 +1,23 @@
-{% load wagtailimages_tags %}
+{% load wagtailimages_tags base_tags %}
+{% is_nightmode as nightmode %}
 
-{% if sponsor %}
+{% if sponsors %}
   <div class="row">
     <div class="small-12 text-center flex-columns">
       <h4>Sponsored by:</h4>
     </div>
   </div>
-  <div class="row">
-    <div class="small-6 medium-4 large-2 small-push-3 medium-push-4 large-push-5 columns">
-      {% if sponsor.url %}<a href="{{ sponsor.url }}">{% endif %}{% image sponsor.sponsor_image width-640 %}{% if sponsor.url %}</a>{% endif %}
-    </div>
+  <div class="flex-row sponsor-row">
+    {% for sponsor in sponsors %}
+      <div class="flex-column flex-shrink">
+        <a href="{% if sponsor.url %}{{ sponsor.url }}{% else %}/about/sponsors/{% endif %}">
+          {% if nightmode %}
+            {% image sponsor.nightmode_image max-400x100 %}
+          {% else %}
+            {% image sponsor.sponsor_image max-400x100 %}
+          {% endif %}
+        </a>
+      </div>
+    {% endfor %}
   </div>
 {% endif %}
