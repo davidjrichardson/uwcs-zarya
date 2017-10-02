@@ -51,6 +51,14 @@ class Sponsor(models.Model):
         related_name='+',
         help_text='This image will be displayed in all sponsor display locations accross the website'
     )
+    nightmode_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        help_text='This image will be displayed in all sponsor display locations accross the website in night mode'
+    )
     url = models.URLField(null=True, blank=True)
     text = models.CharField(max_length=255)
     primary_sponsor = models.BooleanField(default=False)
@@ -60,6 +68,7 @@ class Sponsor(models.Model):
         FieldPanel('primary_sponsor'),
         FieldPanel('url'),
         ImageChooserPanel('sponsor_image'),
+        ImageChooserPanel('nightmode_image'),
     ]
 
     def __str__(self):
