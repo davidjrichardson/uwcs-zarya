@@ -40,6 +40,7 @@
 //  34. Title Bar
 //  35. Tooltip
 //  36. Top Bar
+//  37. Code Blocks
 
 @import 'util/util';
 
@@ -584,3 +585,11 @@ $topbar-submenu-background: $white;
 $topbar-title-spacing: 0rem;
 $topbar-input-width: 200px;
 $topbar-unstack-breakpoint: medium;
+
+// 37. Code Blocks
+// -----------
+
+$code-table-border: $light-gray;
+$code-table-linenos-background: $light-gray;
+$code-table-linenos: transparentize($black, 0.46);
+$code-table-highlight: scale-color($primary-color, $lightness: 75%);

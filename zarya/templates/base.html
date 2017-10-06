@@ -58,7 +58,7 @@
   <meta name="msapplication-config" content="/static/browserconfig.xml">
 </head>
 
-<body>
+<body class="{% if nightmode %}nightmode{% endif %}">
 {% wagtailuserbar %}
 
 <div class="flex-wrapper">
