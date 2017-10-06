@@ -178,6 +178,12 @@ WAGTAIL_SITE_NAME = 'UWCS (Zarya)'
 # e.g. in notification emails. Don't include '/admin' or a trailing slash
 BASE_URL = 'uwcs.co.uk'
 
+# Apache template conf
+APACHE_SSL_DIR = ''
+APACHE_SSL_CERT_FILE = ''
+APACHE_SSL_KEY_FILE = ''
+
+
 # Celery
 BROKER_URL = 'redis://localhost:6379'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379'
