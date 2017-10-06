@@ -11,8 +11,8 @@ SECRET_KEY = 'l33th4x0rs'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'zarya',
-        'USER': 'zarya',
+        'NAME': 'uwcs_zarya',
+        'USER': 'uwcs_zarya',
         'PASSWORD': 'password',
         'HOST': 'localhost',
         'PORT': '5432',

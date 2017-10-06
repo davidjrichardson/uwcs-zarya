@@ -1,31 +1,41 @@
+import crypt
+import os
+from datetime import datetime
+
 from celery.decorators import task
+from django.conf import settings
+from django.contrib.auth.models import User
+from django.template.loader import get_template
+from ldap3 import Connection, Server, SYNC, SIMPLE, ALL_ATTRIBUTES
 
 from accounts.models import ShellAccount
 
-from django.contrib.auth.models import User
-from django.conf import settings
-from django.template.loader import get_template
-
-from datetime import datetime
-
-from ldap3 import Connection, Server, SYNC, SIMPLE, ALL_ATTRIBUTES
-
-import crypt
-
-import os
-
 
 def make_user_site_config(username):
+    # Render the config file
     config_template = get_template('accounts/members-template.conf')
-    # f1 = open("/etc/apache2/sites-available/members-template.conf", "r")
-    # memberTemplate = f1.read()
-    # f1.close()
-    # f2 = open("/etc/apache2/sites-available/members-{nickname}.conf".format(nickname=username), "w")
-    # f2.write(memberTemplate.format(user=username))
-    # f2.close()
-    # os.symlink("/etc/apache2/sites-enabled/members-{nickname}.conf".format(nickname=username),
-    #            "/etc/apache2/sites-available/members-{nickname}.conf".format(nickname=username))
-    # subprocess.call(['service', 'apache2', 'reload'], shell=False)
+    config = config_template.render({
+        'user': username,
+        'ssl_cipher_suite': settings.APACHE_SSL_CIPHER_SUITE,
+        'ssl_cert': settings.APACHE_SSL_CERT_FILE,
+        'ssl_key': settings.APACHE_SSL_KEY_FILE,
+        'ssl_chain': settings.APACHE_SSL_CHAIN_FILE,
+        'website_dir': settings.APACHE_HOME_DIR
+    })
+
+    # Save it to a file on the filesystem
+    config_file = open(
+        '{sites_available}/members-{nickname}.conf'.format(sites_available=settings.APACHE_SITES_AVAILABLE,
+                                                           nickname=username), 'w')
+    config_file.write(config)
+    config_file.close()
+
+    # Symlink the config files to enable the site and restart apache
+    os.symlink('{sites_enabled}/members-{nickname}.conf'.format(sites_enabled=settings.APACHE_SITES_ENABLED,
+                                                                nickname=username),
+               '{sites_available}/members-{nickname}.conf'.format(sites_available=settings.APACHE_SITES_AVAILABLE,
+                                                                  nickname=username))
+    os.subprocess.call(['service', 'apache2', 'reload'], shell=False)
 
 
 def send_user_issue_email(user, username):
