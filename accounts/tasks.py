@@ -1,5 +1,6 @@
 import crypt
 import os
+import subprocess
 from datetime import datetime
 
 from celery.decorators import task
@@ -38,7 +39,7 @@ def make_user_site_config(username):
                                                                   nickname=username),
                '{sites_enabled}/members-{nickname}.conf'.format(sites_enabled=settings.APACHE_SITES_ENABLED,
                                                                 nickname=username))
-    os.subprocess.call(['service', 'apache2', 'reload'], shell=False)
+    subprocess.call(['service', 'apache2', 'reload'], shell=False)
 
 
 def send_user_issue_email(user, username):
