@@ -34,10 +34,10 @@ def make_user_site_config(username):
     config_file.close()
 
     # Symlink the config files to enable the site and restart apache
-    os.symlink('{sites_enabled}/members-{nickname}.conf'.format(sites_enabled=settings.APACHE_SITES_ENABLED,
-                                                                nickname=username),
-               '{sites_available}/members-{nickname}.conf'.format(sites_available=settings.APACHE_SITES_AVAILABLE,
-                                                                  nickname=username))
+    os.symlink('{sites_available}/members-{nickname}.conf'.format(sites_available=settings.APACHE_SITES_AVAILABLE,
+                                                                  nickname=username),
+               '{sites_enabled}/members-{nickname}.conf'.format(sites_enabled=settings.APACHE_SITES_ENABLED,
+                                                                nickname=username))
     os.subprocess.call(['service', 'apache2', 'reload'], shell=False)
 
 
