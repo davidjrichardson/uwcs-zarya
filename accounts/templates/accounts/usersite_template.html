@@ -9,7 +9,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-  <title>UWCS | {{ nickname }}'s Site Under Construction</title>
+  <title>UWCS | {{ nickname }}'s site under construction</title>
   <meta name="description" content=""/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="theme-color" content="#141E24"/>
@@ -45,11 +45,51 @@
 </head>
 
 <body>
-<div class="row margin-top-2x margin-bottom-1x">
-  <div class="small-12 columns">
-    <h1 class="text-center">Site Under Construction</h1>
-    <p>{{ nickname }}'s website is still under construction. Check back again in the future.</p>
+<div class="flex-row align-center margin-top-2x" style="
+    justify-content: center;
+">
+  <div class="flex-columns flex-shrink" style="
+">
+    <svg width="326" height="250" viewBox="0 0 326 332" xmlns="http://www.w3.org/2000/svg"
+         xmlns:xlink="http://www.w3.org/1999/xlink">
+      <defs>
+        <text id="b" font-family="Montserrat-Bold, Montserrat" font-size="60" font-weight="bold" letter-spacing="18"
+              fill="#FFF">
+          <tspan x=".83" y="58">UWCS</tspan>
+        </text>
+        <filter x="-.4%" y="-.7%" width="100.8%" height="102.7%" filterUnits="objectBoundingBox" id="a">
+          <feOffset dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+          <feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0" in="shadowOffsetOuter1"></feColorMatrix>
+        </filter>
+        <filter x="-.6%" y="-.9%" width="101.1%" height="103.5%" filterUnits="objectBoundingBox" id="c">
+          <feOffset dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+          <feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0" in="shadowOffsetOuter1"
+                         result="shadowMatrixOuter1"></feColorMatrix>
+          <feMerge>
+            <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+            <feMergeNode in="SourceGraphic"></feMergeNode>
+          </feMerge>
+        </filter>
+      </defs>
+      <g fill="none" fill-rule="evenodd">
+        <g transform="translate(38 233)" fill="#FFF">
+          <use filter="url(#a)" xlink:href="#b"></use>
+          <use xlink:href="#b"></use>
+        </g>
+        <g filter="url(#c)" transform="rotate(45 53.042 206.58)">
+          <ellipse fill="#FDD835" cx="25.961" cy="86.515" rx="25" ry="24.82"></ellipse>
+          <ellipse fill="#3D5AFE" cx="88" cy="88.82" rx="25" ry="24.82"></ellipse>
+          <ellipse fill="#3D5AFE" cx="150.039" cy="88.82" rx="25" ry="24.82"></ellipse>
+          <ellipse fill="#FDD835" cx="26" cy="24.82" rx="25" ry="24.82"></ellipse>
+        </g>
+      </g>
+    </svg>
   </div>
+</div>
+<div class="row margin-bottom-1x">
+<div class="small-12 columns">
+  <h1 class="text-center">Site under construction</h1>
+  <p class="text-center">{{ nickname }}'s website is still under construction. Check back again in the future.</p>
 </div>
 </body>
 </html>
