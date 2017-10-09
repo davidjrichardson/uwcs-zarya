@@ -27,18 +27,18 @@ def make_user_site_config(username):
     print(config)
 
     # Save it to a file on the filesystem
-    # config_file = open(
-    #     '{sites_available}/members-{nickname}.conf'.format(sites_available=settings.APACHE_SITES_AVAILABLE,
-    #                                                        nickname=username), 'w')
-    # config_file.write(config)
-    # config_file.close()
-    #
-    # # Symlink the config files to enable the site and restart apache
-    # os.symlink('{sites_enabled}/members-{nickname}.conf'.format(sites_enabled=settings.APACHE_SITES_ENABLED,
-    #                                                             nickname=username),
-    #            '{sites_available}/members-{nickname}.conf'.format(sites_available=settings.APACHE_SITES_AVAILABLE,
-    #                                                               nickname=username))
-    # os.subprocess.call(['service', 'apache2', 'reload'], shell=False)
+    config_file = open(
+        '{sites_available}/members-{nickname}.conf'.format(sites_available=settings.APACHE_SITES_AVAILABLE,
+                                                           nickname=username), 'w')
+    config_file.write(config)
+    config_file.close()
+
+    # Symlink the config files to enable the site and restart apache
+    os.symlink('{sites_enabled}/members-{nickname}.conf'.format(sites_enabled=settings.APACHE_SITES_ENABLED,
+                                                                nickname=username),
+               '{sites_available}/members-{nickname}.conf'.format(sites_available=settings.APACHE_SITES_AVAILABLE,
+                                                                  nickname=username))
+    os.subprocess.call(['service', 'apache2', 'reload'], shell=False)
 
 
 def send_user_issue_email(user, username):
