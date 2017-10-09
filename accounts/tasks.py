@@ -20,22 +20,25 @@ def make_user_site_config(username):
         'ssl_cert': settings.APACHE_SSL_CERT_FILE,
         'ssl_key': settings.APACHE_SSL_KEY_FILE,
         'ssl_chain': settings.APACHE_SSL_CHAIN_FILE,
-        'website_dir': settings.APACHE_HOME_DIR
+        'website_dir': settings.APACHE_WEBSITE_DIR,
+        'base_url': settings.BASE_URL
     })
 
-    # Save it to a file on the filesystem
-    config_file = open(
-        '{sites_available}/members-{nickname}.conf'.format(sites_available=settings.APACHE_SITES_AVAILABLE,
-                                                           nickname=username), 'w')
-    config_file.write(config)
-    config_file.close()
+    print(config)
 
-    # Symlink the config files to enable the site and restart apache
-    os.symlink('{sites_enabled}/members-{nickname}.conf'.format(sites_enabled=settings.APACHE_SITES_ENABLED,
-                                                                nickname=username),
-               '{sites_available}/members-{nickname}.conf'.format(sites_available=settings.APACHE_SITES_AVAILABLE,
-                                                                  nickname=username))
-    os.subprocess.call(['service', 'apache2', 'reload'], shell=False)
+    # Save it to a file on the filesystem
+    # config_file = open(
+    #     '{sites_available}/members-{nickname}.conf'.format(sites_available=settings.APACHE_SITES_AVAILABLE,
+    #                                                        nickname=username), 'w')
+    # config_file.write(config)
+    # config_file.close()
+    #
+    # # Symlink the config files to enable the site and restart apache
+    # os.symlink('{sites_enabled}/members-{nickname}.conf'.format(sites_enabled=settings.APACHE_SITES_ENABLED,
+    #                                                             nickname=username),
+    #            '{sites_available}/members-{nickname}.conf'.format(sites_available=settings.APACHE_SITES_AVAILABLE,
+    #                                                               nickname=username))
+    # os.subprocess.call(['service', 'apache2', 'reload'], shell=False)
 
 
 def send_user_issue_email(user, username):

@@ -40,6 +40,15 @@ COMPRESS_OFFLINE = True
 # WarwickSU Membership API key
 UNION_API_KEY = 'su_api_key'
 
+# Apache template conf
+APACHE_SSL_CIPHER_SUITE = ''
+APACHE_SSL_CERT_FILE = ''
+APACHE_SSL_KEY_FILE = ''
+APACHE_SSL_CHAIN_FILE = ''
+APACHE_SITES_AVAILABLE = ''
+APACHE_SITES_ENABLED = ''
+APACHE_WEBSITE_DIR = ''
+
 # Allowed hosts
 ALLOWED_HOSTS = [
     'allowed_host(s)'
