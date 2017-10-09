@@ -144,6 +144,10 @@ def create_ldap_user(account_id):
         if not os.path.exists(sites_path):
             os.makedirs(sites_path)
             os.chown(sites_path, int(user.username), int(user.username))
+
+        apache_conf_path = '{apache}/member-{nickname}.conf'.format(apache=settings.APACHE_SITES_AVAILABLE,
+                                                                    nickname=request.name)
+        if not os.path.exists(apache_conf_path):
             make_user_site_config(request.name)
 
         send_success_mail(user, request.name, password)
