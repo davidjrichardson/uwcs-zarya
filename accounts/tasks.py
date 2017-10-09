@@ -49,7 +49,7 @@ def make_user_site_placeholder(username, uid):
 
     # Write the file to disk
     index_path = '{website_dir}/{nickname}/index.html'.format(website_dir=settings.APACHE_WEBSITE_DIR, nickname=username)
-    index_file = open(index_path)
+    index_file = open(index_path, 'w')
     index_file.write(html)
     index_file.close()
 

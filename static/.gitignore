@@ -6,3 +6,5 @@
 !scss/*
 !browserconfig.xml
 !favicon*
+!css/
+!css/*
