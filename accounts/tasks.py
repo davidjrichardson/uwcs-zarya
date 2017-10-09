@@ -14,7 +14,7 @@ from accounts.models import ShellAccount
 
 def make_user_site_config(username):
     # Render the config file
-    config_template = get_template('accounts/members-template.conf')
+    config_template = get_template('accounts/members_template.conf')
     config = config_template.render({
         'user': username,
         'ssl_cipher_suite': settings.APACHE_SSL_CIPHER_SUITE,
@@ -24,8 +24,6 @@ def make_user_site_config(username):
         'website_dir': settings.APACHE_WEBSITE_DIR,
         'base_url': settings.BASE_URL
     })
-
-    print(config)
 
     # Save it to a file on the filesystem
     config_file = open(
@@ -40,6 +38,25 @@ def make_user_site_config(username):
                '{sites_enabled}/members-{nickname}.conf'.format(sites_enabled=settings.APACHE_SITES_ENABLED,
                                                                 nickname=username))
     subprocess.call(['service', 'apache2', 'reload'], shell=False)
+
+
+def make_user_site_placeholder(username, uid):
+    # Render the HTML for the new placeholder site
+    html_template = get_template('accounts/usersite_template.html')
+    html = html_template.render({
+        'nickname': username
+    })
+
+    # Write the file to disk
+    index_path = '{website_dir}/{nickname}/index.html'.format(website_dir=settings.APACHE_WEBSITE_DIR, nickname=username)
+    index_file = open(index_path)
+    index_file.write(html)
+    index_file.close()
+
+    # Change ownership and set permissions of the file
+    os.chown(index_path, uid, uid)
+    # 0o644 is the same as 644 permissions.
+    os.chmod(index_path, 0o644)
 
 
 def send_user_issue_email(user, username):
@@ -150,6 +167,7 @@ def create_ldap_user(account_id):
                                                                     nickname=request.name)
         if not os.path.exists(apache_conf_path):
             make_user_site_config(request.name)
+            make_user_site_placeholder(username=request.name, uid=int(user.username))
 
         send_success_mail(user, request.name, password)
 
