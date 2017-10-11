@@ -16,6 +16,7 @@
       <sourceFolder url="file://$MODULE_DIR$/lib" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/zarya" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/accounts" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/newsletter" isTestSource="false" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.6.2 virtualenv at ~/Projects/uwcs-zarya/env" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
