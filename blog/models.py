@@ -1,20 +1,15 @@
 from datetime import datetime
-
-from django.utils import timezone
-from django.utils.safestring import mark_safe
 from django.core.paginator import PageNotAnInteger, Paginator, EmptyPage
 from django.db import models
-
-from modelcluster.fields import ParentalKey
+from django.utils import timezone
+from django.utils.safestring import mark_safe
 from modelcluster.contrib.taggit import ClusterTaggableManager
-
+from modelcluster.fields import ParentalKey
 from pygments import highlight
 from pygments.formatters import get_formatter_by_name
 from pygments.lexers import get_lexer_by_name
-
 from taggit.models import TaggedItemBase
-
-from wagtail.wagtailadmin.edit_handlers import FieldPanel, StreamFieldPanel
+from wagtail.wagtailadmin.edit_handlers import FieldPanel, StreamFieldPanel, MultiFieldPanel
 from wagtail.wagtailcore.blocks import TextBlock, StructBlock, StreamBlock, CharBlock, RichTextBlock, \
     ChoiceBlock
 from wagtail.wagtailcore.fields import StreamField, RichTextField
@@ -60,22 +55,34 @@ class Sponsor(models.Model):
         help_text='This image will be displayed in all sponsor display locations accross the website in night mode'
     )
     url = models.URLField(null=True, blank=True)
-    text = models.CharField(max_length=255)
+    name = models.CharField(max_length=255)
+    email_sponsor = models.BooleanField(default=True, help_text='Should this sponsor be included in the newsletters?')
+    email_text_markdown = models.TextField(max_length=4000,
+                                           help_text='The text content in our newsletter emails. Is required to be valid markdown',
+                                           verbose_name='Email text')
     primary_sponsor = models.BooleanField(default=False)
 
     panels = [
-        FieldPanel('text'),
-        FieldPanel('primary_sponsor'),
-        FieldPanel('url'),
-        ImageChooserPanel('sponsor_image'),
-        ImageChooserPanel('nightmode_image'),
+        MultiFieldPanel([
+            FieldPanel('name'),
+            FieldPanel('primary_sponsor'),
+            FieldPanel('url'),
+            ImageChooserPanel('sponsor_image'),
+            ImageChooserPanel('nightmode_image'),
+        ], heading='Sponsor information'),
+        MultiFieldPanel([
+            FieldPanel('email_sponsor'),
+            FieldPanel('email_text_markdown')
+        ], heading='Email content')
     ]
 
     def __str__(self):
         if self.primary_sponsor:
-            return self.text + ' (primary sponsor)'
+            return self.name + ' (primary sponsor)'
+        elif self.email_sponsor:
+            return self.name + ' (email sponsor)'
         else:
-            return self.text
+            return self.name
 
 
 class PullQuoteBlock(StructBlock):
