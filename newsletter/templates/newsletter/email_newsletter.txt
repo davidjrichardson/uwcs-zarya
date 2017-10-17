@@ -1,0 +1,14 @@
+{% extends 'newsletter/email_base.txt' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+{{ message }}
+{% for sponsor in sponsors %}
+{% if sponsor.email_sponsor %}
+---
+Sponsored by {{ sponsor.name }}
+{{ sponsor.email_text_markdown }}
+{% endif %}
+{% endfor %}
+{% endblock %}

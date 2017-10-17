@@ -1,0 +1,19 @@
+{% extends 'newsletter/email_base.html' %}
+{% load base_tags %}
+
+{% block title %}
+  {{ title }}
+{% endblock %}
+
+{% block content %}
+  {{ message|markdownify|safe }}
+  {% for sponsor in sponsors %}
+    {% if sponsor.email_sponsor %}
+      <div>
+        <hr/>
+        <p><strong>Sponsored by {{ sponsor.name }}</strong></p>
+        {{ sponsor.email_text_markdown|markdownify|safe }}
+      </div>
+    {% endif %}
+  {% endfor %}
+{% endblock %}

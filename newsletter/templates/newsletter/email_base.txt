@@ -1,0 +1,5 @@
+Subject: {% block title %}{% endblock %}
+
+{% block content %}{% endblock %}
+
+You can unsubscribe from the UWCS newsletter here: -unsub_url-
