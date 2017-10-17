@@ -1,0 +1,7 @@
+{% extends 'newsletter/email_base.txt' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+{% endblock %}
