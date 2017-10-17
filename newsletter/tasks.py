@@ -1,42 +1,37 @@
 from celery.decorators import task
-
+from django.conf import settings
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
 from django.urls import reverse
-from django.core.mail import send_mail
 
-from markdown import markdown
-
+from blog.models import Sponsor
 from .models import Subscription, Mail
 
-from bs4 import BeautifulSoup
 
-
-def mail_newsletter(subscription, mail):
-    # Create the unsubscribe link -- there should probably be a better way of doing this
-    unsub_link = 'https://uwcs.co.uk{path}'.format(
-        path=reverse('unsub_with_id', kwargs={'token': subscription.unsubscribe_token}))
-    markdown_append = '\n\n[Click here to unsubscribe from the UWCS newsletter]({link})'.format(link=unsub_link)
-    text_append = '\n\nClick the following link to unsubscribe from the UWCS newsletter:\n{link}'.format(
-        link=unsub_link)
-
-    # Create the plaintext and HTML messages with the appended unsubscribe links
-    email_html = markdown(mail.text + markdown_append)
-
-    # Alter image sources to point to the right place
-    soup = BeautifulSoup(email_html, 'html5lib')
-    for img in soup.findAll('img'):
-        if not img['src'].startswith('https://uwcs.co.uk'):
-            img['src'] = 'https://uwcs.co.uk{path}'.format(path=img['src'])
-    email_html = str(soup)
-
-    email_text = ''.join(BeautifulSoup(markdown(mail.text), 'html5lib').findAll(text=True)) + text_append
+def mail_newsletter(recipients, mail):
+    email_context = {
+        'title': mail.subject,
+        'message': mail.text,
+        'base_url': settings.EMAIL_ABS_URL,
+        'sponsors': Sponsor.objects.all(),
+    }
+    email_html = render_to_string('newsletter/email_newsletter.html', email_context)
+    email_plaintext = render_to_string('newsletter/email_newsletter.txt', email_context)
+    to = [x.email for x in recipients]
+    # Create a map of emails to unsub tokens for the email merge
+    unsub_tokens = {recipient.email: {
+        'unsub_url': '{hostname}{path}'.format(hostname=settings.EMAIL_ABS_URL,
+                                               path=reverse('unsub_with_id', kwargs={
+                                                   'token': recipient.unsubscribe_token
+                                               }))} for recipient in recipients}
     sender = '{name} <{email}>'.format(name=mail.sender_name, email=mail.sender_email)
 
-    send_mail(subject=mail.subject, from_email=sender, recipient_list=[subscription.email], message=email_text,
-              html_message=email_html)
+    email = EmailMultiAlternatives(mail.subject, email_plaintext, sender, to)
+    email.attach_alternative(email_html, 'text/html')
+    email.merge_data = unsub_tokens
+    email.send()
 
 
 @task(name='send_newsletter')
 def send_newsletter(mail_id):
-    # Send an individual email to each user, allowing them to unsubscribe
-    for subscription in Subscription.objects.all():
-        mail_newsletter(subscription, Mail.objects.get(id=mail_id))
+    mail_newsletter(Subscription.objects.all(), Mail.objects.get(id=mail_id))
