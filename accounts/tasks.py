@@ -6,7 +6,7 @@ from datetime import datetime
 from celery.decorators import task
 from django.conf import settings
 from django.contrib.auth.models import User
-from django.template.loader import get_template
+from django.template.loader import render_to_string
 from ldap3 import Connection, Server, SYNC, SIMPLE, ALL_ATTRIBUTES
 
 from accounts.models import ShellAccount
@@ -14,8 +14,7 @@ from accounts.models import ShellAccount
 
 def make_user_site_config(username):
     # Render the config file
-    config_template = get_template('accounts/members_template.conf')
-    config = config_template.render({
+    config = render_to_string('accounts/members_template.conf', {
         'user': username,
         'ssl_cipher_suite': settings.APACHE_SSL_CIPHER_SUITE,
         'ssl_cert': settings.APACHE_SSL_CERT_FILE,
