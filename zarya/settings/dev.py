@@ -19,6 +19,9 @@ DATABASES = {
     }
 }
 
+EMAIL_ABS_URL = "http://localhost:8000"
+
+# Anymail
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 try:

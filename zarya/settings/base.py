@@ -160,7 +160,7 @@ PASSWORD_HASHERS = [
 ]
 
 # Anymail
-DEFAULT_FROM_EMAIL = "noreply@uwcs.co.uk"
+DEFAULT_FROM_EMAIL = "newsletter@uwcs.co.uk"
 
 # Django-bower
 BOWER_INSTALLED_APPS = [
