@@ -7,6 +7,7 @@ from celery.decorators import task
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.template.loader import render_to_string
+from django.core.mail import EmailMultiAlternatives
 from ldap3 import Connection, Server, SYNC, SIMPLE, ALL_ATTRIBUTES
 
 from accounts.models import ShellAccount
@@ -74,21 +75,17 @@ def send_user_issue_email(user, username):
 
 
 def send_success_mail(user, username, password):
-    subject = 'Shell account request successful'
-    from_email = 'UWCS Techteam <noreply@uwcs.co.uk>'
-    message = 'Your shell account request has been successful and an account has been created with the \n' \
-              'following credentials:\n\n' \
-              'username: {username}\n' \
-              'password: {password}\n\n' \
-              'You can access our server(s) by using ssh and the address lovelace.uwcs.co.uk. We recommend you ' \
-              'change your password using the passwd command once logged in. From \'lovelace\', you then may ' \
-              'log into our other servers. A full breakdown of our servers and what they \n' \
-              'do is available on our about page: https://uwcs.co.uk/about/\n\n' \
-              'Regards,\n' \
-              'UWCS Tech Team\n\n' \
-              'P.S.: Please don\'t reply to this email, you will not get a response.'.format(username=username,
-                                                                                             password=password)
-    user.email_user(subject, message, from_email)
+    email_context = {
+        'title': 'Shell account request successful',
+        'username': username,
+        'password': password,
+    }
+    email_html = render_to_string('accounts/shell_successful.html', email_context)
+    email_text = render_to_string('accounts/shell_successful.txt', email_context)
+
+    email = EmailMultiAlternatives(email_context['title'], email_text, 'UWCS Techteam <techteam@uwcs.co.uk>')
+    email.attach_alternative(email_html, 'text/html')
+    user.email_user(email)
 
 
 @task(name='create_ldap_user')
