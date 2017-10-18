@@ -6,8 +6,8 @@ from datetime import datetime
 from celery.decorators import task
 from django.conf import settings
 from django.contrib.auth.models import User
-from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
 from ldap3 import Connection, Server, SYNC, SIMPLE, ALL_ATTRIBUTES
 
 from accounts.models import ShellAccount
@@ -47,7 +47,8 @@ def make_user_site_placeholder(username, uid):
     })
 
     # Write the file to disk
-    index_path = '{website_dir}/{nickname}/index.html'.format(website_dir=settings.APACHE_WEBSITE_DIR, nickname=username)
+    index_path = '{website_dir}/{nickname}/index.html'.format(website_dir=settings.APACHE_WEBSITE_DIR,
+                                                              nickname=username)
     index_file = open(index_path, 'w')
     index_file.write(html)
     index_file.close()
@@ -67,9 +68,10 @@ def send_user_issue_email(user, username):
     email_html = render_to_string('accounts/shell_unsuccessful.html', email_context)
     email_text = render_to_string('accounts/shell_unsuccessful.txt', email_context)
 
-    email = EmailMultiAlternatives(email_context['title'], email_text, 'UWCS Techteam <techteam@uwcs.co.uk>')
+    email = EmailMultiAlternatives(email_context['title'], email_text, 'UWCS Techteam <techteam@uwcs.co.uk>',
+                                   to=user.email)
     email.attach_alternative(email_html, 'text/html')
-    user.send_email(email)
+    email.send()
 
 
 def send_success_mail(user, username, password):
@@ -81,9 +83,10 @@ def send_success_mail(user, username, password):
     email_html = render_to_string('accounts/shell_successful.html', email_context)
     email_text = render_to_string('accounts/shell_successful.txt', email_context)
 
-    email = EmailMultiAlternatives(email_context['title'], email_text, 'UWCS Techteam <techteam@uwcs.co.uk>')
+    email = EmailMultiAlternatives(email_context['title'], email_text, 'UWCS Techteam <techteam@uwcs.co.uk>',
+                                   to=user.email)
     email.attach_alternative(email_html, 'text/html')
-    user.email_user(email)
+    email.send()
 
 
 @task(name='create_ldap_user')
