@@ -3,7 +3,7 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block content %}
-Your shell account request has been successful and an account has been created with the following details:
+Your shell account request has been successful and an account has been created with these details:
 
  - Username: {{ username }}
  - Password: {{ password }}
