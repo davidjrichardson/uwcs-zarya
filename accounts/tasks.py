@@ -69,7 +69,7 @@ def send_user_issue_email(user, username):
     email_text = render_to_string('accounts/shell_unsuccessful.txt', email_context)
 
     email = EmailMultiAlternatives(email_context['title'], email_text, 'UWCS Techteam <techteam@uwcs.co.uk>',
-                                   to=user.email)
+                                   to=[user.email])
     email.attach_alternative(email_html, 'text/html')
     email.send()
 
@@ -84,7 +84,7 @@ def send_success_mail(user, username, password):
     email_text = render_to_string('accounts/shell_successful.txt', email_context)
 
     email = EmailMultiAlternatives(email_context['title'], email_text, 'UWCS Techteam <techteam@uwcs.co.uk>',
-                                   to=user.email)
+                                   to=[user.email])
     email.attach_alternative(email_html, 'text/html')
     email.send()
 
