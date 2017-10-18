@@ -26,11 +26,12 @@ LDAP_USER = 'ldap_user'
 LDAP_PASSWORD = 'ldap_password'
 
 # Anymail
-EMAIL_BACKEND = "anymail.backends.mailgun.MailgunBackend"
+EMAIL_ABS_URL = "http://localhost:8000"
+EMAIL_BACKEND = 'anymail.backends.sendgrid.EmailBackend'
 
 ANYMAIL = {
-    "MAILGUN_API_KEY": "your_api_key",
-    "MAILGUN_SENDER_DOMAIN": "sender_domain",
+    'SENDGRID_API_KEY': 'your_api_key',
+    'SENDGRID_MERGE_FIELD_FORMAT': '-{}-'
 }
 
 # SASS Compression

@@ -1,11 +1,10 @@
 <component name="InspectionProjectProfileManager">
   <profile version="1.0">
     <option name="myName" value="Project Default" />
-    <option name="myLocal" value="true" />
     <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="ignoredPackages">
         <value>
-          <list size="13">
+          <list size="50">
             <item index="0" class="java.lang.String" itemvalue="django-anymail" />
             <item index="1" class="java.lang.String" itemvalue="amqp" />
             <item index="2" class="java.lang.String" itemvalue="python-dateutil" />
@@ -19,6 +18,43 @@
             <item index="10" class="java.lang.String" itemvalue="icalendar" />
             <item index="11" class="java.lang.String" itemvalue="anyjson" />
             <item index="12" class="java.lang.String" itemvalue="billiard" />
+            <item index="13" class="java.lang.String" itemvalue="wagtail" />
+            <item index="14" class="java.lang.String" itemvalue="html5lib" />
+            <item index="15" class="java.lang.String" itemvalue="psycopg2" />
+            <item index="16" class="java.lang.String" itemvalue="django-markdownx" />
+            <item index="17" class="java.lang.String" itemvalue="django-classy-tags" />
+            <item index="18" class="java.lang.String" itemvalue="django-modelcluster" />
+            <item index="19" class="java.lang.String" itemvalue="premailer" />
+            <item index="20" class="java.lang.String" itemvalue="Pygments" />
+            <item index="21" class="java.lang.String" itemvalue="certifi" />
+            <item index="22" class="java.lang.String" itemvalue="lxml" />
+            <item index="23" class="java.lang.String" itemvalue="libsass" />
+            <item index="24" class="java.lang.String" itemvalue="urllib3" />
+            <item index="25" class="java.lang.String" itemvalue="djangorestframework" />
+            <item index="26" class="java.lang.String" itemvalue="Markdown" />
+            <item index="27" class="java.lang.String" itemvalue="vine" />
+            <item index="28" class="java.lang.String" itemvalue="django-taggit-templatetags2" />
+            <item index="29" class="java.lang.String" itemvalue="beautifulsoup4" />
+            <item index="30" class="java.lang.String" itemvalue="rcssmin" />
+            <item index="31" class="java.lang.String" itemvalue="django-treebeard" />
+            <item index="32" class="java.lang.String" itemvalue="rjsmin" />
+            <item index="33" class="java.lang.String" itemvalue="six" />
+            <item index="34" class="java.lang.String" itemvalue="django-bower" />
+            <item index="35" class="java.lang.String" itemvalue="django-appconf" />
+            <item index="36" class="java.lang.String" itemvalue="cssutils" />
+            <item index="37" class="java.lang.String" itemvalue="django-compressor" />
+            <item index="38" class="java.lang.String" itemvalue="django-libsass" />
+            <item index="39" class="java.lang.String" itemvalue="chardet" />
+            <item index="40" class="java.lang.String" itemvalue="Unidecode" />
+            <item index="41" class="java.lang.String" itemvalue="Willow" />
+            <item index="42" class="java.lang.String" itemvalue="cssselect" />
+            <item index="43" class="java.lang.String" itemvalue="Django" />
+            <item index="44" class="java.lang.String" itemvalue="django-taggit" />
+            <item index="45" class="java.lang.String" itemvalue="olefile" />
+            <item index="46" class="java.lang.String" itemvalue="pytz" />
+            <item index="47" class="java.lang.String" itemvalue="webencodings" />
+            <item index="48" class="java.lang.String" itemvalue="idna" />
+            <item index="49" class="java.lang.String" itemvalue="Pillow" />
           </list>
         </value>
       </option>

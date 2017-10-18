@@ -1,0 +1,14 @@
+{% extends 'newsletter/email_base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+  <p>Hi {{ first_name }}</p>
+  <p>
+    Unfortunately the username that you've provided for your shell account ({{ username }}) is in use, which means
+    that<br/> we can't create a shell account for you. No worries though, just reply to this email or send an email to
+    <a href="mailto:techteam@uwcs.co.uk">techteam@uwcs.co.uk</a> <br/>explaining the situation and we'll sort things out for
+    you.</p>
+  <p>King regards,<br/>
+    UWCS Techteam</p>
+{% endblock %}

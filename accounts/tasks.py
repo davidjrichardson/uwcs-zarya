@@ -6,7 +6,8 @@ from datetime import datetime
 from celery.decorators import task
 from django.conf import settings
 from django.contrib.auth.models import User
-from django.template.loader import get_template
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
 from ldap3 import Connection, Server, SYNC, SIMPLE, ALL_ATTRIBUTES
 
 from accounts.models import ShellAccount
@@ -14,8 +15,7 @@ from accounts.models import ShellAccount
 
 def make_user_site_config(username):
     # Render the config file
-    config_template = get_template('accounts/members_template.conf')
-    config = config_template.render({
+    config = render_to_string('accounts/members_template.conf', {
         'user': username,
         'ssl_cipher_suite': settings.APACHE_SSL_CIPHER_SUITE,
         'ssl_cert': settings.APACHE_SSL_CERT_FILE,
@@ -42,13 +42,13 @@ def make_user_site_config(username):
 
 def make_user_site_placeholder(username, uid):
     # Render the HTML for the new placeholder site
-    html_template = get_template('accounts/usersite_template.html')
-    html = html_template.render({
+    html = render_to_string('accounts/usersite_template.html', {
         'nickname': username
     })
 
     # Write the file to disk
-    index_path = '{website_dir}/{nickname}/index.html'.format(website_dir=settings.APACHE_WEBSITE_DIR, nickname=username)
+    index_path = '{website_dir}/{nickname}/index.html'.format(website_dir=settings.APACHE_WEBSITE_DIR,
+                                                              nickname=username)
     index_file = open(index_path, 'w')
     index_file.write(html)
     index_file.close()
@@ -60,36 +60,33 @@ def make_user_site_placeholder(username, uid):
 
 
 def send_user_issue_email(user, username):
-    subject = 'There\'s an issue with your shell account request'
-    from_email = 'UWCS Techteam <noreply@uwcs.co.uk>'
-    message = 'Hi {first_name},\n\n' \
-              'Unfortunately the nickname that you had provided for your shell account ({username}) is in use \n' \
-              'which means we can\'t create an account for you. No worries though, just send an email \n' \
-              'to tech@uwcs.co.uk explaining the situation the account name that you\'d like and we \n' \
-              'should be able to sort things out for you.\n\n' \
-              'Regards,\n' \
-              'UWCS Tech Team\n\n' \
-              'P.S.: Please don\'t reply to this email, you will not get a response.'.format(first_name=user.first_name,
-                                                                                             username=username)
-    user.email_user(subject, message, from_email)
+    email_context = {
+        'title': 'There\'s an issue with your shell account request',
+        'first_name': user.first_name,
+        'username': username
+    }
+    email_html = render_to_string('accounts/shell_unsuccessful.html', email_context)
+    email_text = render_to_string('accounts/shell_unsuccessful.txt', email_context)
+
+    email = EmailMultiAlternatives(email_context['title'], email_text, 'UWCS Techteam <techteam@uwcs.co.uk>',
+                                   to=[user.email])
+    email.attach_alternative(email_html, 'text/html')
+    email.send()
 
 
 def send_success_mail(user, username, password):
-    subject = 'Shell account request successful'
-    from_email = 'UWCS Techteam <noreply@uwcs.co.uk>'
-    message = 'Your shell account request has been successful and an account has been created with the \n' \
-              'following credentials:\n\n' \
-              'username: {username}\n' \
-              'password: {password}\n\n' \
-              'You can access our server(s) by using ssh and the address lovelace.uwcs.co.uk. We recommend you ' \
-              'change your password using the passwd command once logged in. From \'lovelace\', you then may ' \
-              'log into our other servers. A full breakdown of our servers and what they \n' \
-              'do is available on our about page: https://uwcs.co.uk/about/\n\n' \
-              'Regards,\n' \
-              'UWCS Tech Team\n\n' \
-              'P.S.: Please don\'t reply to this email, you will not get a response.'.format(username=username,
-                                                                                             password=password)
-    user.email_user(subject, message, from_email)
+    email_context = {
+        'title': 'Shell account request successful',
+        'username': username,
+        'password': password,
+    }
+    email_html = render_to_string('accounts/shell_successful.html', email_context)
+    email_text = render_to_string('accounts/shell_successful.txt', email_context)
+
+    email = EmailMultiAlternatives(email_context['title'], email_text, 'UWCS Techteam <techteam@uwcs.co.uk>',
+                                   to=[user.email])
+    email.attach_alternative(email_html, 'text/html')
+    email.send()
 
 
 @task(name='create_ldap_user')

@@ -1,0 +1,14 @@
+{% extends 'newsletter/email_base.txt' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+Hi {{ first_name }},
+
+Unfortunately the username that you've provided for your shell account ({{ username }}) is in use, which means that we
+can't create a shell account for you. No worries though, just reply to this email or send an email to techteam@uwcs.co.uk
+explaining the situation and we'll sort things out for you.
+
+Kind regards,
+UWCS Techteam
+{% endblock %}

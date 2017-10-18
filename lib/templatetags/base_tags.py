@@ -1,10 +1,17 @@
 from django import template
+from django.template.defaultfilters import safe
 
 from blog.models import Sponsor, Footer
 
 from wagtail.wagtailcore.models import Page
+from markdown import markdown
 
 register = template.Library()
+
+
+@register.filter()
+def markdownify(value):
+    return markdown(value)
 
 
 @register.simple_tag(takes_context=True)
