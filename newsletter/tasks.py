@@ -44,7 +44,7 @@ def chunks(l, n):
 
 @task(name='send_newsletter')
 def send_newsletter(mail_id):
-    subscriptions = chunks(Subscription.objects.all(), 500)
+    subscriptions = chunks(Subscription.objects.all(), 100)
 
     for chunk in subscriptions:
         mail_newsletter(chunk, Mail.objects.get(id=mail_id))
