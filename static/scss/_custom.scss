@@ -325,7 +325,7 @@ input:disabled {
     }
 
     &.cancelled.cancelled.cancelled {
-      background-color: #ffdce3;
+      background-color: $event-list-cancelled-bg;
     }
 
     & h6.subheader {
