@@ -1,7 +1,6 @@
 import gc
 from celery.decorators import task
 from django.conf import settings
-from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.urls import reverse
@@ -31,6 +30,10 @@ def mail_newsletter(recipients, mail):
     email = EmailMultiAlternatives(mail.subject, email_plaintext, sender, to)
     email.attach_alternative(email_html, 'text/html')
     email.merge_data = unsub_tokens
+    email.merge_global_data = {
+        'subject': mail.subject
+    }
+    email.template_id = '615bcf44-fdfd-4632-8403-38987eb9074b'
     email.send()
 
 

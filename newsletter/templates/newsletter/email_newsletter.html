@@ -9,14 +9,16 @@
   {{ message|markdownify|safe }}
   {% for sponsor in sponsors %}
     {% if sponsor.email_sponsor %}
-      <div>
+      <div style="margin-top: 20px;">
         <hr/>
-        <p><strong>Sponsored by {{ sponsor.name }}</strong></p>
-        {{ sponsor.email_text_markdown|markdownify|safe }}
+        <h3>Sponsored by {{ sponsor.name }}</h3>
+        <p>
+          {{ sponsor.email_text_markdown|markdownify|safe }}
+        </p>
       </div>
     {% endif %}
   {% endfor %}
-  <p>
+  <p style="margin-top: 20px; text-align: right">
     <small><a href="-unsub_url-">Click here to unsubscribe from the UWCS newsletter</a></small>
   </p>
 {% endblock %}
