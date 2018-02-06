@@ -45,6 +45,11 @@
                 <p>{{ user.nickname }}</p>
               {% endif %}
 
+              {% if user.discord_user %}
+                <h6>Discord tag:</h6>
+                <p>{{ user.discord_user }}</p>
+              {% endif %}
+
               {% if user.website_url %}
                 <h6>Website:</h6>
                 <a href="{{ user.abs_website_url }}">

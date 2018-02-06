@@ -5,6 +5,7 @@ from . import views
 urlpatterns = [
     url('^', include('django.contrib.auth.urls')),
     url('^$', views.RootRedirectView.as_view(), name='root_redirect_view'),
+    url('^api/(?P<uni_id>[0-9]+)/$', views.MemberDiscordInfoApiView.as_view(), name='discord_user_view'),
     url('^profile/$', views.MemberAccountView.as_view(), name='profile'),
     url('^nightmode/$', views.ToggleNightModeView.as_view(), name='toggle_night_mode'),
     url('^profile/update/$', views.MemberAccountUpdateView.as_view(), name='profile_update'),
@@ -15,4 +16,3 @@ urlpatterns = [
     url('^profile/request_shell/done/$', views.RequestAccountDoneView.as_view(), name='request_shell_done'),
     url('^profile/request_database/done/$', views.RequestAccountDoneView.as_view(),name='request_database_done'),
 ]
-
