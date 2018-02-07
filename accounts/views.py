@@ -65,7 +65,8 @@ class MemberAccountUpdateView(LoginRequiredMixin, FormView):
                                                                       website_title=account.website_title,
                                                                       first_name=account.first_name,
                                                                       last_name=account.last_name,
-                                                                      nightmode_on=account.nightmode_on)
+                                                                      nightmode_on=account.nightmode_on,
+                                                                      discord_user=account.discord_user)
         else:
             account.save()
 
