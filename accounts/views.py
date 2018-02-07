@@ -1,21 +1,19 @@
-from django.views.generic import View, RedirectView
-from django.views.generic.edit import FormView
-from django.shortcuts import render, get_object_or_404
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth import get_user_model
-from django.core.mail import send_mail
-from django.http import HttpResponse
-
 from datetime import datetime
 
-from .models import CompsocUser
-from .forms import CompsocUserForm, ShellAccountForm, DatabaseAccountForm
-from .tasks import create_ldap_user
-from .serializers import UserSerializer
-
-from rest_framework.views import APIView
+from django.contrib.auth import get_user_model
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.mail import send_mail
+from django.http import HttpResponse
+from django.shortcuts import render, get_object_or_404
+from django.views.generic import View, RedirectView
+from django.views.generic.edit import FormView
 from rest_framework.response import Response
-from rest_framework.renderers import JSONRenderer
+from rest_framework.views import APIView
+
+from .forms import CompsocUserForm, ShellAccountForm, DatabaseAccountForm
+from .models import CompsocUser
+from .serializers import UserSerializer
+from .tasks import create_ldap_user
 
 
 class MemberDiscordInfoApiView(APIView):
@@ -24,7 +22,7 @@ class MemberDiscordInfoApiView(APIView):
         compsoc_user = CompsocUser.objects.get(user_id=user.id)
         serializer = UserSerializer(compsoc_user)
 
-        return Response(JSONRenderer().render(serializer.data))
+        return Response(serializer.data)
 
 
 class MemberAccountView(LoginRequiredMixin, View):

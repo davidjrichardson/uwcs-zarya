@@ -70,7 +70,10 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
-    ]
+    ],
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    )
 }
 
 MIDDLEWARE_CLASSES = [
@@ -155,7 +158,7 @@ BOWER_COMPONENTS_ROOT = os.path.join(PROJECT_PATH, "../components")
 COMPRESS_PRECOMPILERS = (
     ('text/x-scss',
      'sass --scss --style compressed -I "%s/bower_components/foundation-sites/scss" -I "%s/bower_components/motion-ui" "{infile}" "{outfile}"' % (
-     BOWER_COMPONENTS_ROOT, BOWER_COMPONENTS_ROOT)),
+         BOWER_COMPONENTS_ROOT, BOWER_COMPONENTS_ROOT)),
 )
 
 PASSWORD_HASHERS = [
@@ -198,7 +201,6 @@ APACHE_SSL_CHAIN_FILE = ''
 APACHE_SITES_AVAILABLE = ''
 APACHE_SITES_ENABLED = ''
 APACHE_WEBSITE_DIR = ''
-
 
 # Celery
 BROKER_URL = 'redis://localhost:6379'
