@@ -23,6 +23,8 @@ class CompsocUser(models.Model):
     first_name = models.CharField(max_length=50, blank=True, default='')
     last_name = models.CharField(max_length=50, blank=True, default='')
 
+    discord_user = models.CharField(max_length=50, blank=True, default='')
+
     nightmode_on = models.BooleanField(default=False, help_text='Enable night mode whenever you are logged into UWCS - overrides the nightmode switch in the footer')
 
     website_url = models.CharField(max_length=50, blank=True, default='')

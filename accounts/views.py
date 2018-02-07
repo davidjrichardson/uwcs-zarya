@@ -11,6 +11,20 @@ from datetime import datetime
 from .models import CompsocUser
 from .forms import CompsocUserForm, ShellAccountForm, DatabaseAccountForm
 from .tasks import create_ldap_user
+from .serializers import UserSerializer
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.renderers import JSONRenderer
+
+
+class MemberDiscordInfoApiView(APIView):
+    def get(self, request, uni_id):
+        user = get_object_or_404(get_user_model(), username=uni_id)
+        compsoc_user = CompsocUser.objects.get(user_id=user.id)
+        serializer = UserSerializer(compsoc_user)
+
+        return Response(JSONRenderer().render(serializer.data))
 
 
 class MemberAccountView(LoginRequiredMixin, View):
@@ -38,7 +52,8 @@ class MemberAccountUpdateView(LoginRequiredMixin, FormView):
                 'website_title': info.website_title,
                 'first_name': info.first_name,
                 'last_name': info.last_name,
-                'nightmode_on': info.nightmode_on
+                'nightmode_on': info.nightmode_on,
+                'discord_user': info.discord_user,
             }
         except CompsocUser.DoesNotExist:
             return None

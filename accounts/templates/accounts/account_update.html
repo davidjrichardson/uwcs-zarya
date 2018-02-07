@@ -30,11 +30,19 @@
             <p class="help-text">Setting your first name (and last name) will change your public preferred name, visible
               on event signups</p>
           </div>
-          <div class="small-12 columns">
+          <div class="small-12 medium-6 columns">
             <label {% if form.nickname.errors %}class="error"{% endif %}>{{ form.nickname.label }}
               {{ form.nickname }}
               {% if form.nickname.errors %}
                 <span class="error">{{ form.nickname.errors.as_text }}</span>
+              {% endif %}
+            </label>
+          </div>
+          <div class="small-12 medium-6 columns">
+            <label {% if form.discord_user.errors %}class="error"{% endif %}>{{ form.discord_user.label }}
+              {{ form.discord_user }}
+              {% if form.discord_user.errors %}
+                <span class="error">{{ form.discord_user.errors.as_text }}</span>
               {% endif %}
             </label>
           </div>
