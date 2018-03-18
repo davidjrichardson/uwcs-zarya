@@ -9,7 +9,8 @@ from wagtail.wagtailcore import urls as wagtail_urls
 from wagtail.wagtaildocs import urls as wagtaildocs_urls
 
 urlpatterns = [
-    url(r'^admin/', include(admin.site.urls), name='django_admin'),
+    url(r'^admin/', admin.site.urls, name='django_admin'),
+    url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     url(r'^accounts/', include('accounts.urls')),
     url(r'^signups/', include('events.urls')),
     url(r'^newsletters/', include('newsletter.urls')),

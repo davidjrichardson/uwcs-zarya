@@ -58,6 +58,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
 
+    'oauth2_provider',
+    'corsheaders',
+
     'djangobower',
     'compressor',
     'anymail',
@@ -76,7 +79,7 @@ REST_FRAMEWORK = {
     )
 }
 
-MIDDLEWARE_CLASSES = [
+MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -85,6 +88,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 
     'wagtail.wagtailcore.middleware.SiteMiddleware',
     'wagtail.wagtailredirects.middleware.RedirectMiddleware',
@@ -188,6 +192,9 @@ UNION_API_KEY = 'insert-api-key'
 
 # Wagtail settings
 WAGTAIL_SITE_NAME = 'UWCS (Zarya)'
+
+# Cross-origin Requests
+CORS_ORIGIN_ALLOW_ALL = True
 
 # Base URL to use when referring to full URLs within the Wagtail admin backend -
 # e.g. in notification emails. Don't include '/admin' or a trailing slash

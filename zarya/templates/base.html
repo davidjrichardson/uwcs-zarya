@@ -82,7 +82,7 @@
     $(document).foundation();
 
     // Set jQuery XHR header for CSRF requests
-    var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+    var csrftoken = $("[name=csrfmiddlewaretoken]").val();
     function csrfSafeMethod(method) {
         // these HTTP methods do not require CSRF protection
         return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
