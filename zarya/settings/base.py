@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'accounts',
     'events',
     'newsletter',
+    'api',
     # Uncomment this for data migration - otherwise it causes a large number of
     # 'migration',
 
@@ -69,6 +70,7 @@ INSTALLED_APPS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
+        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
         'rest_framework.authentication.TokenAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
@@ -186,6 +188,19 @@ BOWER_INSTALLED_APPS = [
     'foundation-sites~6.2.3',
     'motion-ui~1.2.2',
 ]
+
+# OAuth2 groups
+OAUTH2_PROVIDER = {
+    'SCOPES': {
+        'read': 'Read scope',
+        'write': 'Write scope',
+        'seating': 'Pick, move, and unpick seats for a LAN event',
+        'event': 'Access to sign up to and deregister from UWCS events'
+    },
+    'DEFAULT_SCOPES': {
+        'event'
+    }
+}
 
 # WarwickSU Membership API key
 UNION_API_KEY = 'insert-api-key'
