@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from events.models import EventPage
+from events.models import EventPage, EventSignup
 
 
 class UserSerializer(serializers.Serializer):
@@ -11,6 +11,12 @@ class UserSerializer(serializers.Serializer):
 
     def update(self, instance, validated_data):
         pass
+
+
+class EventSignupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EventSignup
+        fields = ('event', 'member', 'signup_created', 'comment')
 
 
 class EventSerializer(serializers.ModelSerializer):
