@@ -570,3 +570,25 @@ label.error {
 .margin-top-2x {
   margin-top: 2 * $global-margin;
 }
+
+// OAuth flows
+.oauth_authorise {
+  .jumbotron {
+    & .flex-row {
+      justify-content: center;
+      align-items: center;
+
+      & .flex-column {
+        padding: 0;
+      }
+    }
+  }
+
+  h1 {
+    font-weight: 700;
+  }
+}
+
+.margin-left-05x {
+  margin-left: 0.5 * $global-margin;
+}

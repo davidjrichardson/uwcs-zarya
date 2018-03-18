@@ -1,0 +1,62 @@
+{% extends "oauth2_provider/custom_base.html" %}
+
+{% block template_name %}oauth_authorise{% endblock %}
+
+{% block title %}UWCS | Authorise {{ application.name }}?{% endblock %}
+
+{% block content %}
+  <section class="row margin-top-2x margin-bottom-1x">
+    <div class="small-12 medium-8 large-6 medium-push-2 large-push-3 columns">
+      <section class="jumbotron">
+        <div class="flex-row align-middle">
+          <div class="flex-column flex-shrink">
+            <svg style="margin-top: 16px;" width="102" height="135" viewBox="0 0 144 191"
+                 xmlns="http://www.w3.org/2000/svg">
+              <g transform="rotate(45 46.337 82.743)">
+                <ellipse fill="#FDD835" cx="25.961" cy="86.515" rx="25" ry="24.82"/>
+                <ellipse fill="#3D5AFE" cx="88" cy="88.82" rx="25" ry="24.82"/>
+                <ellipse fill="#3D5AFE" cx="150.039" cy="88.82" rx="25" ry="24.82"/>
+                <ellipse fill="#FDD835" cx="26" cy="24.82" rx="25" ry="24.82"/>
+              </g>
+            </svg>
+          </div>
+          <div class="flex-column flex-shrink">
+            <h1>UWCS</h1>
+          </div>
+        </div>
+      </section>
+      {% if not error %}
+        <form id="authorizationForm" method="post">
+          <h3 class="block-center-heading">Authorise {{ application.name }}?</h3>
+          {% csrf_token %}
+
+          {% for field in form %}
+            {% if field.is_hidden %}
+              {{ field }}
+            {% endif %}
+          {% endfor %}
+
+          <p>The application requires the following permissions:</p>
+          <ul>
+            {% for scope in scopes_descriptions %}
+              <li>{{ scope }}</li>
+            {% endfor %}
+          </ul>
+
+          {{ form.errors }}
+          {{ form.non_field_errors }}
+
+          <div class="control-group">
+            <div class="controls">
+              <input type="submit" class="button float-right margin-left-05x" name="allow" value="Authorise"/>
+              <input type="submit" class="button secondary float-right" value="Cancel"/>
+            </div>
+          </div>
+        </form>
+      {% else %}
+        <h2>Error: {{ error.error }}</h2>
+        <p>{{ error.description }}</p>
+      {% endif %}
+    </div>
+  </section>
+{% endblock %}
