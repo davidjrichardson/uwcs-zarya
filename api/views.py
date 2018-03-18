@@ -1,11 +1,14 @@
 from django.contrib.auth import get_user_model
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
+from django.utils import timezone
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
+from rest_framework.generics import ListAPIView
 
 from accounts.models import CompsocUser
-from .serializers import UserSerializer
+from events.models import EventPage
+from .serializers import UserSerializer, EventSerializer
 
 
 class MemberDiscordInfoApiView(APIView):
@@ -17,3 +20,8 @@ class MemberDiscordInfoApiView(APIView):
         serializer = UserSerializer(compsoc_user)
 
         return JsonResponse(serializer.data)
+
+
+class EventListView(ListAPIView):
+    queryset = EventPage.objects.live().filter(finish__gte=timezone.now()).order_by('start')
+    serializer_class = EventSerializer

@@ -163,6 +163,10 @@ class EventPage(Page):
 
         return signups
 
+    @property
+    def signup_count(self):
+        return len(self.signups)
+
     def get_context(self, request, *args, **kwargs):
         context = super(EventPage, self).get_context(request)
 
