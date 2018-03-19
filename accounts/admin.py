@@ -24,6 +24,12 @@ class CompsocUserAdmin(BaseUserAdmin):
         DatabaseAccountInline
     ]
 
+    def nickname(self, obj):
+        return CompsocUser.objects.get(user=obj).nickname
+
+
+CompsocUserAdmin.list_display = ('username', 'nickname', 'email', 'first_name', 'last_name', 'is_staff')
+CompsocUserAdmin.search_fields = ('username', 'compsocuser__nickname', 'first_name', 'last_name', 'email')
 
 admin.site.unregister(get_user_model())
 admin.site.register(get_user_model(), CompsocUserAdmin)
