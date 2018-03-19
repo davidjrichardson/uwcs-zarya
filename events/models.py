@@ -1,16 +1,16 @@
-from datetime import timedelta, datetime
+import json
 from collections import OrderedDict
+from datetime import datetime
+from functools import reduce
 
+from django.conf import settings
+from django.core.paginator import PageNotAnInteger, Paginator, EmptyPage
+from django.db import models
+from django.utils import timezone
 from taggit.models import TaggedItemBase
-
 from wagtail.wagtailadmin.edit_handlers import FieldPanel, StreamFieldPanel, MultiFieldPanel
 from wagtail.wagtailcore.fields import StreamField
 from wagtail.wagtailcore.models import Page
-
-from django.db import models
-from django.conf import settings
-from django.utils import timezone
-from django.core.paginator import PageNotAnInteger, Paginator, EmptyPage
 
 from accounts.models import CompsocUser
 from blog.models import BlogStreamBlock
@@ -221,6 +221,99 @@ EventPage.content_panels = [
         FieldPanel('signup_freshers_open')
     ], heading='Signup information')
 ]
+
+
+class SeatingRoom(models.Model):
+    name = models.CharField(max_length=100)
+    """
+    This field will contain a literal array of integers in JSON list notation ([2, 3, 4, 5]). Each position
+    corresponds to a table, and the value is the total seats on that table. For example: [20, 20, 20, 10] would
+    be the standard LIB2 set up.
+    """
+    tables_raw = models.TextField(
+        help_text='This field will contain a literal array of integers in JSON list notation ([2, 3, 4, 5]). Each position corresponds to a table, and the value is the total seats on that table. For example: [20, 20, 20, 10] would be the standard LIB2 set up.')
+
+    @property
+    def tables(self):
+        tables = json.loads(self.tables_raw)
+        return {k: v for k, v in enumerate(tables)}
+
+    @property
+    def tables_pretty(self):
+        return ',\n'.join(map(lambda i: 'Table {k}: {v} seats'.format(k=(i[0] + 1), v=i[1]), self.tables.items()))
+
+    @property
+    def max_capacity(self):
+        return reduce(lambda x, y: x + y, self.tables.values())
+
+    def save_tables(self, tables):
+        self.tables_raw = json.dumps(tables)
+
+    def __str__(self):
+        return self.name
+
+
+class RevisionManager(models.Manager):
+    def for_event(self, e):
+        return self.filter(event=e).order_by('-number')
+
+
+class SeatingRevision(models.Model):
+    event = models.ForeignKey(EventPage, on_delete=models.CASCADE)
+    creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    number = models.IntegerField()
+    created_at = models.DateTimeField(default=timezone.now)
+
+    objects = RevisionManager()
+
+    def prev(self):
+        return SeatingRevision.objects.get(event=self.event, number=self.number - 1)
+
+    def added(self):
+        """
+        People who were added to the seating plan in the current
+        revision.
+        Returns an iterable of Seating Objects
+        """
+        try:
+            return self.seating_set.exclude(user__in=self.prev().users())
+        except SeatingRevision.DoesNotExist:
+            return self.seating_set.all()
+
+    def removed(self):
+        try:
+            return self.prev().seating_set.exclude(user__in=self.users())
+        except SeatingRevision.DoesNotExist:
+            return self.seating_set.none()
+
+    def moved(self):
+        try:
+            current = self.seating_set.filter(user__in=self.prev().users()).order_by('user')
+            previous = self.prev().seating_set.filter(user__in=self.users()).order_by('user')
+            return filter(lambda curr, prev: curr.col != prev.col or curr.row != prev.row, zip(current, previous))
+        except SeatingRevision.DoesNotExist:
+            return self.seating_set.none()
+
+    class Meta:
+        unique_together = ('event', 'number')
+
+
+class SeatingManager(models.Manager):
+    def for_event(self, e):
+        """
+        Get all the seatings for every revision for a specific event
+        """
+        return self.filter(revision__event=e)
+
+
+class Seating(models.Model):
+    reserved = models.BooleanField(default=False)
+    revision = models.ForeignKey(SeatingRevision, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    table = models.IntegerField()
+    seat = models.IntegerField()
+
+    objects = SeatingManager()
 
 
 class EventSignup(models.Model):
