@@ -194,8 +194,10 @@ OAUTH2_PROVIDER = {
     'SCOPES': {
         'read': 'Read scope',
         'write': 'Write scope',
-        'seating': 'Pick, move, and unpick seats for a LAN event',
-        'event': 'Access to sign up to and deregister from UWCS events'
+        'seating': 'Pick, move, and unpick seats for a UWCS LAN event',
+        'event': 'Access to sign up to and deregister from UWCS events',
+        'lan': 'Access to your nickname and seat location at UWCS LANs',
+        'lanapp': 'Access to your name, nickname, and university ID for LAN applications'
     },
     'DEFAULT_SCOPES': {
         'event'
