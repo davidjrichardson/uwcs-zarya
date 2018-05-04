@@ -123,6 +123,36 @@ class EventsArchivePage(Page):
         return context
 
 
+class SeatingRoom(models.Model):
+    name = models.CharField(max_length=100)
+    """
+    This field will contain a literal array of integers in JSON list notation ([2, 3, 4, 5]). Each position
+    corresponds to a table, and the value is the total seats on that table. For example: [20, 20, 20, 10] would
+    be the standard LIB2 set up.
+    """
+    tables_raw = models.TextField(
+        help_text='This field will contain a literal array of integers in JSON list notation ([2, 3, 4, 5]). Each position corresponds to a table, and the value is the total seats on that table. For example: [20, 20, 20, 10] would be the standard LIB2 set up.')
+
+    @property
+    def tables(self):
+        tables = json.loads(self.tables_raw)
+        return {k: v for k, v in enumerate(tables)}
+
+    @property
+    def tables_pretty(self):
+        return ',\n'.join(map(lambda i: 'Table {k}: {v} seats'.format(k=(i[0] + 1), v=i[1]), self.tables.items()))
+
+    @property
+    def max_capacity(self):
+        return reduce(lambda x, y: x + y, self.tables.values())
+
+    def save_tables(self, tables):
+        self.tables_raw = json.dumps(tables)
+
+    def __str__(self):
+        return self.name
+
+
 class EventPage(Page):
     # Parent page/subpage rules
     parent_page_types = ['events.EventsIndexPage']
@@ -148,7 +178,8 @@ class EventPage(Page):
         help_text='Set a date for when freshers may sign up to the event, leave blank if they are to sign up at the\
                    same time as everyone else', blank=True, null=True)
 
-    # TODO: Seating plan association goes here
+    has_seating = models.BooleanField(help_text='Tick this if the event needs a seating plan', default=False)
+    seating_location = models.ForeignKey(SeatingRoom, on_delete=models.PROTECT, blank=True)
 
     @property
     def is_ongoing(self):
@@ -221,36 +252,6 @@ EventPage.content_panels = [
         FieldPanel('signup_freshers_open')
     ], heading='Signup information')
 ]
-
-
-class SeatingRoom(models.Model):
-    name = models.CharField(max_length=100)
-    """
-    This field will contain a literal array of integers in JSON list notation ([2, 3, 4, 5]). Each position
-    corresponds to a table, and the value is the total seats on that table. For example: [20, 20, 20, 10] would
-    be the standard LIB2 set up.
-    """
-    tables_raw = models.TextField(
-        help_text='This field will contain a literal array of integers in JSON list notation ([2, 3, 4, 5]). Each position corresponds to a table, and the value is the total seats on that table. For example: [20, 20, 20, 10] would be the standard LIB2 set up.')
-
-    @property
-    def tables(self):
-        tables = json.loads(self.tables_raw)
-        return {k: v for k, v in enumerate(tables)}
-
-    @property
-    def tables_pretty(self):
-        return ',\n'.join(map(lambda i: 'Table {k}: {v} seats'.format(k=(i[0] + 1), v=i[1]), self.tables.items()))
-
-    @property
-    def max_capacity(self):
-        return reduce(lambda x, y: x + y, self.tables.values())
-
-    def save_tables(self, tables):
-        self.tables_raw = json.dumps(tables)
-
-    def __str__(self):
-        return self.name
 
 
 class RevisionManager(models.Manager):

@@ -4,25 +4,61 @@ from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from oauth2_provider.contrib.rest_framework.authentication import OAuth2Authentication
 from oauth2_provider.contrib.rest_framework.permissions import TokenHasScope
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_200_OK, HTTP_403_FORBIDDEN
 from rest_framework.views import APIView
-from rest_framework.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_200_OK
 
 from accounts.models import CompsocUser
-from events.models import EventPage, EventSignup
-from .serializers import UserSerializer, EventSerializer, EventSignupSerializer
+from events.models import EventPage, EventSignup, SeatingRevision
+from .serializers import DiscordUserSerialiser, EventSerialiser, EventSignupSerialiser, LanAppProfileSerialiser
+
+
+class LanAppProfileView(APIView):
+    authentication_classes = [OAuth2Authentication]
+    permission_classes = [TokenHasScope]
+    required_scopes = ['lanapp']
+
+    def get(self, request):
+        if not request.user.is_authenticated():
+            return JsonResponse({'detail': 'cannot perform that action on an unauthenticated user'},
+                                status=HTTP_403_FORBIDDEN)
+        user = request.user
+        compsoc_user = CompsocUser.objects.get(user_id=user.id)
+        serializer = LanAppProfileSerialiser(compsoc_user)
+
+        return JsonResponse(serializer.data)
+
 
 
 class MemberDiscordInfoApiView(APIView):
+    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self, request, uni_id):
         user = get_object_or_404(get_user_model(), username=uni_id)
         compsoc_user = CompsocUser.objects.get(user_id=user.id)
-        serializer = UserSerializer(compsoc_user)
+        serializer = DiscordUserSerialiser(compsoc_user)
 
         return JsonResponse(serializer.data)
+
+
+class SeatingView(APIView):
+    def get(self, request, event_id):
+        event = get_object_or_404(EventPage, id=event_id)
+
+        if not event.has_seating:
+            return JsonResponse({'detail': 'that event doesn\'t have a seating plan'}, status=HTTP_400_BAD_REQUEST)
+
+        if not event.seating_location:
+            return JsonResponse({'detail': 'the event requires a seating plan but has none set'},
+                                status=HTTP_400_BAD_REQUEST)
+
+        seating_location = event.seating_location
+        revisions = SeatingRevision.objects.for_event(event)
+
+        return JsonResponse({'hello': 'world'}, status=HTTP_200_OK)
 
 
 class EventSignupView(APIView):
@@ -40,7 +76,7 @@ class EventSignupView(APIView):
             'comment': request.data.get('comment')
         }
 
-        serialiser = EventSignupSerializer(data=data)
+        serialiser = EventSignupSerialiser(data=data)
         if serialiser.is_valid():
             serialiser.save()
         else:
@@ -63,4 +99,4 @@ class EventDeregisterView(APIView):
 
 class EventListView(ListAPIView):
     queryset = EventPage.objects.live().filter(finish__gte=timezone.now()).order_by('start')
-    serializer_class = EventSerializer
+    serializer_class = EventSerialiser
