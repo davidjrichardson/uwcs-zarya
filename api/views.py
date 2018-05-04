@@ -31,7 +31,6 @@ class LanAppProfileView(APIView):
         return JsonResponse(serializer.data)
 
 
-
 class MemberDiscordInfoApiView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
