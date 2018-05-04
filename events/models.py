@@ -179,7 +179,7 @@ class EventPage(Page):
                    same time as everyone else', blank=True, null=True)
 
     has_seating = models.BooleanField(help_text='Tick this if the event needs a seating plan', default=False)
-    seating_location = models.ForeignKey(SeatingRoom, on_delete=models.PROTECT, blank=True)
+    seating_location = models.ForeignKey(SeatingRoom, on_delete=models.PROTECT, blank=True, null=True)
 
     @property
     def is_ongoing(self):

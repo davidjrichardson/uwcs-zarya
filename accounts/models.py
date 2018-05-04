@@ -1,12 +1,10 @@
+import re
 from datetime import date
 
-from django.core.validators import RegexValidator
 from django.conf import settings
-from django.db import models
 from django.contrib.auth.models import User
-
-import re
-
+from django.core.validators import RegexValidator
+from django.db import models
 from django.db.models.signals import post_save
 
 username_pattern = re.compile(r'^[a-z0-9]+$')
@@ -25,7 +23,8 @@ class CompsocUser(models.Model):
 
     discord_user = models.CharField(max_length=50, blank=True, default='')
 
-    nightmode_on = models.BooleanField(default=False, help_text='Enable night mode whenever you are logged into UWCS - overrides the nightmode switch in the footer')
+    nightmode_on = models.BooleanField(default=False,
+                                       help_text='Enable night mode whenever you are logged into UWCS - overrides the nightmode switch in the footer')
 
     website_url = models.CharField(max_length=50, blank=True, default='')
     website_title = models.CharField(max_length=50, blank=True, default='')
@@ -70,6 +69,7 @@ class CompsocUser(models.Model):
 # Create a CompsocUser object for every new user
 def ensure_compsocuser_callback(sender, instance, **kwargs):
     profile, new = CompsocUser.objects.get_or_create(user=instance)
+
 
 post_save.connect(ensure_compsocuser_callback, sender=User)
 
