@@ -16,7 +16,7 @@
             </a>
           </li>
         {% endif %}
-        {% if twitch_url %}
+        {% if twitter_url %}
           <li>
             <a href="{{ twitter_url }}">
               <span class="show-for-sr">Twitter</span>
@@ -60,6 +60,9 @@
       {% for menuitem in menuitems %}
         <li><a href="{% pageurl menuitem %}">{{ menuitem.title }}</a></li>
       {% endfor %}
+      {% if privacy_policy_url %}
+        <li><a href="{{ privacy_policy_url }}">Privacy Policy</a></li>
+      {% endif %}
     </ul>
   </div>
 </div>
