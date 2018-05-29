@@ -25,11 +25,13 @@ class Footer(models.Model):
     facebook_url = models.URLField(null=True, blank=True)
     twitch_url = models.URLField(null=True, blank=True)
     twitter_url = models.URLField(null=True, blank=True)
+    privacy_policy_url = models.URLField(null=True, blank=True)
 
     panels = [
         FieldPanel('facebook_url'),
         FieldPanel('twitch_url'),
         FieldPanel('twitter_url'),
+        FieldPanel('privacy_policy_url'),
     ]
 
     def __str__(self):

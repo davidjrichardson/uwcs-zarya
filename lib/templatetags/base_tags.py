@@ -84,6 +84,7 @@ def footer(context, parent):
             'facebook_url': Footer.objects.first().facebook_url,
             'twitch_url': Footer.objects.first().twitch_url,
             'twitter_url': Footer.objects.first().twitter_url,
+            'privacy_policy_url': Footer.objects.first().privacy_policy_url,
             # required by the pageurl tag that we want to use within this template
             'request': context['request'],
         }
