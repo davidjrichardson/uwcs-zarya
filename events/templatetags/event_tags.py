@@ -3,7 +3,7 @@ from datetime import date, timedelta
 from collections import OrderedDict
 
 from django import template
-from wagtail.wagtailcore.models import Page
+from wagtail.core.models import Page
 from events.models import EventsArchivePage
 
 register = template.Library()

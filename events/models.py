@@ -8,9 +8,9 @@ from django.core.paginator import PageNotAnInteger, Paginator, EmptyPage
 from django.db import models
 from django.utils import timezone
 from taggit.models import TaggedItemBase
-from wagtail.wagtailadmin.edit_handlers import FieldPanel, StreamFieldPanel, MultiFieldPanel
-from wagtail.wagtailcore.fields import StreamField
-from wagtail.wagtailcore.models import Page
+from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel, MultiFieldPanel
+from wagtail.core.fields import StreamField
+from wagtail.core.models import Page
 
 from accounts.models import CompsocUser
 from blog.models import BlogStreamBlock

@@ -118,7 +118,7 @@ class ExecPlacement(models.Model):
         on_delete=models.CASCADE,
     )
 
-    position = models.ForeignKey(ExecPosition)
+    position = models.ForeignKey(ExecPosition, on_delete=models.CASCADE)
     start = models.DateField()
     end = models.DateField()
 

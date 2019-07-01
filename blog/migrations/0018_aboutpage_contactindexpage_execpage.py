@@ -4,10 +4,10 @@ from __future__ import unicode_literals
 
 from django.db import migrations, models
 import django.db.models.deletion
-import wagtail.wagtailcore.blocks
-import wagtail.wagtailcore.fields
-import wagtail.wagtaildocs.blocks
-import wagtail.wagtailimages.blocks
+import wagtail.core.blocks
+import wagtail.core.fields
+import wagtail.documents.blocks
+import wagtail.images.blocks
 
 
 class Migration(migrations.Migration):
@@ -22,7 +22,7 @@ class Migration(migrations.Migration):
             name='AboutPage',
             fields=[
                 ('page_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='wagtailcore.Page')),
-                ('body', wagtail.wagtailcore.fields.StreamField((('h2', wagtail.wagtailcore.blocks.CharBlock(classname='title', icon='title')), ('h3', wagtail.wagtailcore.blocks.CharBlock(classname='title', icon='title')), ('h4', wagtail.wagtailcore.blocks.CharBlock(classname='title', icon='title')), ('paragraph', wagtail.wagtailcore.blocks.RichTextBlock(icon='pilcrow')), ('image', wagtail.wagtailimages.blocks.ImageChooserBlock()), ('pullquote', wagtail.wagtailcore.blocks.StructBlock((('quote', wagtail.wagtailcore.blocks.TextBlock('quote title')), ('attribution', wagtail.wagtailcore.blocks.CharBlock())))), ('document', wagtail.wagtaildocs.blocks.DocumentChooserBlock(icon='doc-full-inverse')), ('code', wagtail.wagtailcore.blocks.StructBlock((('language', wagtail.wagtailcore.blocks.ChoiceBlock(choices=[('bash', 'Bash/Shell'), ('c', 'C'), ('cmake', 'CMake'), ('cpp', 'C++'), ('csharp', 'C#'), ('css', 'CSS'), ('go', 'Go'), ('haskell', 'Haskell'), ('haxe', 'Haxe'), ('html', 'HTML'), ('java', 'Java'), ('js', 'JavaScript'), ('json', 'JSON'), ('kotlin', 'Kotlin'), ('lua', 'Lua'), ('make', 'Makefile'), ('perl', 'Perl'), ('perl6', 'Perl 6'), ('php', 'PHP'), ('python', 'Python'), ('python3', 'Python 3'), ('ruby', 'Ruby'), ('sql', 'SQL'), ('swift', 'Swift'), ('xml', 'XML')])), ('code', wagtail.wagtailcore.blocks.TextBlock()))))))),
+                ('body', wagtail.core.fields.StreamField((('h2', wagtail.core.blocks.CharBlock(classname='title', icon='title')), ('h3', wagtail.core.blocks.CharBlock(classname='title', icon='title')), ('h4', wagtail.core.blocks.CharBlock(classname='title', icon='title')), ('paragraph', wagtail.core.blocks.RichTextBlock(icon='pilcrow')), ('image', wagtail.images.blocks.ImageChooserBlock()), ('pullquote', wagtail.core.blocks.StructBlock((('quote', wagtail.core.blocks.TextBlock('quote title')), ('attribution', wagtail.core.blocks.CharBlock())))), ('document', wagtail.documents.blocks.DocumentChooserBlock(icon='doc-full-inverse')), ('code', wagtail.core.blocks.StructBlock((('language', wagtail.core.blocks.ChoiceBlock(choices=[('bash', 'Bash/Shell'), ('c', 'C'), ('cmake', 'CMake'), ('cpp', 'C++'), ('csharp', 'C#'), ('css', 'CSS'), ('go', 'Go'), ('haskell', 'Haskell'), ('haxe', 'Haxe'), ('html', 'HTML'), ('java', 'Java'), ('js', 'JavaScript'), ('json', 'JSON'), ('kotlin', 'Kotlin'), ('lua', 'Lua'), ('make', 'Makefile'), ('perl', 'Perl'), ('perl6', 'Perl 6'), ('php', 'PHP'), ('python', 'Python'), ('python3', 'Python 3'), ('ruby', 'Ruby'), ('sql', 'SQL'), ('swift', 'Swift'), ('xml', 'XML')])), ('code', wagtail.core.blocks.TextBlock()))))))),
             ],
             options={
                 'abstract': False,

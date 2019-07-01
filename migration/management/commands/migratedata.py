@@ -2,8 +2,8 @@ from django.core.management.base import BaseCommand
 from django.contrib.auth import get_user_model
 from django.template.defaultfilters import slugify, linebreaks, date, truncatechars
 
-from wagtail.wagtailcore.models import Page
-from wagtail.wagtailcore.rich_text import RichText
+from wagtail.core.models import Page
+from wagtail.core.rich_text import RichText
 
 from migration.models import *
 from accounts.models import CompsocUser, ShellAccount, DatabaseAccount
