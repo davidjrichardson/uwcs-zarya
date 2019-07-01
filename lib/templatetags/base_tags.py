@@ -59,7 +59,7 @@ def top_menu(context, parent, calling_page=None):
         # if the variable passed as calling_page does not exist.
         menuitem.active = (calling_page.startswith(menuitem.url)
                            if calling_page else False)
-    if context['request'].user.is_authenticated():
+    if context['request'].user.is_authenticated:
         has_newsletter_perms = context['request'].user.has_perms(
             ['newsletter.create_mail', 'newsletter.change_mail', 'newsletter.delete_mail'])
     else:
