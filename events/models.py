@@ -201,14 +201,14 @@ class EventPage(Page):
     def get_context(self, request, *args, **kwargs):
         context = super(EventPage, self).get_context(request)
 
-        if request.user.is_authenticated() and self.signups.filter(member=request.user).exists():
+        if request.user.is_authenticated and self.signups.filter(member=request.user).exists():
             user_signed_up = True
         else:
             user_signed_up = False
 
         context['user_signed_up'] = user_signed_up
 
-        if request.user.is_authenticated():
+        if request.user.is_authenticated:
             try:
                 user = CompsocUser.objects.get(user=request.user.id)
 

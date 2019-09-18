@@ -21,7 +21,7 @@ class LanAppProfileView(APIView):
     required_scopes = ['lanapp']
 
     def get(self, request):
-        if not request.user.is_authenticated():
+        if not request.user.is_authenticated:
             return JsonResponse({'detail': 'cannot perform that action on an unauthenticated user'},
                                 status=HTTP_403_FORBIDDEN)
         user = request.user

@@ -120,7 +120,7 @@ class RootRedirectView(RedirectView):
     permanent = True
 
     def get_redirect_url(self, *args, **kwargs):
-        if self.request.user.is_authenticated():
+        if self.request.user.is_authenticated:
             return '/accounts/profile'
         else:
             return '/accounts/login'
