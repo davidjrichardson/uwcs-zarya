@@ -37,7 +37,7 @@ Markdown==3.1.1
 more-itertools==7.2.0
 oauthlib==3.1.0
 olefile==0.46
-Pillow==6.1.0
+Pillow==6.2.0
 psycopg2-binary==2.8.3
 pyasn1==0.4.7
 Pygments==2.4.2
