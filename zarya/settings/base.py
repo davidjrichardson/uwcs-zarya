@@ -196,7 +196,8 @@ OAUTH2_PROVIDER = {
         'seating': 'Pick, move, and unpick seats for a UWCS LAN event',
         'event': 'Access to sign up to and deregister from UWCS events',
         'lan': 'Access to your nickname and seat location at UWCS LANs',
-        'lanapp': 'Access to your name, nickname, and university ID for LAN applications'
+        'lanapp': 'Access to your name, nickname, and university ID for LAN applications',
+        'music': 'Access to your nickname and whether or not you are a member of the exec committee'
     },
     'DEFAULT_SCOPES': {
         'event'

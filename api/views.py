@@ -12,7 +12,7 @@ from rest_framework.views import APIView
 
 from accounts.models import CompsocUser
 from events.models import EventPage, EventSignup, SeatingRevision
-from .serializers import DiscordUserSerialiser, EventSerialiser, EventSignupSerialiser, LanAppProfileSerialiser
+from .serializers import DiscordUserSerialiser, EventSerialiser, EventSignupSerialiser, LanAppProfileSerialiser, MusicAppProfileSerialiser
 
 
 class LanAppProfileView(APIView):
@@ -27,6 +27,22 @@ class LanAppProfileView(APIView):
         user = request.user
         compsoc_user = CompsocUser.objects.get(user_id=user.id)
         serializer = LanAppProfileSerialiser(compsoc_user)
+
+        return JsonResponse(serializer.data)
+
+
+class MusicAppProfileView(APIView):
+    authentication_classes = [OAuth2Authentication]
+    permission_classes = [TokenHasScope]
+    required_scopes = ['music']
+
+    def get(self, request):
+        if not request.user.is_authenticated:
+            return JsonResponse({'detail': 'cannot perform that action on an unauthenticated user'},
+                                status=HTTP_403_FORBIDDEN)
+        user = request.user
+        compsoc_user = CompsocUser.objects.get(user_id=user.id)
+        serializer = MusicAppProfileSerialiser(compsoc_user)
 
         return JsonResponse(serializer.data)
 

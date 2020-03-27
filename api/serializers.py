@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from rest_framework import serializers
 
 from events.models import EventPage, EventSignup, SeatingRoom, SeatingRevision, Seating
@@ -18,6 +18,24 @@ class UserSerialiser(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['username', 'first_name', 'last_name', 'email']
+
+
+class GroupSerialiser(serializers.ModelSerializer):
+    class Meta:
+        model = Group
+        fields = ['name']
+
+
+class MusicAppProfileSerialiser(serializers.Serializer):
+    nickname = serializers.CharField(read_only=True)
+    groups = GroupSerialiser()
+
+
+    def create(self, validated_data):
+        pass
+
+    def update(self, instance, validated_data):
+        pass
 
 
 class LanAppProfileSerialiser(serializers.Serializer):
