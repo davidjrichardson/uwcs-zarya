@@ -1,6 +1,6 @@
 # uwcs-zarya
 
-### Contents
+### Content's
 * [About](#about)
 * [Installation](#installation)
   * [Dependencies](#dependencies)
