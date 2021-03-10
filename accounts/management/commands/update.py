@@ -50,8 +50,8 @@ class Command(BaseCommand):
                 new_user = User.objects.create_user(username=member.find('UniqueID').text,
                                                     email=member.find('EmailAddress').text,
                                                     password=password)
-                new_user.first_name = title(member.find('FirstName').text.encode('utf-8'))
-                new_user.last_name = title(member.find('LastName').text.encode('utf-8'))
+                new_user.first_name = title(member.find('FirstName').text)
+                new_user.last_name = title(member.find('LastName').text)
                 new_user.save()
                 send_signup_mail(new_user, password)
                 active_members.append(new_user.id)
