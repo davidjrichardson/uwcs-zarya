@@ -33,7 +33,7 @@ kombu==4.6.4
 l18n==2018.5
 ldap3==2.6
 libsass==0.19.2
-lxml==4.4.1
+lxml==4.6.3
 Markdown==3.1.1
 mod-wsgi==4.6.7
 more-itertools==7.2.0
